@@ -1423,10 +1423,10 @@ function xbrl(c){
 }
 // 공시 패키지: 지표표·증빙 추적표·검증 기록을 판정 데이터에서 직접 만든다(엑셀로 열리는 CSV, PDF로 저장하는 인쇄 화면)
 const PK = {total:'Scope 1+2 합계', th1:['지표','값','단위','산정표 값','상태'], th2:['쪽','문서','문서번호','값'], s1:'KSSB 2호 지표표', s2:'증빙 추적표', s3:'검증 기록', elec:'전력 증빙', ev:'증빙', con:'계약', supply:'공급가액', won:'원', title:'기후공시 패키지', rec:['워크플로우 설정','실행 시각','증빙 검증 신호','판정','대조 대상','본사 취합 산정표','쪽, 작성일'], basis:'산정 기준: 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL (과제용 가정값). 일치 기준은 오차 0.5% 이내, 투자액은 정확히 일치.', note:'모든 법인과 수치는 가상입니다.'};
-function pkgData(c){
-  const v=c.verdict, L=c.legacy, num=x=>x==null?'':Number(x).toLocaleString('ko-KR');
-  const m=ITEMS.map(it=>[it.name, num(v[it.key]), it.unit, num(L[it.lg]), v[it.st]]);
-  m.splice(3,0,[PK.total, num(v.scope1_tco2e+v.scope2_tco2e), 'tCO2e', num(L.legacy_scope1+L.legacy_scope2), v.status_scope1]);
+function pkgData(c, raw){   // raw=true면 지표표 숫자를 글자가 아닌 숫자로 돌려준다(엑셀용)
+  const v=c.verdict, L=c.legacy, num=x=>x==null?'':Number(x).toLocaleString('ko-KR'), val=raw?(x=>x):num;
+  const m=ITEMS.map(it=>[it.name, val(v[it.key]), it.unit, val(L[it.lg]), v[it.st]]);
+  m.splice(3,0,[PK.total, val(v.scope1_tco2e+v.scope2_tco2e), 'tCO2e', val(L.legacy_scope1+L.legacy_scope2), v.status_scope1]);
   const tr=[...c.electricity.map(e=>[e.page, `${e.site_name} ${PK.elec}`, e.doc_no, `${num(e.electricity_value)} ${e.electricity_unit}`]),
     ...c.fuel.map(f=>[f.page, `${f.site_name} ${f.fuel_type} ${PK.ev}`, f.doc_no, `${num(f.fuel_value)} ${f.fuel_unit}`]),
     ...c.contract.map(k=>[k.page, `${k.equipment_name} ${PK.con}`, k.contract_no, `${PK.supply} ${num(k.supply_amount)} ${PK.won}`])];
@@ -1437,6 +1437,16 @@ const tbl = (h, rows) => `<table>${h?`<tr>${h.map(x=>`<th>${esc(x)}</th>`).join(
 function packageCsv(c){
   const {m,tr,r,head}=pkgData(c), line=a=>a.map(x=>`"${String(x??'').replaceAll('"','""')}"`).join(',');
   return '﻿'+[[head],[],[PK.s1],PK.th1,...m,[],[`${PK.s2} (${c.file})`],PK.th2,...tr,[],[PK.s3],...r,[],[PK.basis],[PK.note]].map(line).join('\r\n');
+}
+// 진짜 엑셀 파일(.xlsx): 시트 3장, 숫자는 숫자 칸으로, 열 너비 지정. 라이브러리는 누를 때만 불러온다. 못 불러오면 CSV로 대신 내려받는다
+async function packageXlsx(c, file){
+  if (!window.XLSX) await new Promise((ok, no) => { const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'; s.onload=ok; s.onerror=no; document.head.append(s); });
+  const {m,tr,r,head}=pkgData(c,true), X=window.XLSX, wb=X.utils.book_new();
+  const sheet = (rows, widths) => { const ws=X.utils.aoa_to_sheet(rows); ws['!cols']=widths.map(w=>({wch:w})); Object.keys(ws).forEach(k => { if (ws[k] && ws[k].t==='n') ws[k].z='#,##0'; }); return ws; };
+  X.utils.book_append_sheet(wb, sheet([[head],[],PK.th1,...m,[],[PK.basis],[PK.note]], [30,18,10,18,14]), PK.s1.slice(0,31));
+  X.utils.book_append_sheet(wb, sheet([[`${PK.s2} · ${c.file}`],[],PK.th2,...tr], [8,44,34,26]), PK.s2.slice(0,31));
+  X.utils.book_append_sheet(wb, sheet([[PK.s3],[],...r], [26,60]), PK.s3.slice(0,31));
+  X.writeFile(wb, file);
 }
 function packagePrint(c){   // 새 창에 인쇄용 문서를 열고 인쇄 창을 띄운다(대상: PDF로 저장)
   const {m,tr,r,head}=pkgData(c), w=window.open('','_blank'); if(!w) return;
@@ -1495,7 +1505,7 @@ document.addEventListener('click', e => {
   if (b.dataset.i!==undefined){ cur=+b.dataset.i; return render(); }
   switch(b.dataset.a){
     case 'ask': return GJ.open(askText(c));
-    case 'pkg': return download(`${name}_공시패키지.csv`, packageCsv(c), 'text/csv;charset=utf-8');
+    case 'pkg': return packageXlsx(c, `${name}_공시패키지.xlsx`).catch(() => download(`${name}_공시패키지.csv`, packageCsv(c), 'text/csv;charset=utf-8'));
     case 'pdf': return packagePrint(c);
     case 'json': return download(`${name}_판정.json`, JSON.stringify(c.verdict,null,1), 'application/json');
     case 'xbrl': return download(`${name}_태그예시.xml`, xbrl(c), 'application/xml');
