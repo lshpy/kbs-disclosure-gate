@@ -71,6 +71,7 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--sub);font-size:13.5px
   <section id="detail"></section>
 </main>
 <div class="foot wrap">모든 법인과 수치는 가상입니다. 배출계수는 과제용 가정값(전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL)입니다. 화면의 값은 Upstage Studio 워크플로우 실행 결과를 그대로 불러온 것입니다.</div>
+<script src="chat.js"></script>
 <script>
 const DATA = {
  "config": 17,
@@ -1243,6 +1244,7 @@ const esc = s => String(s??'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;',
 const pg = (p, bad) => `<span class="pg${bad?' x':''}">${p}쪽</span>`;
 const mwh = e => e.electricity_unit==='kWh' ? e.electricity_value/1000 : e.electricity_value;
 let filter = null, cur = 0;
+window.GJ_SET = () => DATA.cases[cur].set;  // 검증이 대화창(chat.js)이 지금 보고 있는 법인을 읽음
 
 function trace(c){
   const dup = {}; c.fuel.forEach(f => { if (f.doc_no) dup[f.doc_no] = (dup[f.doc_no]||0)+1; });  // 문서번호가 비면 중복으로 세지 않음
@@ -1278,7 +1280,6 @@ function impactList(c){
   return out;
 }
 // 검증이 요약: 판정 JSON에서 규칙으로 만든 문장(LLM 호출 없음). 원인은 reason의 '원인 …' 구절을 그대로 가져옴
-const ASK_URL = 'https://studio.upstage.ai/coworkers/cw_jbr4Yjmhg3eYMs6f4MnhxT/chat';  // Studio AI 동료 "검증이" 대화 주소. 비어 있으면 묻기 버튼을 숨김
 const causes = v => [...new Set(v.reason.split(' / ').map(r => (r.match(/원인 (.+)$/)||[])[1]).filter(Boolean))];
 const askText = c => `${c.verdict.entity_name} 판정 결과를 설명해 주고, 담당자가 다음에 할 일을 알려 줘.`;
 function summary(c){
@@ -1295,7 +1296,7 @@ function summary(c){
   }
   return `<div class="card" style="margin-bottom:12px;border-left:4px solid var(--main)"><h2>검증이 요약 <span style="font-weight:400;color:var(--sub);font-size:13px">판정 결과에서 규칙으로 만든 문장</span></h2>
     <div>${what}</div><div style="margin-top:6px"><b>다음 할 일</b> ${next}</div>
-    ${ASK_URL?`<div class="btns"><button class="btn ghost" data-a="ask">검증이에게 더 묻기 ↗</button></div><div style="color:var(--sub);font-size:13px;margin-top:6px">질문을 복사하고 오른쪽에 검증이 대화 창을 띄웁니다. 붙여넣으면 됩니다.</div>`:''}</div>`;
+    <div class="btns"><button class="btn ghost" data-a="ask">검증이에게 더 묻기</button></div></div>`;
 }
 function impact(c){
   const out=impactList(c);
@@ -1381,7 +1382,7 @@ document.addEventListener('click', e => {
   if (b.dataset.f!==undefined){ filter=b.dataset.f||null; const vis=DATA.cases.findIndex(x=>!filter||x.verdict.decision===filter); if(vis>=0) cur=vis; return render(); }
   if (b.dataset.i!==undefined){ cur=+b.dataset.i; return render(); }
   switch(b.dataset.a){
-    case 'ask': navigator.clipboard.writeText(askText(c)).catch(()=>{}); return window.open(ASK_URL,'geomjeungi',`popup,width=440,height=${Math.min(760,screen.availHeight)},left=${screen.availWidth-460},top=40`);  // 화면 오른쪽에 작은 창으로. Studio가 iframe을 막아(frame-ancestors none) 페이지 안에 넣을 수는 없음
+    case 'ask': return GJ.open(askText(c));
     case 'pkg': return download(`${name}_공시패키지.md`, packageMd(c));
     case 'json': return download(`${name}_판정.json`, JSON.stringify(c.verdict,null,1), 'application/json');
     case 'xbrl': return download(`${name}_태그예시.xml`, xbrl(c), 'application/xml');
