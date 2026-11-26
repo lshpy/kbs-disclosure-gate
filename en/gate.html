@@ -1342,14 +1342,20 @@ function md(text){
   flush(); return h;
 }
 
+
+function itemsFor(v, m){
+  const flat = x => x.replace(/[()]/g,' ').replace(/\s+/g,' ').trim(), want = flat(m);
+  const hit = ITEMS.filter(it => v.reason.split(' / ').some(r => r.includes('['+it.key+']') && flat(r).includes(want)));
+  return (hit.length ? hit : ITEMS.filter(it => v[it.key]==null)).map(it => it.name).join(', ');
+}
 function errorLog(c){
   const v=c.verdict, L=c.legacy, sites=(L.legacy_sites||'').split(',').map(s=>s.trim()).filter(Boolean);
   const rows = v.missing_items.length
-    ? v.missing_items.map(m => ({item:ITEMS.filter(it=>v[it.key]==null).map(it=>it.name).join(', '), site:sites.find(s=>m.includes(s.replace(/ Plant$/,'')))||'-', calc:'N/A', sheet:'-', cause:m, stage:'Site evidence'}))
+    ? v.missing_items.map(m => ({item:itemsFor(v, m), site:sites.find(s=>m.includes(s.replace(/ Plant$/,'')))||'-', calc:'N/A', sheet:'-', cause:m, stage:'Site evidence'}))
     : ITEMS.filter(it=>v[it.st]==='Mismatch').map(it => { const cause=(v.reason.split(' / ').find(r=>r.includes(it.key))||'').replace(/.*cause /,''); return {item:it.name, site:sites.find(s=>cause.includes(s))||'Entity total', calc:n(v[it.key]), sheet:n(L[it.lg]), cause, stage:'HQ sheet'}; });
   if (!rows.length) return '';
   const k=rows.length;
-  return `<h3>Error log</h3><div class="scroll"><table class="elog"><tr><th>Entity</th><th>Year</th><th>Re-check</th><th>Verdict</th><th>Item</th><th>Site</th><th>Computed</th><th>Sheet value</th><th>Cause</th><th>Stage</th></tr>${rows.map((r,i)=>`<tr>${i?'':`<td rowspan="${k}">${esc(v.entity_name)}</td><td rowspan="${k}">${esc(v.reporting_year)}</td><td rowspan="${k}">${esc(c.recheck||'-')}</td><td rowspan="${k}"><span class="tag ${DEC[v.decision]}">${v.decision}</span></td>`}<td>${r.item}</td><td>${esc(r.site)}</td><td>${r.calc}</td><td>${r.sheet}</td><td>${esc(r.cause)}</td><td>${r.stage}</td></tr>`).join('')}</table></div>`;
+  return `<h3>Error log</h3><div class="scroll"><table class="elog"><tr><th>Entity</th><th>Year</th><th>Verdict</th><th>Item</th><th>Site</th><th>Computed</th><th>Sheet value</th><th>Cause</th><th>Stage</th></tr>${rows.map((r,i)=>`<tr>${i?'':`<td rowspan="${k}">${esc(v.entity_name)}</td><td rowspan="${k}">${esc(v.reporting_year)}</td><td rowspan="${k}"><span class="tag ${DEC[v.decision]}">${v.decision}</span></td>`}<td>${r.item}</td><td>${esc(r.site)}</td><td>${r.calc}</td><td>${r.sheet}</td><td>${esc(r.cause)}</td><td>${r.stage}</td></tr>`).join('')}</table></div>`;
 }
 async function live(id){
   document.body.classList.add('live');

@@ -1346,14 +1346,20 @@ function md(text){   // 워크플로우가 내는 마크다운(제목·표·목�
   flush(); return h;
 }
 // 오류 기록: 판정 JSON에서 규칙으로 만든 표(LLM을 거치지 않아 실행마다 달라지지 않는다). 법인·연도·재검증·판정은 한 칸으로 묶는다
+// 누락 증빙 한 건이 막은 항목만 고른다: 판정 reason의 '[항목키] … 원인 …'에서 같은 원인을 적은 항목. 못 찾으면 산정 못 한 항목 전부
+function itemsFor(v, m){
+  const flat = x => x.replace(/[()]/g,' ').replace(/\s+/g,' ').trim(), want = flat(m);
+  const hit = ITEMS.filter(it => v.reason.split(' / ').some(r => r.includes('['+it.key+']') && flat(r).includes(want)));
+  return (hit.length ? hit : ITEMS.filter(it => v[it.key]==null)).map(it => it.name).join(', ');
+}
 function errorLog(c){
   const v=c.verdict, L=c.legacy, sites=(L.legacy_sites||'').split(',').map(s=>s.trim()).filter(Boolean);
   const rows = v.missing_items.length
-    ? v.missing_items.map(m => ({item:ITEMS.filter(it=>v[it.key]==null).map(it=>it.name).join(', '), site:sites.find(s=>m.includes(s.replace(/공장$| Plant$/,'')))||'-', calc:'N/A', sheet:'-', cause:m, stage:'Site evidence'}))
+    ? v.missing_items.map(m => ({item:itemsFor(v, m), site:sites.find(s=>m.includes(s.replace(/공장$| Plant$/,'')))||'-', calc:'N/A', sheet:'-', cause:m, stage:'Site evidence'}))
     : ITEMS.filter(it=>v[it.st]==='불일치').map(it => { const cause=(v.reason.split(' / ').find(r=>r.includes(it.key))||'').replace(/.*원인 /,''); return {item:it.name, site:sites.find(s=>cause.includes(s))||'Entity total', calc:n(v[it.key]), sheet:n(L[it.lg]), cause, stage:'HQ sheet'}; });
   if (!rows.length) return '';
   const k=rows.length;
-  return `<h3>Error log</h3><div class="scroll"><table class="elog"><tr><th>Entity</th><th>Year</th><th>Re-check</th><th>Verdict</th><th>Item</th><th>Site</th><th>Computed</th><th>Sheet value</th><th>Cause</th><th>Stage</th></tr>${rows.map((r,i)=>`<tr>${i?'':`<td rowspan="${k}">${esc(v.entity_name)}</td><td rowspan="${k}">${esc(v.reporting_year)}</td><td rowspan="${k}">${esc(c.recheck||'-')}</td><td rowspan="${k}"><span class="tag ${DEC[v.decision]}">${v.decision}</span></td>`}<td>${r.item}</td><td>${esc(r.site)}</td><td>${r.calc}</td><td>${r.sheet}</td><td>${esc(r.cause)}</td><td>${r.stage}</td></tr>`).join('')}</table></div>`;
+  return `<h3>Error log</h3><div class="scroll"><table class="elog"><tr><th>Entity</th><th>Year</th><th>Verdict</th><th>Item</th><th>Site</th><th>Computed</th><th>Sheet value</th><th>Cause</th><th>Stage</th></tr>${rows.map((r,i)=>`<tr>${i?'':`<td rowspan="${k}">${esc(v.entity_name)}</td><td rowspan="${k}">${esc(v.reporting_year)}</td><td rowspan="${k}"><span class="tag ${DEC[v.decision]}">${v.decision}</span></td>`}<td>${r.item}</td><td>${esc(r.site)}</td><td>${r.calc}</td><td>${r.sheet}</td><td>${esc(r.cause)}</td><td>${r.stage}</td></tr>`).join('')}</table></div>`;
 }
 async function live(id){
   document.body.classList.add('live');
