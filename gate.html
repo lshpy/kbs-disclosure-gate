@@ -1248,9 +1248,9 @@ let filter = null, cur = 0;
 window.GJ_SET = () => DATA.cases[cur].set;
 window.GJ_ACTIONS = q => {
   const d = DATA.cases[cur].verdict.decision, press = a => () => { const b = document.querySelector(`#detail [data-a=${a}]`); if (b) { b.scrollIntoView({block:'center'}); b.click(); } };
-  const all = d==='검토 필요' ? [['gmail','재제출 요청 메일 열기',/메일|재제출|요청|누가|해야/], ['gcal','기한을 캘린더에 등록',/캘린더|일정|기한|누가|해야/]]
-            : d==='수정 필요' ? [['csv','산정표 수정안 내려받기',/수정|고칠|엑셀|누가|해야|왜/]]
-            : [['pkg','공시 패키지 내려받기',/패키지|다음|누가|해야|공시/]];
+  const all = [['gmail', d==='검토 필요'?'재제출 요청 메일 열기':d==='수정 필요'?'수정 요청 메일 열기':'검증 완료 메일 열기', /메일|요청|안내|누가|해야|조치/],
+               ['gcal', '일정을 캘린더에 등록', /캘린더|일정|기한|마감|누가|해야|조치/]]
+    .concat(d==='수정 필요' ? [['csv','산정표 수정안 내려받기',/수정|고칠|엑셀|누가|해야|왜/]] : d==='공시 가능' ? [['pkg','공시 패키지 내려받기',/패키지|다음|누가|해야|공시/]] : []);
   return all.filter(x => x[2].test(q)).map(x => ({label:x[1], run:press(x[0])}));
 };  // 검증이 대화창(chat.js)이 지금 보고 있는 법인을 읽음
 
@@ -1351,14 +1351,38 @@ function download(name, text, type){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:type||'text/plain;charset=utf-8'})); a.download=name; a.click(); URL.revokeObjectURL(a.href);
 }
 const due = () => $('#due') ? $('#due').value : '';
-function mailText(c){
-  const v=c.verdict;
-  return `제목: [${v.entity_name}] 2027년 기후공시 증빙 재제출 요청 (기한 ${due()})\n\n안녕하세요, 본사 ESG 공시 담당입니다.\n\n${v.entity_name} 2027년 KSSB 2호 공시값을 증빙으로 다시 산정하는 과정에서 아래 증빙을 확인할 수 없어 해당 항목을 산정하지 못했습니다.\n\n${v.missing_items.map(m=>'- '+m).join('\n')}\n\n위 증빙의 원본을 ${due()}까지 다시 제출해 주시기 바랍니다.\n- 판독 불가: 숫자가 선명하게 보이는 원본 또는 재스캔본\n- 중복: 실제 거래가 1건인지 확인하고, 2건이면 각각의 승인번호가 적힌 세금계산서\n- 누락: 해당 사업장의 2027년 연간 사용량 증빙\n\n재제출 전까지 전력·Scope 1·Scope 2는 공시 보류 상태입니다.\n감사합니다.`;
+// 판정별 후속 조치: 세 판정 모두 메일 초안과 캘린더 일정으로 이어진다(작성 창을 채워 열고, 보내기는 사람이 누른다)
+function fu(c){
+  const v=c.verdict, L=c.legacy, y=v.reporting_year, D=due();
+  if (v.decision==='검토 필요') return {dueLabel:'재제출 기한', toHint:'공장 담당자 메일', head:'증빙 재제출 요청 메일',
+    subject:`[${v.entity_name}] ${y}년 기후공시 증빙 재제출 요청 (기한 ${D})`, cal:`[${v.entity_name}] 기후공시 증빙 재제출 기한`, calDetails:v.missing_items.join('\n'),
+    body:`안녕하세요, 본사 ESG 공시 담당입니다.\n\n${v.entity_name} ${y}년 KSSB 2호 공시값을 증빙으로 다시 산정하는 과정에서 아래 증빙을 확인할 수 없어 해당 항목을 산정하지 못했습니다.\n\n${v.missing_items.map(m=>'- '+m).join('\n')}\n\n위 증빙의 원본을 ${D}까지 다시 제출해 주시기 바랍니다.\n- 판독 불가: 숫자가 선명하게 보이는 원본 또는 재스캔본\n- 중복: 실제 거래가 1건인지 확인하고, 2건이면 각각의 승인번호가 적힌 세금계산서\n- 누락: 해당 사업장의 ${y}년 연간 사용량 증빙\n\n재제출 전까지 전력·Scope 1·Scope 2는 공시 보류 상태입니다.\n감사합니다.`};
+  if (v.decision==='수정 필요'){
+    const rows=ITEMS.filter(it=>v[it.st]==='불일치').map(it=>`- ${it.name}: 산정표 ${Number(L[it.lg]).toLocaleString('ko-KR')} → 고칠 값 ${Number(v[it.key]).toLocaleString('ko-KR')} ${it.unit}`);
+    return {dueLabel:'수정 마감', toHint:'본사 산정표 담당자 메일', head:'산정표 수정 요청 메일',
+      subject:`[${v.entity_name}] ${y}년 본사 산정표 수정 요청 (기한 ${D})`, cal:`[${v.entity_name}] 본사 산정표 수정 마감`, calDetails:rows.join('\n'),
+      body:`안녕하세요, 본사 ESG 공시 담당입니다.\n\n${v.entity_name} ${y}년 KSSB 2호 공시값을 증빙으로 다시 산정한 결과, 본사 산정표의 아래 항목이 증빙과 다릅니다. 증빙에는 문제가 없습니다.\n\n${rows.join('\n')}\n\n원인: ${causes(v).join(', ')}\n\n산정표를 ${D}까지 고쳐 다시 제출해 주시기 바랍니다. 수정본이 들어오면 같은 증빙으로 다시 대조합니다.\n감사합니다.`};
+  }
+  const rows=ITEMS.map(it=>`- ${it.name}: ${Number(v[it.key]).toLocaleString('ko-KR')} ${it.unit}`);
+  return {dueLabel:'최종 검토일', toHint:'공시 승인권자 메일', head:'검증 완료 안내 메일',
+    subject:`[${v.entity_name}] ${y}년 기후공시 검증 완료 안내 (최종 검토 ${D})`, cal:`[${v.entity_name}] 기후공시 최종 검토·승인`, calDetails:rows.join('\n'),
+    body:`안녕하세요, 본사 ESG 공시 담당입니다.\n\n${v.entity_name} ${y}년 KSSB 2호 공시값을 증빙으로 다시 산정한 결과, 네 항목 모두 본사 산정표와 일치합니다.\n\n${rows.join('\n')}\n\n공시 패키지(지표표, 증빙 추적표, 검증 기록)를 함께 보냅니다. 최종 검토와 승인은 ${D}에 진행하겠습니다.\n감사합니다.`};
 }
+function mailText(c){ const f=fu(c); return `제목: ${f.subject}\n\n${f.body}`; }
 function ics(c){
-  const d=due().replaceAll('-',''), v=c.verdict;
+  const d=due().replaceAll('-',''), f=fu(c);
   const nx=new Date(due()); nx.setDate(nx.getDate()+1); const e=nx.toISOString().slice(0,10).replaceAll('-','');
-  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//KBS//Disclosure Gate//KO','BEGIN:VEVENT',`UID:${c.set}-${d}@kbs-gate`,`DTSTAMP:${new Date().toISOString().replace(/[-:]|\.\d+/g,'')}`,`DTSTART;VALUE=DATE:${d}`,`DTEND;VALUE=DATE:${e}`,`SUMMARY:[${v.entity_name}] 기후공시 증빙 재제출 기한`,`DESCRIPTION:${v.missing_items.join(' / ')}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//KBS//Disclosure Gate//KO','BEGIN:VEVENT',`UID:${c.set}-${d}@kbs-gate`,`DTSTAMP:${new Date().toISOString().replace(/[-:]|\.\d+/g,'')}`,`DTSTART;VALUE=DATE:${d}`,`DTEND;VALUE=DATE:${e}`,`SUMMARY:${f.cal}`,`DESCRIPTION:${f.calDetails.replaceAll('\n',' / ')}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+// 세 판정 공통: 기한·받는 사람·메일 초안·보내기/캘린더 버튼
+function followUp(c){
+  const f=fu(c);
+  return `<h3>${f.head}과 일정</h3>
+    <div style="margin:10px 0;display:flex;gap:14px;flex-wrap:wrap">
+      <label>${f.dueLabel} <input type="date" id="due"></label>
+      <label>받는 사람 <input type="email" id="to" placeholder="${f.toHint}(선택)" value="jjes1290@naver.com"></label></div>
+    <textarea id="mail"></textarea>
+    <div class="btns"><button class="btn" data-a="gmail">Gmail로 보내기</button><button class="btn" data-a="gcal">Google 캘린더에 등록</button><button class="btn ghost" data-a="outlook">Outlook으로 보내기</button><button class="btn ghost" data-a="mailto">기본 메일 앱</button><button class="btn ghost" data-a="ics">캘린더 파일 (.ics)</button><button class="btn ghost" data-a="copy">본문 복사</button></div>`;
 }
 function fixCsv(c){
   const v=c.verdict, L=c.legacy;
@@ -1380,19 +1404,15 @@ function action(c){
   if (v.decision==='공시 가능') return `<div class="card"><h2>공시 패키지</h2>
     <div>네 항목이 모두 본사 산정표와 일치합니다. KSSB 2호 지표표, 증빙 추적표, 검증 기록을 한 묶음으로 내려받아 보고서 작성과 제3자 검증에 넘길 수 있습니다.</div>
     <div class="btns"><button class="btn" data-a="pkg">공시 패키지 내려받기 (.md)</button><button class="btn ghost" data-a="json">판정 JSON</button><button class="btn ghost" data-a="xbrl">기계 판독용 태그 예시 (.xml)</button></div>
-    <details><summary>KSSB 2호 지표표 초안 보기</summary><pre>${esc(c.draft)}</pre></details></div>`;
+    <details><summary>KSSB 2호 지표표 초안 보기</summary><pre>${esc(c.draft)}</pre></details>${followUp(c)}</div>`;
   if (v.decision==='수정 필요') return `<div class="card"><h2>산정표 수정안</h2>
     <div class="scroll"><table><tr><th>항목</th><th>산정표 값</th><th>고칠 값</th><th>단위</th></tr>${ITEMS.filter(it=>v[it.st]==='불일치').map(it=>`<tr><td>${it.name}</td><td class="bad">${n(c.legacy[it.lg])}</td><td><b>${n(v[it.key])}</b></td><td>${it.unit}</td></tr>`).join('')}</table></div>
     ${impact(c)}
     <div class="btns"><button class="btn" data-a="csv">수정안 내려받기 (.csv, 엑셀용)</button></div>
-    <div style="color:var(--sub);font-size:13.5px;margin-top:8px">산정표를 고친 뒤 다시 실행해 네 항목이 모두 일치하면 공시 패키지가 열립니다.</div></div>`;
+    <div style="color:var(--sub);font-size:13.5px;margin-top:8px">산정표를 고친 뒤 다시 실행해 네 항목이 모두 일치하면 공시 패키지가 열립니다.</div>${followUp(c)}</div>`;
   return `<div class="card"><h2>증빙 재제출 요청</h2>
     <div>확인이 필요한 증빙: <b>${v.missing_items.map(esc).join(', ')}</b></div>
-    <div style="margin:10px 0;display:flex;gap:14px;flex-wrap:wrap">
-      <label>재제출 기한 <input type="date" id="due"></label>
-      <label>받는 사람 <input type="email" id="to" placeholder="공장 담당자 메일(선택)" value="jjes1290@naver.com"></label></div>
-    <textarea id="mail"></textarea>
-    <div class="btns"><button class="btn" data-a="gmail">Gmail로 보내기</button><button class="btn" data-a="gcal">Google 캘린더에 기한 등록</button><button class="btn ghost" data-a="outlook">Outlook으로 보내기</button><button class="btn ghost" data-a="mailto">기본 메일 앱</button><button class="btn ghost" data-a="ics">캘린더 파일 (.ics)</button><button class="btn ghost" data-a="copy">본문 복사</button></div></div>`;
+    ${followUp(c)}</div>`;
 }
 
 function render(){
@@ -1442,7 +1462,7 @@ document.addEventListener('click', e => {
     case 'gcal': {
       const E=encodeURIComponent, d=due().replaceAll('-',''), nx=new Date(due()); nx.setDate(nx.getDate()+1);
       const to=$('#to').value.trim();
-      return window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${E(`[${name}] 기후공시 증빙 재제출 기한`)}&dates=${d}/${nx.toISOString().slice(0,10).replaceAll('-','')}&details=${E(c.verdict.missing_items.join('\n'))}${to?`&add=${E(to)}`:''}`,'_blank','noopener');
+      const f=fu(c); return window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${E(f.cal)}&dates=${d}/${nx.toISOString().slice(0,10).replaceAll('-','')}&details=${E(f.calDetails)}${to?`&add=${E(to)}`:''}`,'_blank','noopener');
     }
   }
 });
