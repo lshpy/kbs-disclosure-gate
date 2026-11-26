@@ -54,7 +54,9 @@ pre{white-space:pre-wrap;background:var(--bg);border-radius:8px;padding:12px;fon
 details{margin-top:10px}summary{cursor:pointer;color:var(--sub);font-size:13.5px}
 .foot{color:var(--sub);font-size:12.5px;padding:0 24px 28px}
 .impact{background:#fdf6e7;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:14px}
-body.live main{grid-template-columns:1fr}body.live aside,body.live #chips,body.live .bar,body.live #barlabel{display:none}
+main{grid-template-columns:1fr!important}aside{display:none}
+#pickrow{margin-top:12px;font-size:14px;color:var(--sub)}#pick{font:inherit;font-size:15px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);margin-left:8px;min-width:260px}
+body.live #chips,body.live .bar,body.live #barlabel,body.live #pickrow{display:none}
 .elog th,.elog td{text-align:left;border:1px solid var(--line)}.elog td[rowspan]{vertical-align:middle;font-weight:600}
 </style>
 </head>
@@ -65,6 +67,7 @@ body.live main{grid-template-columns:1fr}body.live aside,body.live #chips,body.l
   <div class="bar"><i id="barfill"></i></div>
   <div id="barlabel" style="font-size:13.5px;color:var(--sub)"></div>
   <div class="sum" id="chips"></div>
+  <div id="pickrow"><label>Entity<select id="pick"></select></label></div>
 </div></header>
 <div class="wrap" id="live" style="padding:16px 24px 0"></div>
 <main class="wrap">
@@ -1365,7 +1368,7 @@ async function live(id){
   card(`<h2>Just submitted · ${esc(r.entity)} <span class="tag ${DEC[r.decision]||'rev'}">${esc(r.decision)}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(r.id)} · verified ${esc(r.at)}</span></h2>
     ${r.mailed ? `<div style="margin:6px 0;color:var(--main)">Result e-mail sent automatically to the contact (${esc(r.mailed)}).</div>` : ''}${r.cal ? `<div style="margin:6px 0;color:var(--main)">Deadline ${esc(r.cal)} added to the calendar automatically.</div>` : ''}
     <details open><summary>Workflow output: ${esc(r.node)}</summary><div style="margin-top:8px">${md(r.text)}</div></details>
-    ${i>=0 ? errorLog(DATA.cases[i]) : ''}`);
+    `);
   if (i>=0) { cur = i; render(); }
 }
 function download(name, text, type){
@@ -1444,6 +1447,7 @@ function render(){
   $('#chips').innerHTML = [[null,'All',cs.length],...Object.keys(DEC).map(d=>[d,d,cnt(d)])].map(([k,l,c])=>`<button class="chip${filter===k?' on':''}" data-f="${k??''}">${l}<b>${c}</b></button>`).join('');
   $('#notice').innerHTML = `<b>${cs.length} entities verified</b><br>Ready to Disclose ${ok} · Needs Correction ${cnt('Needs Correction')} · Needs Review ${cnt('Needs Review')}<br><span style="color:var(--sub);font-size:13.5px">Only the ${cs.length-ok} that need action require attention.</span>`;
   $('#list').innerHTML = cs.map((c,i)=>({c,i})).filter(x=>!filter||x.c.verdict.decision===filter).map(({c,i})=>`<button class="${i===cur?'on':''}" data-i="${i}"><span class="dot ${c.signal}" title="Evidence check ${SIG[c.signal]}"></span><span class="nm">${esc(c.verdict.entity_name)}<small>${c.set} · ${c.pages.length} pages</small></span><span class="tag ${DEC[c.verdict.decision]}">${c.verdict.decision}</span></button>`).join('');
+  $('#pick').innerHTML = cs.map((c,i)=>({c,i})).filter(x=>!filter||x.c.verdict.decision===filter).map(({c,i})=>`<option value="${i}"${i===cur?' selected':''}>${esc(c.verdict.entity_name)} · ${c.verdict.decision}</option>`).join('');
   const c = cs[cur], v = c.verdict;
   $('#detail').innerHTML = `${summary(c)}<div class="card" style="margin-bottom:12px">
     <h2>${esc(v.entity_name)} <span class="tag ${DEC[v.decision]}">${v.decision}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">Evidence check <span class="dot ${c.signal}" style="display:inline-block"></span> ${SIG[c.signal]}</span></h2>
@@ -1453,6 +1457,7 @@ function render(){
     <div style="margin-top:10px"><b>Basis</b> ${esc(v.reason).replaceAll(' / ','<br>')}</div>
     ${c.failedChecks.length?`<div style="margin-top:6px;color:var(--sub);font-size:13.5px">Evidence-check rules triggered: ${c.failedChecks.map(f=>`${f.name} (${f.severity==='error'?'required':'optional'})`).join(', ')}</div>`:''}
   </div>
+  ${errorLog(c) ? `<div class="card" style="margin-bottom:12px">${errorLog(c).replace('<h3>Error log</h3>','<h2>Error log</h2>')}</div>` : ''}
   ${action(c)}
   <div class="card" style="margin-top:12px"><h2>Evidence trace <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(c.file)}</span></h2>${trace(c)}
     <details><summary>Show workflow calculation notes (Korean)</summary><pre>${esc(c.calcNotes)}</pre></details></div>`;
@@ -1487,6 +1492,7 @@ document.addEventListener('click', e => {
     }
   }
 });
+document.addEventListener('change', e => { if (e.target.id === 'pick') { cur = +e.target.value; render(); } });
 render();
 { const id = new URLSearchParams(location.search).get('id'); if (/^KBS-\d{8}-\d{6}$/.test(id||'')) live(id); }
 </script>
