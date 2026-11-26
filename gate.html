@@ -191,6 +191,9 @@ function render(){
   ${action(c)}
   <div class="card" style="margin-top:12px"><h2>증빙 추적 <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(c.file)}</span></h2>${trace(c)}
     <details><summary>워크플로우 산정 기록 보기</summary><pre>${esc(c.calcNotes)}</pre></details></div>`;
+  // 쪽 번호를 누르면 해당 증빙 PDF의 그 쪽이 새 탭으로 열림
+  document.querySelectorAll('#detail .pg').forEach(s => { const m=s.textContent.match(/^(\d+)쪽$/); if(!m) return;
+    const l=document.createElement('a'); l.href=`pdf/${c.set}.pdf#page=${m[1]}`; l.target='_blank'; l.rel='noopener'; l.className=s.className; l.textContent=s.textContent; l.style.textDecoration='underline'; l.title='증빙 원본 보기'; s.replaceWith(l); });
   if ($('#due')){ const d=new Date(); d.setDate(d.getDate()+7); $('#due').value=d.toISOString().slice(0,10); $('#mail').value=mailText(c); $('#due').onchange=()=>{$('#mail').value=mailText(c)}; }
 }
 document.addEventListener('click', e => {
