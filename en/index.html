@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ESG GapLens · Self-verification workflow for climate disclosure</title>
+<meta name="description" content="A KSSB No. 2 workflow that verifies the HQ climate disclosure calculation sheet by recalculating from the original evidence documents">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--main:#0b6e4f;--soft:#e7f3ee;--ink:#16201c;--sub:#5d6b65;--line:#dfe5e2;--bg:#f6f8f7;--red:#c0392b;--yellow:#b7791f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;color:var(--ink);background:#fff;line-height:1.6;font-size:16px;word-break:keep-all}
+.w{max-width:1040px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:5}
+nav .w{display:flex;align-items:center;gap:22px;height:56px}
+nav b{font-size:17px;letter-spacing:.02em}nav a{color:var(--sub);text-decoration:none;font-size:14.5px}
+nav .sp{flex:1}
+.btn{display:inline-block;background:var(--main);color:#fff!important;border-radius:8px;padding:11px 20px;text-decoration:none;font-weight:600}
+.btn.s{padding:7px 14px;font-size:14px}.btn.g{background:#fff;color:var(--main)!important;border:1px solid var(--main)}
+.hero{padding:92px 0 84px;background:radial-gradient(900px 420px at 85% -10%,rgba(16,185,129,.28),transparent 60%),#0d1512;color:#fff}
+.hero .w{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center}
+@media(max-width:900px){.hero .w{grid-template-columns:1fr}}
+.hero .eyebrow{display:inline-block;background:rgba(16,185,129,.16);color:#6ee7b7;border-radius:999px;padding:5px 14px}
+.hero .lead{color:#b6c4be}.hero h1 mark{background:none;color:#34d399}
+.hero .btn{background:#10b981;color:#06231a!important}.hero .btn.g{background:rgba(255,255,255,.08);color:#fff!important;border:1px solid rgba(255,255,255,.18)}
+.shot{border-radius:14px;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);overflow:hidden;background:#fff}
+.shot img,.frame img{display:block;width:100%;height:auto}
+.frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 40px -24px rgba(0,0,0,.25);background:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}@media(max-width:860px){.two{grid-template-columns:1fr}}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.links a{font-size:14px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;color:var(--ink);background:#fff}
+.kicker{color:var(--main);font-weight:700;font-size:14px;letter-spacing:.04em;margin-bottom:8px}
+nav{background:rgba(13,21,18,.9)!important;border-bottom:1px solid rgba(255,255,255,.08)!important}nav b{color:#34d399}nav a{color:#b6c4be!important}nav .btn{color:#06231a!important;background:#10b981}
+.eyebrow{color:var(--main);font-weight:600;font-size:14.5px;margin-bottom:14px}
+h1{font-size:clamp(32px,5.4vw,54px);line-height:1.22;margin:0 0 20px;font-weight:300;letter-spacing:-.02em}
+h1 mark{background:linear-gradient(transparent 62%,#bfe3d3 62%);color:inherit;font-weight:600}
+.lead{font-size:18px;color:var(--sub);max-width:640px;margin:0 0 30px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+section{padding:68px 0}section.alt{background:var(--bg)}
+h2{font-size:clamp(24px,3.4vw,32px);font-weight:600;margin:0 0 10px;letter-spacing:-.01em}
+.h2sub{color:var(--sub);margin:0 0 30px;max-width:680px}
+.grid{display:grid;gap:14px}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:860px){.g3,.g4,.g5{grid-template-columns:1fr 1fr}}@media(max-width:520px){.g3,.g4,.g5{grid-template-columns:1fr}.w{padding:0 16px}nav a.h{display:none}}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}
+.card h3{margin:0 0 6px;font-size:17px}.card p{margin:0;color:var(--sub);font-size:15px}
+.num{font-size:40px;font-weight:300;color:var(--main);line-height:1.1}
+.step{font-size:13px;color:var(--main);font-weight:700;margin-bottom:6px}
+.node{display:inline-block;font-size:12px;background:var(--soft);color:var(--main);border-radius:5px;padding:1px 7px;margin-top:10px}
+.v{border-top:4px solid var(--main)}.v.fix{border-top-color:var(--yellow)}.v.rev{border-top-color:var(--red)}
+.v .arrow{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:14.5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+th,td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:left}th{background:var(--bg);font-size:13.5px;color:var(--sub)}
+tr:last-child td{border-bottom:0}.scroll{overflow-x:auto}
+.t{font-size:12.5px;border-radius:999px;padding:2px 9px;border:1px solid;white-space:nowrap}
+.t.ok{color:var(--main);background:var(--soft)}.t.fix{color:var(--yellow);background:#fdf6e7}.t.rev{color:var(--red);background:#fbeceb}
+.flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}.flow .card{flex:1;min-width:200px}
+footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<nav><div class="w"><b>ESG GapLens</b><a class="h" href="#demo">Demo</a><a class="h" href="#report">Report</a><a class="h" href="#how">Workflow</a><a class="h" href="#result">Results</a><a class="h" href="#team">Team</a><a class="h" href="submit.html">Submit Evidence</a><span class="sp"></span><a href="../" lang="ko" hreflang="ko">한국어</a><a class="btn s" href="gate.html">Open demo</a></div></nav>
+
+<div class="hero"><div class="w"><div>
+  <div class="eyebrow">Verification layer for KSSB No. 2 climate disclosure</div>
+  <h1>Before you disclose,<br><mark>recalculate from the evidence</mark></h1>
+  <p class="lead">Upload each site's evidence documents and the HQ calculation sheet. The workflow calculates the figures directly from electricity and fuel bills and investment contracts, then compares them with the sheet. Reviewers only look at what does not match.</p>
+  <div class="cta"><a class="btn" href="submit.html">Submit evidence</a><a class="btn g" href="gate.html">Disclosure Gate demo</a></div>
+  </div>
+  <div class="shot"><img src="../img/gate.png" alt="Disclosure Gate screen: verdict per entity and proposed corrections to the calculation sheet"></div>
+</div></div>
+
+<section id="position"><div class="w">
+  <div class="kicker">POSITIONING</div>
+  <h2>A tool that verifies disclosures, not one that produces them</h2>
+  <p class="h2sub">Carbon accounting and disclosure authoring solutions produce the disclosure data, and errors arise in that process too. ESG GapLens takes disclosure figures that have already been prepared and recalculates them from the original evidence to check completeness and accuracy. It does not replace existing solutions; it sits on top of them.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Error detection</h3><p>Tells apart wrong factor year, missing site, out-of-scope contract, unreadable document, duplicate, and missing evidence.</p></div>
+    <div class="card"><h3>Evidence trace</h3><p>Records which document and page each disclosed number came from.</p></div>
+    <div class="card"><h3>Review exceptions only</h3><p>Reviewers only see the cases flagged Needs Correction or Needs Review.</p></div>
+  </div>
+</div></section>
+
+<section id="demo" class="alt"><div class="w">
+  <div class="kicker">DEMO</div>
+  <h2>Disclosure Gate</h2>
+  <p class="h2sub">Shows the workflow results grouped by entity. Depending on the verdict, the next step is a disclosure package, a proposed correction to the calculation sheet, or a request to resubmit evidence.</p>
+  <div class="frame"><img src="../img/gate.png" alt="Disclosure Gate demo screen"></div>
+  <p style="margin-top:20px"><a class="btn" href="gate.html">Open the demo</a></p>
+</div></section>
+
+<section id="report"><div class="w"><div class="two">
+  <div>
+    <div class="kicker">REPORT</div>
+    <h2>The verification report reviewers receive</h2>
+    <p class="h2sub">When verification of one entity finishes, a one-page report is produced. It contains the verdict, the items that differ from the calculation sheet, the size of the over- or understatement if disclosed as is, the next action, and the evidence sources.</p>
+    <div class="links"><a href="../report/set01.html">Hanbit Energy · Ready to Disclose (Korean)</a><a href="../report/set02.html">Daeyang Chemical · Ready to Disclose (Korean)</a><a href="../report/set03.html">Namhae Chemical · Ready to Disclose (Korean)</a><a href="../report/set04.html">Saesol Refining · Needs Correction (Korean)</a><a href="../report/set05.html">Mirae Materials · Needs Correction (Korean)</a><a href="../report/set06.html">Cheongun Petrochemical · Needs Correction (Korean)</a><a href="../report/set07.html">Donghae Chemical · Needs Review (Korean)</a><a href="../report/set08.html">Seohae Energy · Needs Review (Korean)</a></div>
+  </div>
+  <div class="frame" style="max-height:560px;overflow:auto"><img src="../img/report.png" alt="Sample climate disclosure verification report for Mirae Materials"></div>
+</div></div></section>
+
+<section id="problem"><div class="w">
+  <h2>Disclosure numbers come from a single Excel sheet</h2>
+  <p class="h2sub">The consolidation sheet that an HQ staff member fills in by hand from the bills sent by each site becomes the disclosed figures as is. Errors introduced while copying cannot be seen by looking at the sheet alone.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Last year's emission factor</h3><p>The prior-year factor is reused, overstating Scope 2 by 550 tCO2e.</p></div>
+    <div class="card"><h3>A plant left out of the total</h3><p>One site is missing from the entity total row, understating electricity by 18,000 MWh.</p></div>
+    <div class="card"><h3>Amounts that do not belong</h3><p>VAT and an office equipment contract are added in, inflating capex by KRW 410 million.</p></div>
+    <div class="card"><h3>An unreadable scan</h3><p>A confirmation with a smudged usage figure cannot establish the value.</p></div>
+    <div class="card"><h3>A tax invoice submitted twice</h3><p>When the original and a copy are both submitted, the fuel is counted twice.</p></div>
+    <div class="card"><h3>Missing evidence</h3><p>One site's gas bill is missing altogether.</p></div>
+  </div>
+</div></section>
+
+<section id="how" class="alt"><div class="w">
+  <div class="kicker">CORE LOGIC &amp; WORKFLOW</div>
+  <h2>Six steps from submission to draft</h2>
+  <p class="h2sub">The numbers in the calculation sheet are never used in the calculation. The workflow calculates only from values extracted from the evidence and then compares, so it points to both where the sheet is wrong and why.</p>
+  <div class="grid g3">
+    <div class="card"><div class="step">00</div><h3>Submit</h3><p>Two sites and the HQ ESG team each upload their evidence; it is merged into one entity bundle and placed in the submission box.</p><span class="node"><a href="submit.html">Submit Evidence page</a></span></div>
+    <div class="card"><div class="step">01</div><h3>Read · Split</h3><p>Splits the PDF page by page and classifies each as electricity, fuel, contract, calculation sheet, or out-of-scope document.</p><span class="node">Parse · Classify</span></div>
+    <div class="card"><div class="step">02</div><h3>Extract</h3><p>Extracts site, usage, unit, document number, amount, and whether the page is readable.</p><span class="node">Extract ×4</span></div>
+    <div class="card"><div class="step">03</div><h3>Check</h3><p>Runs 7 rules for unreadable documents, missing evidence, and out-of-scope contracts, and raises signals.</p><span class="node">Merge · Validate</span></div>
+    <div class="card"><div class="step">04</div><h3>Calculate · Decide</h3><p>Recalculates the four metrics and compares them with the calculation sheet at a 0.5% threshold.</p><span class="node">Instruct ×2</span></div>
+    <div class="card"><div class="step">05</div><h3>Draft</h3><p>Writes the KSSB No. 2 metrics table and review comments.</p><span class="node">Instruct</span></div>
+  </div>
+  <div class="frame" style="margin-top:26px"><img src="../img/flow.png" alt="Overall flow diagram: evidence submission by Site A, Site B and the HQ ESG team, the 11 nodes of the Upstage Studio workflow, and the Disclosure Gate"></div>
+</div></section>
+
+<section><div class="w">
+  <h2>Each verdict determines the next action</h2>
+  <p class="h2sub">Values that cannot be established are not guessed; they are left blank and handed to a person.</p>
+  <div class="grid g3">
+    <div class="card v"><h3>Ready to Disclose</h3><p>All four metrics match the calculation sheet.</p><div class="arrow">→ A <b>disclosure package</b> bundling the metrics table, evidence trace table, and verification log</div></div>
+    <div class="card v fix"><h3>Needs Correction</h3><p>The metrics were calculated but differ from the calculation sheet.</p><div class="arrow">→ A <b>proposed correction to the calculation sheet</b> with the values to fix and the cause</div></div>
+    <div class="card v rev"><h3>Needs Review</h3><p>Evidence is blurry, missing, or duplicated.</p><div class="arrow">→ A <b>resubmission request email and deadline event</b> for the plant contact</div></div>
+  </div>
+</div></section>
+
+<section id="result" class="alt"><div class="w">
+  <h2>Tested on 8 fictional entities</h2>
+  <p class="h2sub">For each entity we fed in 2027 evidence from 2 sites. The workflow caught all 6 error types we planted on purpose.</p>
+  <div class="grid g4" style="margin-bottom:22px">
+    <div class="card"><div class="num">8</div><p>entities</p></div>
+    <div class="card"><div class="num">55</div><p>pages of evidence documents</p></div>
+    <div class="card"><div class="num">6</div><p>error types</p></div>
+    <div class="card"><div class="num">14</div><p>output keys behind each verdict</p></div>
+  </div>
+  <div class="scroll"><table>
+    <tr><th>Entity</th><th>Planted scenario</th><th>Verdict</th><th>Cause identified by the workflow</th></tr>
+    <tr><td>Hanbit Energy</td><td>Clean, with a water bill mixed in</td><td><span class="t ok">Ready to Disclose</span></td><td>All items match</td></tr>
+    <tr><td>Daeyang Chemical</td><td>Clean, includes a kWh bill and diesel</td><td><span class="t ok">Ready to Disclose</span></td><td>All items match</td></tr>
+    <tr><td>Namhae Chemical</td><td>Out-of-scope contract mixed in, but HQ excluded it</td><td><span class="t ok">Ready to Disclose</span></td><td>All items match</td></tr>
+    <tr><td>Saesol Refining</td><td>Calculation sheet uses the prior-year electricity factor</td><td><span class="t fix">Needs Correction</span></td><td>Scope 2: 24,750 vs 25,300</td></tr>
+    <tr><td>Mirae Materials</td><td>Site missing from the entity total</td><td><span class="t fix">Needs Correction</span></td><td>Ochang Plant missing from the total</td></tr>
+    <tr><td>Cheongun Petrochemical</td><td>Capex includes an out-of-scope contract</td><td><span class="t fix">Needs Correction</span></td><td>Capex: KRW 3.0 billion vs 3.41 billion</td></tr>
+    <tr><td>Donghae Chemical</td><td>Blurry scan, duplicate tax invoice</td><td><span class="t rev">Needs Review</span></td><td>Ulsan electricity unreadable, Pohang diesel duplicate</td></tr>
+    <tr><td>Seohae Energy</td><td>A site's fuel evidence is missing</td><td><span class="t rev">Needs Review</span></td><td>Yeosu city gas bill missing</td></tr>
+  </table></div>
+  <p style="margin-top:22px"><a class="btn" href="gate.html">View results and evidence trace by entity</a></p>
+</div></section>
+
+<section id="connect"><div class="w">
+  <h2>Starts and ends in the tools you already use</h2>
+  <p class="h2sub">Where evidence comes in and where results go out are matched to the email, drive, Excel, and calendar that reviewers already use.</p>
+  <div class="flow">
+    <div class="card"><div class="step">Input</div><h3>Inbox · Drive folder</h3><p>When a site sends evidence, an Upstage Studio trigger can be connected to run the workflow automatically.</p></div>
+    <div class="card"><div class="step">Verification</div><h3>Studio workflow</h3><p>Called through the Studio API with a pinned configuration version, so every run applies the same criteria.</p></div>
+    <div class="card"><div class="step">Output</div><h3>Gmail · Outlook · Calendar · Excel</h3><p>Leads to resubmission request emails, deadline events, proposed corrections to the calculation sheet, and disclosure packages.</p></div>
+  </div>
+  <p style="color:var(--sub);font-size:14px;margin-top:14px">The email and calendar buttons in the demo open the compose screen of the signed-in account with the content prefilled. Triggers and API connections are features Studio provides; they are not configured in this demo.</p>
+</div></section>
+
+<section id="assistant"><div class="w"><div class="two">
+  <div class="frame"><img src="../img/coworker.png" alt="Chat screen where the AI coworker summarizes the verdicts"></div>
+  <div>
+    <div class="kicker">AI COWORKER</div>
+    <h2>Ask about the verdicts and get an answer</h2>
+    <p class="h2sub">We connected the collection of accumulated verdicts to the AI coworker in Upstage Studio. Ask "What do the Needs Correction entities have to fix?" and it answers using only the values in the table. It does not calculate any new numbers.</p>
+  </div>
+</div></div></section>
+
+<section id="team" class="alt"><div class="w">
+  <h2>Team KBS</h2>
+  <p class="h2sub">A team in the 2026 Energy AI Workflow Hackathon. The name comes from KSSB. Six members split the work: producing the evidence documents, designing the workflow, checking the answer key, and presenting.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Documents</h3><p>Created 9 evidence templates and the document bundles for 8 fictional entities.</p></div>
+    <div class="card"><h3>Workflow</h3><p>Designed the classification, extraction, validation, calculation, and verdict nodes and their prompts.</p></div>
+    <div class="card"><h3>Review · Presentation</h3><p>Cross-checked the answer key against the error type table and prepared the design document and presentation materials.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="w">All entities and figures are fictional. Emission factors are assumed values for this exercise (electricity 0.45 tCO2e/MWh, city gas 2.2 tCO2e/thousand Nm³, diesel 2.6 tCO2e/kL) and must be replaced with the nationally published factors in real use.</div></footer>
+<script src="chat.js"></script>
+</body>
+</html>
