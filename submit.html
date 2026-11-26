@@ -47,7 +47,7 @@ footer{color:var(--sub);font-size:13px;padding:0 0 40px}
 <div class="top"><div class="w">
   <span class="badge">2027 보고연도 · 기후공시 증빙 접수</span>
   <h1>증빙을 올리면 <b>바로 검증</b>이 시작됩니다</h1>
-  <p>사업장은 전력·연료 증빙을, 본사 ESG팀은 투자계약서와 취합 산정표를 각각 올려 주세요. 시스템이 법인 단위로 묶어 검증하고, 결과는 검증 보고서로 안내합니다.</p>
+  <p>사업장은 전력·연료 증빙과 투자계약서를, 본사 ESG팀은 취합 산정표를 각각 올려 주세요. 시스템이 법인 단위로 묶어 검증하고, 결과는 검증 보고서로 안내합니다.</p>
 </div></div>
 <div class="w grid">
   <div class="card" id="formCard">
@@ -89,7 +89,7 @@ const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxBRN3a0u50TdrP1I7FvG_
 const MAX = 20 * 1024 * 1024;
 const $ = id => document.getElementById(id);
 // 제출 주체 세 곳. 이 순서대로 한 PDF로 합친다.
-const SLOTS = [['a', '사업장 A', '전력·연료 증빙'], ['b', '사업장 B', '전력·연료 증빙'], ['esg', '본사 ESG팀', '투자계약서 · 취합 산정표']];
+const SLOTS = [['a', '사업장 A', '전력·연료 증빙 · 투자계약서'], ['b', '사업장 B', '전력·연료 증빙 · 투자계약서'], ['esg', '본사 ESG팀', '취합 산정표']];
 const files = {};
 const say = (t, cls) => { const m = $('msg'); m.className = 'msg ' + (cls || ''); m.textContent = t || ''; };
 const total = () => Object.values(files).reduce((s, f) => s + f.size, 0);

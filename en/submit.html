@@ -47,7 +47,7 @@ footer{color:var(--sub);font-size:13px;padding:0 0 40px}
 <div class="top"><div class="w">
   <span class="badge">Reporting year 2027 · Climate disclosure evidence intake</span>
   <h1>Upload your evidence and <b>verification starts right away</b></h1>
-  <p>Each site uploads its electricity and fuel evidence; the HQ ESG team uploads the investment contracts and the HQ calculation sheet. The system bundles them per entity, verifies them, and sends the outcome as a verification report.</p>
+  <p>Each site uploads its electricity and fuel evidence and its investment contracts; the HQ ESG team uploads the HQ calculation sheet. The system bundles them per entity, verifies them, and sends the outcome as a verification report.</p>
 </div></div>
 <div class="w grid">
   <div class="card" id="formCard">
@@ -101,7 +101,7 @@ const EN = {
 };
 const T = s => EN[s] || s;
 // The three submitters. Merged into one PDF in this order.
-const SLOTS = [['a', 'Site A', 'Electricity and fuel evidence'], ['b', 'Site B', 'Electricity and fuel evidence'], ['esg', 'HQ ESG team', 'Investment contracts · HQ calculation sheet']];
+const SLOTS = [['a', 'Site A', 'Electricity and fuel evidence · investment contracts'], ['b', 'Site B', 'Electricity and fuel evidence · investment contracts'], ['esg', 'HQ ESG team', 'HQ calculation sheet']];
 const files = {};
 const say = (t, cls) => { const m = $('msg'); m.className = 'msg ' + (cls || ''); m.textContent = t || ''; };
 const total = () => Object.values(files).reduce((s, f) => s + f.size, 0);
