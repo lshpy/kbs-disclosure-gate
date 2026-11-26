@@ -1343,6 +1343,7 @@ async function live(id){
   if (!r.ok) return card(`<h2>방금 제출한 건 <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(id)}</span></h2><div class="bad">${esc(r.error||'결과를 가져오지 못했습니다.')}</div>`);
   const i = DATA.cases.findIndex(c => c.verdict.entity_name === r.entity);
   card(`<h2>방금 제출한 건 · ${esc(r.entity)} <span class="tag ${DEC[r.decision]||'rev'}">${esc(r.decision)}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(r.id)} · ${esc(r.at)} 검증</span></h2>
+    ${r.mailed ? `<div style="margin:6px 0;color:var(--main)">담당자(${esc(r.mailed)})에게 결과 메일을 자동으로 보냈습니다.</div>` : ''}${r.cal ? `<div style="margin:6px 0;color:var(--main)">기한 ${esc(r.cal)}을 캘린더에 자동으로 등록했습니다.</div>` : ''}
     <details open><summary>워크플로우가 낸 ${esc(r.node)}</summary><div style="margin-top:8px">${md(r.text)}</div></details>
     ${i>=0 ? `<div class="btns"><button class="btn" data-i="${i}">증빙 추적과 조치 보기</button></div>` : ''}`);
   if (i>=0) { cur = i; render(); }
