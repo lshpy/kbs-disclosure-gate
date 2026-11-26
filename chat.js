@@ -2,16 +2,22 @@
 // 답은 Apps Script 중계(API)가 만든다. 키는 서버에만 있고 이 파일에는 없다.
 (() => {
   const API = 'https://script.google.com/macros/s/AKfycbxBRN3a0u50TdrP1I7FvG_yWXa0PhFblTNJQCFiv6ys3nnOt_JQw0BvhnxIJVtUBKgK/exec';  // Apps Script 웹 앱 /exec 주소. 비어 있으면 Studio 작은 창으로 대신 연다
+  const FACE = new URL('img/verifier_face.png', document.currentScript.src).href;   // 검증이 캐릭터 얼굴
   const STUDIO = 'https://studio.upstage.ai/coworkers/cw_jbr4Yjmhg3eYMs6f4MnhxT/chat';  // Studio가 iframe을 막아 페이지 안에 넣을 수는 없음
   const css = `
-#gjfab{position:fixed;right:20px;bottom:20px;z-index:50;background:#0b6e4f;color:#fff;border:0;border-radius:999px;padding:12px 18px;font:600 15px Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+#gjfab{position:fixed;right:20px;bottom:20px;z-index:50;background:#0b6e4f;color:#fff;border:0;border-radius:999px;padding:6px 18px 6px 6px;display:flex;align-items:center;gap:10px;font:600 15px Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.2)}
 #gj{position:fixed;right:20px;bottom:20px;z-index:51;width:360px;max-width:calc(100vw - 24px);height:480px;max-height:calc(100vh - 40px);background:#fff;color:#16201c;border:1px solid #dfe5e2;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.18);display:none;flex-direction:column;font:14px/1.55 Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;text-align:left}
 #gj.on{display:flex}
+#gjfab img{width:44px;height:44px;border-radius:50%;background:#e7f3ee;display:block}
+#gj .gjh img{width:34px;height:34px;border-radius:50%;background:#e7f3ee}
+#gjlog .row{max-width:100%;padding:0;background:none;display:flex;gap:8px;align-items:flex-start;align-self:flex-start}
+#gjlog .row img{width:28px;height:28px;border-radius:50%;background:#e7f3ee;flex:none;margin-top:2px}
+#gjlog .row .a{max-width:calc(88% - 36px)}
 #gj .gjh{padding:10px 14px;border-bottom:1px solid #dfe5e2;display:flex;align-items:center;gap:10px}
 #gj .gjh b{flex:1;font-size:15px}
 #gj .gjh button{background:none;border:0;color:#5d6b65;font:inherit;font-size:13px;cursor:pointer;padding:0}
 #gjlog{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
-#gjlog div{max-width:88%;padding:8px 11px;border-radius:10px;white-space:pre-wrap;word-break:break-word}
+#gjlog > div, #gjlog .row .a{max-width:88%;padding:8px 11px;border-radius:10px;white-space:pre-wrap;word-break:break-word}
 #gjlog .u{align-self:flex-end;background:#0b6e4f;color:#fff}
 #gjlog .a{align-self:flex-start;background:#f6f8f7}
 #gjchips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px 0}
@@ -22,9 +28,9 @@
 #gj form button{background:#0b6e4f;color:#fff;border:0;border-radius:7px;padding:8px 14px;font:inherit;cursor:pointer}`;
   document.head.append(Object.assign(document.createElement('style'), { textContent: css }));
   document.body.insertAdjacentHTML('beforeend', `
-<button id="gjfab" type="button">검증이에게 묻기</button>
+<button id="gjfab" type="button"><img src="${FACE}" alt="">검증이에게 묻기</button>
 <div id="gj" role="dialog" aria-label="검증이 대화">
-  <div class="gjh"><b>검증이</b><button type="button" id="gjstudio" title="Upstage Studio에서 열기">Studio ↗</button><button type="button" id="gjclose">닫기</button></div>
+  <div class="gjh"><img src="${FACE}" alt=""><b>검증이</b><button type="button" id="gjstudio" title="Upstage Studio에서 열기">Studio ↗</button><button type="button" id="gjclose">닫기</button></div>
   <div id="gjlog" aria-live="polite"></div>
   <div id="gjchips"></div>
   <form><input maxlength="300" placeholder="판정 결과나 제출 방법을 물어보세요" aria-label="질문"><button>보내기</button></form>
@@ -32,7 +38,9 @@
   const $ = s => document.querySelector(s), log = $('#gjlog'), input = $('#gj input');
   let hist = [];
   const studio = () => window.open(STUDIO, 'geomjeungi', `popup,width=440,height=${Math.min(760, screen.availHeight)},left=${screen.availWidth - 460},top=40`);
-  const say = (cls, text) => { const d = document.createElement('div'); d.className = cls; d.textContent = text; log.append(d); log.scrollTop = log.scrollHeight; return d; };
+  const say = (cls, text) => { const d = document.createElement('div'); d.className = cls; d.textContent = text;
+    if (cls === 'a') { const row = document.createElement('div'); row.className = 'row'; row.append(Object.assign(document.createElement('img'), { src: FACE, alt: '' }), d); log.append(row); } else log.append(d);
+    log.scrollTop = log.scrollHeight; return d; };
   // 추천 질문: 누르면 바로 보낸다(부스에서 타자 없이 쓰도록)
   const CHIPS = () => window.GJ_SET
     ? ['왜 이 판정인가요?', '누가 무엇을 해야 하나요?', '오늘 조치할 건만 정리해 줘']

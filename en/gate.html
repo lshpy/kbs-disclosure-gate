@@ -1425,7 +1425,7 @@ function render(){
     <h2>${esc(v.entity_name)} <span class="tag ${DEC[v.decision]}">${v.decision}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">Evidence check <span class="dot ${c.signal}" style="display:inline-block"></span> ${SIG[c.signal]}</span></h2>
     <div class="scroll"><table><tr><th>Metric</th><th>Recomputed from evidence</th><th>HQ sheet</th><th>Unit</th><th>Status</th></tr>
     ${ITEMS.map(it=>`<tr><td>${it.name}</td><td>${n(v[it.key])}</td><td>${n(c.legacy[it.lg])}</td><td>${it.unit}</td><td class="${v[it.st]==='Match'?'':'bad'}">${v[it.st]}</td></tr>`).join('')}</table></div>
-    <div style="margin-top:10px"><a class="btn ghost" style="text-decoration:none;display:inline-block;font-size:14px" href="../report/${c.set}.html" target="_blank" rel="noopener">Verification report (Korean)</a></div>
+    <div style="margin-top:10px"><a class="btn ghost" style="text-decoration:none;display:inline-block;font-size:14px" href="report/${c.set}.html" target="_blank" rel="noopener">Verification report</a></div>
     <div style="margin-top:10px"><b>Basis</b> ${esc(v.reason).replaceAll(' / ','<br>')}</div>
     ${c.failedChecks.length?`<div style="margin-top:6px;color:var(--sub);font-size:13.5px">Evidence-check rules triggered: ${c.failedChecks.map(f=>`${f.name} (${f.severity==='error'?'required':'optional'})`).join(', ')}</div>`:''}
   </div>
