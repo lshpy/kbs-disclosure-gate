@@ -17,7 +17,19 @@ nav b{font-size:17px;letter-spacing:.02em}nav a{color:var(--sub);text-decoration
 nav .sp{flex:1}
 .btn{display:inline-block;background:var(--main);color:#fff!important;border-radius:8px;padding:11px 20px;text-decoration:none;font-weight:600}
 .btn.s{padding:7px 14px;font-size:14px}.btn.g{background:#fff;color:var(--main)!important;border:1px solid var(--main)}
-.hero{padding:84px 0 64px;background:linear-gradient(180deg,var(--soft),#fff)}
+.hero{padding:92px 0 84px;background:radial-gradient(900px 420px at 85% -10%,rgba(16,185,129,.28),transparent 60%),#0d1512;color:#fff}
+.hero .w{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center}
+@media(max-width:900px){.hero .w{grid-template-columns:1fr}}
+.hero .eyebrow{display:inline-block;background:rgba(16,185,129,.16);color:#6ee7b7;border-radius:999px;padding:5px 14px}
+.hero .lead{color:#b6c4be}.hero h1 mark{background:none;color:#34d399}
+.hero .btn{background:#10b981;color:#06231a!important}.hero .btn.g{background:rgba(255,255,255,.08);color:#fff!important;border:1px solid rgba(255,255,255,.18)}
+.shot{border-radius:14px;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);overflow:hidden;background:#fff}
+.shot img,.frame img{display:block;width:100%;height:auto}
+.frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 40px -24px rgba(0,0,0,.25);background:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}@media(max-width:860px){.two{grid-template-columns:1fr}}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.links a{font-size:14px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;color:var(--ink);background:#fff}
+.kicker{color:var(--main);font-weight:700;font-size:14px;letter-spacing:.04em;margin-bottom:8px}
+nav{background:rgba(13,21,18,.9)!important;border-bottom:1px solid rgba(255,255,255,.08)!important}nav b{color:#34d399}nav a{color:#b6c4be!important}nav .btn{color:#06231a!important;background:#10b981}
 .eyebrow{color:var(--main);font-weight:600;font-size:14.5px;margin-bottom:14px}
 h1{font-size:clamp(32px,5.4vw,54px);line-height:1.22;margin:0 0 20px;font-weight:300;letter-spacing:-.02em}
 h1 mark{background:linear-gradient(transparent 62%,#bfe3d3 62%);color:inherit;font-weight:600}
@@ -45,14 +57,45 @@ footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px soli
 </style>
 </head>
 <body>
-<nav><div class="w"><b>KBS</b><a class="h" href="#problem">문제</a><a class="h" href="#how">작동 방식</a><a class="h" href="#result">결과</a><a class="h" href="#connect">연결</a><a class="h" href="#team">팀</a><span class="sp"></span><a class="btn s" href="gate.html">데모 열기</a></div></nav>
+<nav><div class="w"><b>KBS</b><a class="h" href="#demo">데모</a><a class="h" href="#report">보고서</a><a class="h" href="#how">워크플로우</a><a class="h" href="#result">검증 결과</a><a class="h" href="#team">팀</a><span class="sp"></span><a class="btn s" href="gate.html">데모 열기</a></div></nav>
 
-<div class="hero"><div class="w">
-  <div class="eyebrow">KSSB 2호 기후공시 · Upstage Studio 워크플로우</div>
+<div class="hero"><div class="w"><div>
+  <div class="eyebrow">KSSB 2호 기후공시 검증 레이어</div>
   <h1>공시하기 전에,<br><mark>증빙으로 다시 계산합니다</mark></h1>
   <p class="lead">전기·연료 고지서와 투자계약서, 본사 산정표를 PDF 하나로 넣으면 전력 사용량, Scope 1·2, 기후 관련 투자액을 증빙에서 직접 산정하고 산정표와 대조합니다. 담당자는 어긋난 건만 보면 됩니다.</p>
-  <div class="cta"><a class="btn" href="gate.html">공시 게이트 데모</a><a class="btn g" href="#how">작동 방식 보기</a></div>
+  <div class="cta"><a class="btn" href="gate.html">공시 게이트 데모</a><a class="btn g" href="#how">워크플로우 확인하기</a></div>
+  </div>
+  <div class="shot"><img src="img/gate.png" alt="공시 게이트 화면: 법인별 판정과 산정표 수정안"></div>
 </div></div>
+
+<section id="position"><div class="w">
+  <div class="kicker">POSITIONING</div>
+  <h2>공시를 만드는 도구가 아니라, 검증하는 도구입니다</h2>
+  <p class="h2sub">탄소회계·공시 작성 솔루션은 공시 자료를 만듭니다. 그 과정에서도 오류가 생깁니다. KBS는 이미 만들어진 공시 수치를 원본 증빙으로 다시 계산해 완전성과 정확성을 확인합니다. 기존 솔루션을 대체하지 않고 그 위에 붙습니다.</p>
+  <div class="grid g3">
+    <div class="card"><h3>오류 발견</h3><p>계수 연도, 사업장 누락, 대상 외 계약, 판독 불가, 중복, 증빙 누락을 구분해 냅니다.</p></div>
+    <div class="card"><h3>증빙 추적</h3><p>공시 숫자마다 어느 문서 몇 쪽에서 나왔는지 남깁니다.</p></div>
+    <div class="card"><h3>예외만 검토</h3><p>담당자는 수정 필요와 검토 필요로 넘어온 건만 봅니다.</p></div>
+  </div>
+</div></section>
+
+<section id="demo" class="alt"><div class="w">
+  <div class="kicker">DEMO</div>
+  <h2>공시 게이트</h2>
+  <p class="h2sub">워크플로우 실행 결과를 법인별로 모아 보여 줍니다. 판정에 따라 공시 패키지, 산정표 수정안, 증빙 재제출 요청으로 이어집니다.</p>
+  <div class="frame"><img src="img/gate.png" alt="공시 게이트 데모 화면"></div>
+  <p style="margin-top:20px"><a class="btn" href="gate.html">데모 직접 열기</a></p>
+</div></section>
+
+<section id="report"><div class="w"><div class="two">
+  <div>
+    <div class="kicker">REPORT</div>
+    <h2>담당자가 받는 검증 보고서</h2>
+    <p class="h2sub">법인 한 곳의 검증이 끝나면 보고서 한 장이 나옵니다. 판정, 산정표와 다른 항목, 공시했을 때의 과대·과소 규모, 다음 조치, 증빙 출처가 담깁니다.</p>
+    <div class="links"><a href="report/set01.html">한빛에너지 · 공시 가능</a><a href="report/set02.html">대양화학 · 공시 가능</a><a href="report/set03.html">남해화학 · 공시 가능</a><a href="report/set04.html">새솔정유 · 수정 필요</a><a href="report/set05.html">미래소재 · 수정 필요</a><a href="report/set06.html">청운석유화학 · 수정 필요</a><a href="report/set07.html">동해케미칼 · 검토 필요</a><a href="report/set08.html">서해에너지 · 검토 필요</a></div>
+  </div>
+  <div class="frame" style="max-height:560px;overflow:auto"><img src="img/report.png" alt="미래소재 기후공시 검증 보고서 예시"></div>
+</div></div></section>
 
 <section id="problem"><div class="w">
   <h2>공시 숫자는 엑셀 한 장에서 나옵니다</h2>
@@ -68,6 +111,7 @@ footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px soli
 </div></section>
 
 <section id="how" class="alt"><div class="w">
+  <div class="kicker">CORE LOGIC &amp; WORKFLOW</div>
   <h2>다섯 단계로 다시 계산합니다</h2>
   <p class="h2sub">산정표의 숫자는 계산에 쓰지 않습니다. 증빙에서 뽑은 값으로만 산정한 뒤 비교하기 때문에, 틀린 곳과 틀린 이유를 함께 짚습니다.</p>
   <div class="grid g5">
@@ -77,6 +121,7 @@ footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px soli
     <div class="card"><div class="step">04</div><h3>산정·판정</h3><p>네 지표를 다시 계산하고 산정표와 0.5% 기준으로 대조합니다.</p><span class="node">Instruct ×2</span></div>
     <div class="card"><div class="step">05</div><h3>초안</h3><p>KSSB 2호 지표표와 검토 의견을 작성합니다.</p><span class="node">Instruct</span></div>
   </div>
+  <div class="frame" style="margin-top:26px"><img src="img/flow.png" alt="전체 흐름도: 증빙 묶음 PDF, Upstage Studio 워크플로우 11개 노드, 공시 게이트"></div>
 </div></section>
 
 <section><div class="w">
@@ -122,6 +167,15 @@ footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px soli
   </div>
   <p style="color:var(--sub);font-size:14px;margin-top:14px">데모의 메일·캘린더 버튼은 로그인된 계정의 작성 화면을 내용이 채워진 채로 엽니다. 트리거와 API 연결은 Studio가 제공하는 기능이며 이 데모에는 설정하지 않았습니다.</p>
 </div></section>
+
+<section id="assistant"><div class="w"><div class="two">
+  <div class="frame"><img src="img/coworker.png" alt="AI 동료가 판정 결과를 요약한 대화 화면"></div>
+  <div>
+    <div class="kicker">AI COWORKER</div>
+    <h2>판정 결과를 물어보면 답합니다</h2>
+    <p class="h2sub">판정 결과가 쌓인 컬렉션을 Upstage Studio의 AI 동료에 연결했습니다. "수정 필요 법인은 무엇을 고쳐야 하나"를 물으면 표에 있는 값만으로 정리해 줍니다. 숫자를 새로 계산하지 않습니다.</p>
+  </div>
+</div></div></section>
 
 <section id="team" class="alt"><div class="w">
   <h2>팀 KBS</h2>

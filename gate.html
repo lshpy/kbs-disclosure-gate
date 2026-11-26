@@ -185,6 +185,7 @@ function render(){
     <h2>${esc(v.entity_name)} <span class="tag ${DEC[v.decision]}">${v.decision}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">증빙 검증 <span class="dot ${c.signal}" style="display:inline-block"></span> ${SIG[c.signal]}</span></h2>
     <div class="scroll"><table><tr><th>지표</th><th>증빙으로 다시 산정한 값</th><th>본사 산정표</th><th>단위</th><th>상태</th></tr>
     ${ITEMS.map(it=>`<tr><td>${it.name}</td><td>${n(v[it.key])}</td><td>${n(c.legacy[it.lg])}</td><td>${it.unit}</td><td class="${v[it.st]==='일치'?'':'bad'}">${v[it.st]}</td></tr>`).join('')}</table></div>
+    <div style="margin-top:10px"><a class="btn ghost" style="text-decoration:none;display:inline-block;font-size:14px" href="report/${c.set}.html" target="_blank" rel="noopener">검증 보고서 보기</a></div>
     <div style="margin-top:10px"><b>판정 근거</b> ${esc(v.reason).replaceAll(' / ','<br>')}</div>
     ${c.failedChecks.length?`<div style="margin-top:6px;color:var(--sub);font-size:13.5px">증빙 검증에서 걸린 규칙: ${c.failedChecks.map(f=>`${f.name}(${f.severity==='error'?'필수':'선택'})`).join(', ')}</div>`:''}
   </div>
