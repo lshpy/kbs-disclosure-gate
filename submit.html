@@ -24,9 +24,13 @@ label{display:block;font-size:14px;font-weight:600;margin:16px 0 6px}label small
 input[type=text],input[type=email],select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;background:#fff}
 input:focus,select:focus{outline:2px solid var(--main);outline-offset:1px}
 .row{display:grid;grid-template-columns:1fr 150px;gap:12px}
-.drop{border:2px dashed var(--line);border-radius:12px;padding:26px;text-align:center;color:var(--sub);cursor:pointer;background:var(--bg)}
+.slots{display:grid;gap:10px}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:14px 16px;color:var(--sub);cursor:pointer;background:var(--bg);display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center;font-size:14.5px}
+.drop .who{font-weight:700;color:var(--ink)}.drop .who small{display:block;font-weight:400;color:var(--sub);font-size:12.5px}
+.hint{font-size:13.5px;color:var(--sub);margin:10px 0 0}
+@media(max-width:520px){.drop{grid-template-columns:1fr}}
 .drop.on{border-color:var(--main);background:var(--soft);color:var(--main)}
-.drop b{display:block;color:var(--ink);font-size:15px}
+.drop b{display:block;color:var(--ink);font-size:14.5px;word-break:break-all}
 .btn{width:100%;margin-top:22px;background:var(--main);color:#fff;border:0;border-radius:10px;padding:14px;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .msg{margin-top:14px;font-size:14.5px;border-radius:10px;padding:12px 14px;display:none}
@@ -42,21 +46,23 @@ footer{color:var(--sub);font-size:13px;padding:0 0 40px}
 <div class="top"><div class="w">
   <span class="badge">2027 보고연도 · 기후공시 증빙 접수</span>
   <h1>증빙을 올리면 <b>바로 검증</b>이 시작됩니다</h1>
-  <p>사업장의 전력·연료 증빙, 투자계약서, 본사 취합 산정표를 PDF 하나로 묶어 제출해 주세요. 접수된 파일은 검증 워크플로우로 넘어가고, 결과는 검증 보고서로 안내됩니다.</p>
+  <p>사업장은 전력·연료 증빙을, 본사 ESG팀은 투자계약서와 취합 산정표를 각각 올려 주세요. 시스템이 법인 단위로 묶어 검증하고, 결과는 검증 보고서로 안내합니다.</p>
 </div></div>
 <div class="w grid">
   <div class="card" id="formCard">
     <h2>증빙 제출</h2>
     <form id="f" novalidate>
+      <label for="demo">시연용 가상 법인 <small>고르면 그 법인의 증빙 세 묶음이 아래 칸에 채워집니다</small></label>
+      <select id="demo"><option value="">직접 올리기</option></select>
       <div class="row">
         <div><label for="entity">법인명</label><input type="text" id="entity" maxlength="50" required placeholder="예: 미래소재" autocomplete="organization"></div>
         <div><label for="year">보고연도</label><select id="year"><option>2027</option></select></div>
       </div>
       <label for="contact">담당자 이메일 <small>재제출 요청과 결과 안내에 씁니다</small></label>
       <input type="email" id="contact" maxlength="50" required placeholder="name@company.com" autocomplete="email">
-      <label for="file">증빙 묶음 PDF <small>20MB 이하, 법인 1곳당 파일 1개</small></label>
-      <input type="file" id="file" accept="application/pdf,.pdf" hidden>
-      <div class="drop" id="drop" role="button" tabindex="0" aria-controls="file"><b id="dropT">파일을 끌어 놓거나 눌러서 선택</b><span id="dropS">PDF만 가능합니다</span></div>
+      <label>증빙 PDF <small>제출 주체별로 따로 올립니다. 합쳐서 20MB 이하</small></label>
+      <div class="slots" id="slots"></div>
+      <p class="hint">세 파일은 법인 단위 묶음 하나로 합쳐져 검증에 들어갑니다.</p>
       <button class="btn" id="go" type="submit">제출하기</button>
       <div class="msg" id="msg" role="alert"></div>
     </form>
@@ -64,7 +70,7 @@ footer{color:var(--sub);font-size:13px;padding:0 0 40px}
   <div class="card side">
     <h2>제출 후 진행</h2>
     <ol>
-      <li><b>접수</b> 접수 번호가 발급되고 파일이 증빙 제출함에 저장됩니다.</li>
+      <li><b>접수</b> 사업장 두 곳과 본사가 낸 파일을 법인 단위 묶음으로 합치고 접수 번호를 발급합니다.</li>
       <li><b>검증</b> 증빙에서 전력 사용량, Scope 1·2, 기후 관련 투자액을 다시 산정해 본사 산정표와 대조합니다.</li>
       <li><b>결과</b> 공시 가능, 수정 필요, 검토 필요 가운데 하나로 판정하고 검증 보고서를 보냅니다.</li>
     </ol>
@@ -75,38 +81,75 @@ footer{color:var(--sub);font-size:13px;padding:0 0 40px}
   </div>
 </div>
 <footer><div class="w">해커톤 시연용 접수 창구입니다. 실제 기업 문서나 개인정보가 든 파일은 올리지 마세요.</div></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script>
 // Apps Script 웹 앱 주소(apps_script/Code.gs 배포 후 받은 URL). 비어 있으면 접수를 받지 않는다.
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxBRN3a0u50TdrP1I7FvG_yWXa0PhFblTNJQCFiv6ys3nnOt_JQw0BvhnxIJVtUBKgK/exec';
 const MAX = 20 * 1024 * 1024;
 const $ = id => document.getElementById(id);
-let file = null;
+// 제출 주체 세 곳. 이 순서대로 한 PDF로 합친다.
+const SLOTS = [['a', '사업장 A', '전력·연료 증빙'], ['b', '사업장 B', '전력·연료 증빙'], ['esg', '본사 ESG팀', '투자계약서 · 취합 산정표']];
+const files = {};
 const say = (t, cls) => { const m = $('msg'); m.className = 'msg ' + (cls || ''); m.textContent = t || ''; };
-function pick(f) {
+const total = () => Object.values(files).reduce((s, f) => s + f.size, 0);
+function pick(key, f) {
   if (!f) return;
   if (f.type !== 'application/pdf' && !/\.pdf$/i.test(f.name)) return say('PDF 파일만 제출할 수 있습니다.', 'err');
-  if (f.size > MAX) return say('파일이 20MB를 넘습니다.', 'err');
-  file = f; say(''); $('drop').classList.add('on'); $('dropT').textContent = f.name; $('dropS').textContent = (f.size / 1024 / 1024).toFixed(1) + ' MB';
+  if (total() - (files[key] ? files[key].size : 0) + f.size > MAX) return say('세 파일을 합쳐 20MB를 넘습니다.', 'err');
+  files[key] = f; say('');
+  const d = $('drop-' + key); d.classList.add('on');
+  d.querySelector('b').textContent = f.name; d.querySelector('span').textContent = (f.size / 1024 / 1024).toFixed(1) + ' MB';
 }
-$('drop').onclick = () => $('file').click();
-$('drop').onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('file').click(); } };
-$('file').onchange = e => pick(e.target.files[0]);
-['dragover', 'dragenter'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.add('on'); }));
-$('drop').addEventListener('dragleave', () => { if (!file) $('drop').classList.remove('on'); });
-$('drop').addEventListener('drop', e => { e.preventDefault(); pick(e.dataTransfer.files[0]); });
-const b64 = f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = no; r.readAsDataURL(f); });
+$('slots').innerHTML = SLOTS.map(([k, who, what]) => `<div class="drop" id="drop-${k}" role="button" tabindex="0"><div class="who">${who}<small>${what}</small></div><div><b>파일을 끌어 놓거나 눌러서 선택</b><span>PDF</span></div><input type="file" id="file-${k}" accept="application/pdf,.pdf" hidden></div>`).join('');
+SLOTS.forEach(([k]) => {
+  const d = $('drop-' + k), inp = $('file-' + k);
+  d.onclick = e => { if (e.target !== inp) inp.click(); };
+  d.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inp.click(); } };
+  inp.onchange = e => pick(k, e.target.files[0]);
+  ['dragover', 'dragenter'].forEach(ev => d.addEventListener(ev, e => { e.preventDefault(); d.classList.add('on'); }));
+  d.addEventListener('dragleave', () => { if (!files[k]) d.classList.remove('on'); });
+  d.addEventListener('drop', e => { e.preventDefault(); pick(k, e.dataTransfer.files[0]); });
+});
+// 세 PDF를 사업장 A → 사업장 B → 본사 순서로 이어 붙인다(pdf-lib)
+async function merge() {
+  const out = await PDFLib.PDFDocument.create();
+  for (const [k] of SLOTS) {
+    const src = await PDFLib.PDFDocument.load(await files[k].arrayBuffer());
+    (await out.copyPages(src, src.getPageIndices())).forEach(p => out.addPage(p));
+  }
+  return out.saveAsBase64();
+}
+// 시연용: 가상 법인 8곳의 증빙을 제출 주체별로 나눠 둔 sample/ 을 불러온다(build_samples.py)
+let samples = [];
+fetch('sample/samples.json').then(r => r.json()).then(list => {
+  samples = list;
+  $('demo').insertAdjacentHTML('beforeend', list.map((x, i) => `<option value="${i}">${x.entity} (${x.a} · ${x.b})</option>`).join(''));
+}).catch(() => { $('demo').closest('form').querySelector('label[for=demo]').hidden = $('demo').hidden = true; });
+$('demo').onchange = async e => {
+  const x = samples[e.target.value]; if (!x) return;
+  $('entity').value = x.entity; say('');
+  try {
+    for (const [k, who] of SLOTS) {
+      const name = `${x.entity}_${k === 'esg' ? '본사ESG팀' : x[k]}.pdf`;
+      const blob = await (await fetch(`sample/${x.set}_${k}.pdf`)).blob();
+      pick(k, new File([blob], name, { type: 'application/pdf' }));
+      $('drop-' + k).querySelector('.who').innerHTML = `${k === 'esg' ? who : who + ' · ' + x[k]}<small>${x.docs[k].join(', ')}</small>`;
+    }
+  } catch (err) { say('시연용 파일을 불러오지 못했습니다.', 'err'); }
+};
 if (!ENDPOINT) { $('go').disabled = true; say('접수 창구를 준비하고 있습니다. 지금은 제출되지 않습니다.', 'note'); }
 $('f').onsubmit = async e => {
   e.preventDefault();
   const entity = $('entity').value.trim(), contact = $('contact').value.trim();
   if (!entity) return say('법인명을 입력해 주세요.', 'err');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) return say('담당자 이메일을 확인해 주세요.', 'err');
-  if (!file) return say('증빙 PDF를 선택해 주세요.', 'err');
+  const missing = SLOTS.filter(([k]) => !files[k]).map(s => s[1]);
+  if (missing.length) return say(missing.join(', ') + ' 칸이 비어 있습니다. 세 곳의 증빙이 모두 있어야 검증할 수 있습니다.', 'err');
   $('go').disabled = true; $('go').textContent = '제출하는 중…'; say('');
   try {
     // text/plain으로 보내 사전 요청 없이 Apps Script가 받게 한다
     const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ entity, year: $('year').value, contact, fileName: file.name, fileBase64: await b64(file) }) });
+      body: JSON.stringify({ entity, year: $('year').value, contact, fileName: entity + '_증빙묶음.pdf', fileBase64: await merge() }) });
     const out = await res.json();
     if (!out.ok) throw new Error(out.error || '접수에 실패했습니다.');
     const el = document.createElement('div'); el.className = 'done';
@@ -114,7 +157,7 @@ $('f').onsubmit = async e => {
     el.querySelector('.id').textContent = out.id;
     $('formCard').replaceChildren(el);
   } catch (err) {
-    say(err.message || '접수에 실패했습니다. 잠시 뒤 다시 시도해 주세요.', 'err');
+    say(/PDF|encrypt/i.test(String(err)) && !/접수|파일/.test(err.message) ? '열 수 없는 PDF가 있습니다. 암호가 걸린 파일인지 확인해 주세요.' : (err.message || '접수에 실패했습니다. 잠시 뒤 다시 시도해 주세요.'), 'err');
     $('go').disabled = false; $('go').textContent = '제출하기';
   }
 };
