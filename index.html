@@ -93,7 +93,7 @@ footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px soli
     <div class="kicker">REPORT</div>
     <h2>담당자가 받는 검증 보고서</h2>
     <p class="h2sub">법인 한 곳의 검증이 끝나면 보고서 한 장이 나옵니다. 판정, 산정표와 다른 항목, 공시했을 때의 과대·과소 규모, 다음 조치, 증빙 출처가 담깁니다.</p>
-    <div class="links"><a href="report/set01.html">한빛에너지 · 공시 가능</a><a href="report/set02.html">대양화학 · 공시 가능</a><a href="report/set03.html">남해화학 · 공시 가능</a><a href="report/set04.html">새솔정유 · 수정 필요</a><a href="report/set05.html">미래소재 · 수정 필요</a><a href="report/set06.html">청운석유화학 · 수정 필요</a><a href="report/set07.html">동해케미칼 · 검토 필요</a><a href="report/set08.html">서해에너지 · 검토 필요</a></div>
+    <div class="links"><a href="report/set01.html">한빛에너지 · 공시 가능</a><a href="report/set02.html">남해화학 · 공시 가능</a><a href="report/set03.html">대양화학 · 수정 필요</a><a href="report/set04.html">새솔정유 · 수정 필요</a><a href="report/set05.html">미래소재 · 수정 필요</a><a href="report/set06.html">청운석유화학 · 수정 필요</a><a href="report/set07.html">동해케미칼 · 검토 필요</a><a href="report/set08.html">서해에너지 · 검토 필요</a></div>
   </div>
   <div class="frame" style="max-height:560px;overflow:auto"><img src="img/report.png" alt="미래소재 기후공시 검증 보고서 예시"></div>
 </div></div></section>
@@ -138,18 +138,18 @@ footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px soli
 
 <section id="result" class="alt"><div class="w">
   <h2>가상 법인 8곳으로 확인했습니다</h2>
-  <p class="h2sub">법인마다 사업장 2곳의 2027년 증빙을 넣었습니다. 일부러 심어 둔 오류 유형 6가지를 모두 가려냈습니다.</p>
+  <p class="h2sub">법인마다 사업장 2곳의 2027년 증빙을 넣었습니다. 일부러 심어 둔 오류 유형 7가지를 모두 가려냈습니다.</p>
   <div class="grid g4" style="margin-bottom:22px">
     <div class="card"><div class="num">8</div><p>법인</p></div>
     <div class="card"><div class="num">55</div><p>쪽의 증빙 문서</p></div>
-    <div class="card"><div class="num">6</div><p>가지 오류 유형</p></div>
+    <div class="card"><div class="num">7</div><p>가지 오류 유형</p></div>
     <div class="card"><div class="num">14</div><p>개 출력 키로 판정</p></div>
   </div>
   <div class="scroll"><table>
     <tr><th>법인</th><th>넣어 둔 상황</th><th>판정</th><th>워크플로우가 짚은 원인</th></tr>
     <tr><td>한빛에너지</td><td>정상, 수도요금 고지서 혼입</td><td><span class="t ok">공시 가능</span></td><td>전 항목 일치</td></tr>
-    <tr><td>대양화학</td><td>정상, kWh 고지서와 경유 포함</td><td><span class="t ok">공시 가능</span></td><td>전 항목 일치</td></tr>
     <tr><td>남해화학</td><td>대상 외 계약이 섞였지만 본사가 제외함</td><td><span class="t ok">공시 가능</span></td><td>전 항목 일치</td></tr>
+    <tr><td>대양화학</td><td>산정표가 경유 세금계산서 한 장을 빠뜨림</td><td><span class="t fix">수정 필요</span></td><td>Scope 1 1,580 대 1,424</td></tr>
     <tr><td>새솔정유</td><td>산정표가 전년도 전력 계수 사용</td><td><span class="t fix">수정 필요</span></td><td>Scope 2 24,750 대 25,300</td></tr>
     <tr><td>미래소재</td><td>법인 합계에서 사업장 누락</td><td><span class="t fix">수정 필요</span></td><td>합계에서 오창공장 누락</td></tr>
     <tr><td>청운석유화학</td><td>투자액에 대상 외 계약 포함</td><td><span class="t fix">수정 필요</span></td><td>투자액 30억 대 34.1억</td></tr>
@@ -181,7 +181,8 @@ footer{padding:36px 0 48px;color:var(--sub);font-size:13.5px;border-top:1px soli
 
 <section id="team" class="alt"><div class="w">
   <h2>팀 KBS</h2>
-  <p class="h2sub">2026 Energy AI Workflow Hackathon 참가 팀입니다. 이름은 KSSB에서 따왔습니다. 여섯 명이 증빙 문서 제작, 워크플로우 설계, 정답지 검수, 발표를 나눠 맡았습니다.</p>
+  <p class="h2sub">2026 Energy AI Workflow Hackathon 참가 팀입니다. 이름은 KSSB에서 따왔습니다. 증빙 문서 제작, 워크플로우 설계, 정답지 검수, 발표를 나눠 맡았습니다.</p>
+  <p style="margin:0 0 18px;font-size:15px;line-height:1.9">이승현 <span style="color:var(--sub)">Seunghyun Lee</span> · 여한호 <span style="color:var(--sub)">Hanho Yeo</span> · 고상아 <span style="color:var(--sub)">Sanga Ko</span> · 이동민 <span style="color:var(--sub)">Dongmin Lee</span> · 정은세 <span style="color:var(--sub)">Eunse Jung</span></p>
   <div class="grid g3">
     <div class="card"><h3>문서</h3><p>증빙 양식 9종과 가상 법인 8곳의 문서 묶음을 만들었습니다.</p></div>
     <div class="card"><h3>워크플로우</h3><p>분류·추출·검증·산정·판정 노드와 프롬프트를 설계했습니다.</p></div>
