@@ -1369,7 +1369,7 @@ async function live(id){
     ${r.mailed ? `<div style="margin:6px 0;color:var(--main)">Result e-mail sent automatically to the contact (${esc(r.mailed)}).</div>` : ''}${r.cal ? `<div style="margin:6px 0;color:var(--main)">Deadline ${esc(r.cal)} added to the calendar automatically.</div>` : ''}
     <details open><summary>Workflow output: ${esc(r.node)}</summary><div style="margin-top:8px">${md(r.text)}</div></details>
     `);
-  if (i>=0) { cur = i; render(); }
+  if (i>=0) { cur = i; render(); } else $('#detail').style.display = 'none';
 }
 function download(name, text, type){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:type||'text/plain;charset=utf-8'})); a.download=name; a.click(); URL.revokeObjectURL(a.href);
@@ -1380,17 +1380,17 @@ function fu(c){
   const v=c.verdict, L=c.legacy, y=v.reporting_year, D=due();
   if (v.decision==='Needs Review') return {dueLabel:'Resubmission deadline', toHint:'Site contact e-mail', head:'Evidence resubmission request',
     subject:`[${v.entity_name}] ${y} climate disclosure: evidence resubmission request (due ${D})`, cal:`[${v.entity_name}] Climate disclosure evidence resubmission due`, calDetails:v.missing_items.join('\n'),
-    body:`Hello, this is the HQ ESG disclosure team.\n\nWhile recomputing ${v.entity_name}'s ${y} KSSB No. 2 figures from evidence, we could not confirm the documents below, so the related items could not be computed.\n\n${v.missing_items.map(m=>'- '+m).join('\n')}\n\nPlease resubmit the originals by ${D}.\n- Unreadable: an original or rescan in which the figures are clearly legible\n- Duplicate: confirm whether there was one transaction; if two, send tax invoices with their own approval numbers\n- Missing: the site's annual usage evidence for ${y}\n\nUntil resubmission, electricity, Scope 1 and Scope 2 remain on hold for disclosure.\nThank you.`};
+    body:`Hello, this is Team KBS.\n\nWhile recomputing ${v.entity_name}'s ${y} KSSB No. 2 figures from evidence, we could not confirm the documents below, so the related items could not be computed.\n\n${v.missing_items.map(m=>'- '+m).join('\n')}\n\nPlease resubmit the originals by ${D}.\n- Unreadable: an original or rescan in which the figures are clearly legible\n- Duplicate: confirm whether there was one transaction; if two, send tax invoices with their own approval numbers\n- Missing: the site's annual usage evidence for ${y}\n\nUntil resubmission, electricity, Scope 1 and Scope 2 remain on hold for disclosure.\nThank you.`};
   if (v.decision==='Needs Correction'){
     const rows=ITEMS.filter(it=>v[it.st]==='Mismatch').map(it=>`- ${it.name}: sheet ${Number(L[it.lg]).toLocaleString('en-US')} → correct value ${Number(v[it.key]).toLocaleString('en-US')} ${it.unit}`);
     return {dueLabel:'Correction deadline', toHint:'HQ sheet owner e-mail', head:'Sheet correction request',
       subject:`[${v.entity_name}] ${y} HQ calculation sheet: correction request (due ${D})`, cal:`[${v.entity_name}] HQ calculation sheet correction due`, calDetails:rows.join('\n'),
-      body:`Hello, this is the HQ ESG disclosure team.\n\nWe recomputed ${v.entity_name}'s ${y} KSSB No. 2 figures from evidence, and the items below in the HQ calculation sheet differ from the evidence. The evidence itself is fine.\n\n${rows.join('\n')}\n\nCause: ${causes(v).join(', ')}\n\nPlease correct the sheet and resubmit it by ${D}. Once the corrected sheet arrives we will check it against the same evidence again.\nThank you.`};
+      body:`Hello, this is Team KBS.\n\nWe recomputed ${v.entity_name}'s ${y} KSSB No. 2 figures from evidence, and the items below in the HQ calculation sheet differ from the evidence. The evidence itself is fine.\n\n${rows.join('\n')}\n\nCause: ${causes(v).join(', ')}\n\nPlease correct the sheet and resubmit it by ${D}. Once the corrected sheet arrives we will check it against the same evidence again.\nThank you.`};
   }
   const rows=ITEMS.map(it=>`- ${it.name}: ${Number(v[it.key]).toLocaleString('en-US')} ${it.unit}`);
   return {dueLabel:'Final review date', toHint:'Disclosure approver e-mail', head:'Verification-complete notice',
     subject:`[${v.entity_name}] ${y} climate disclosure: verification complete (final review ${D})`, cal:`[${v.entity_name}] Climate disclosure final review and approval`, calDetails:rows.join('\n'),
-    body:`Hello, this is the HQ ESG disclosure team.\n\nWe recomputed ${v.entity_name}'s ${y} KSSB No. 2 figures from evidence, and all four items match the HQ calculation sheet.\n\n${rows.join('\n')}\n\nThe disclosure package (metrics table, evidence trace, verification record) is attached. Final review and approval will take place on ${D}.\nThank you.`};
+    body:`Hello, this is Team KBS.\n\nWe recomputed ${v.entity_name}'s ${y} KSSB No. 2 figures from evidence, and all four items match the HQ calculation sheet.\n\n${rows.join('\n')}\n\nThe disclosure package (metrics table, evidence trace, verification record) is attached. Final review and approval will take place on ${D}.\nThank you.`};
 }
 function mailText(c){ const f=fu(c); return `Subject: ${f.subject}\n\n${f.body}`; }
 function ics(c){
