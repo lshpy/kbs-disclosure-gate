@@ -153,10 +153,11 @@ $('f').onsubmit = async e => {
     const out = await res.json();
     if (!out.ok) throw new Error(out.error || '접수에 실패했습니다.');
     const el = document.createElement('div'); el.className = 'done';
-    el.innerHTML = '<h2>접수되었습니다</h2><div>접수 번호</div><div class="id"></div><p style="color:var(--sub)">검증이 끝나면 담당자 이메일로 검증 보고서를 안내합니다.<br>다른 법인의 증빙은 새로 제출해 주세요.</p><p><a href="submit.html">다른 증빙 제출하기</a></p>';
+    el.innerHTML = '<h2>접수되었습니다</h2><div>접수 번호</div><div class="id"></div><p><a class="golive" href="#">지금 검증 결과 보기 →</a></p><p style="color:var(--sub)">다른 법인의 증빙은 새로 제출해 주세요.</p><p><a href="submit.html">다른 증빙 제출하기</a></p>';
     el.querySelector('.id').textContent = out.id;
+    el.querySelector('.golive').href = 'gate.html?id=' + out.id;
     $('formCard').replaceChildren(el);
-    if (window.GJ) GJ.tell(`${entity} 증빙이 접수됐습니다. 접수 번호는 ${out.id}입니다.\n세 곳의 증빙을 한 묶음으로 제출함에 넣었습니다.\n다음 단계: 워크플로우가 이 묶음을 검증하면 공시 게이트에서 판정과 조치를 확인합니다.`, [{label:'공시 게이트 열기', run:()=>{location.href='gate.html'}}]);
+    if (window.GJ) GJ.tell(`${entity} 증빙이 접수됐습니다. 접수 번호는 ${out.id}입니다.\n세 곳의 증빙을 한 묶음으로 제출함에 넣었습니다.\n다음 단계: 아래 버튼을 누르면 워크플로우가 이 묶음을 바로 검증하고(약 1분) 공시 게이트에 판정을 띄웁니다.`, [{label:'지금 검증 결과 보기', run:()=>{location.href='gate.html?id='+out.id}}]);
   } catch (err) {
     say(/PDF|encrypt/i.test(String(err)) && !/접수|파일/.test(err.message) ? '열 수 없는 PDF가 있습니다. 암호가 걸린 파일인지 확인해 주세요.' : (err.message || '접수에 실패했습니다. 잠시 뒤 다시 시도해 주세요.'), 'err');
     $('go').disabled = false; $('go').textContent = '제출하기';

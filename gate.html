@@ -63,6 +63,7 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--sub);font-size:13.5px
   <div id="barlabel" style="font-size:13.5px;color:var(--sub)"></div>
   <div class="sum" id="chips"></div>
 </div></header>
+<div class="wrap" id="live" style="padding:16px 24px 0"></div>
 <main class="wrap">
   <aside>
     <div class="card notice" id="notice"></div>
@@ -1310,6 +1311,42 @@ function impact(c){
   return out.length ? `<div class="impact">산정표대로 공시했다면: <b>${out.join(' / ')}</b> 공시</div>` : '';
 }
 
+// 방금 제출한 건: gate.html?id=접수번호 로 들어오면 Apps Script가 워크플로우를 한 번 돌려 판정별 최종 문서를 가져온다
+const LIVE_API = 'https://script.google.com/macros/s/AKfycbxBRN3a0u50TdrP1I7FvG_yWXa0PhFblTNJQCFiv6ys3nnOt_JQw0BvhnxIJVtUBKgK/exec';
+const KEYNAME = Object.fromEntries(ITEMS.map(it => [it.key, it.name]));
+function md(text){   // 워크플로우가 내는 마크다운(제목·표·목록·굵게)만 처리
+  const inl = s => esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/[a-z0-9]+_[a-z0-9_]+/g, k => KEYNAME[k] || k);
+  let h = '', tbl = [];
+  const flush = () => { if (!tbl.length) return;
+    const rows = tbl.filter(r => !/^\|[\s:|-]+\|$/.test(r)).map(r => r.replace(/^\||\|$/g,'').split('|').map(c => inl(c.trim())));
+    h += '<div class="scroll"><table>' + rows.map((r,i) => '<tr>' + r.map(c => i ? `<td>${c}</td>` : `<th>${c}</th>`).join('') + '</tr>').join('') + '</table></div>'; tbl = []; };
+  text.split('\n').forEach(l => { l = l.trim();
+    if (l.startsWith('|')) return tbl.push(l);
+    flush(); if (!l) return;
+    if (/^# /.test(l)) h += `<h2>${inl(l.slice(2))}</h2>`;
+    else if (/^#+ /.test(l)) h += `<h3>${inl(l.replace(/^#+ /,''))}</h3>`;
+    else if (/^[-*] /.test(l)) h += `<div>· ${inl(l.slice(2))}</div>`;
+    else h += `<div>${inl(l)}</div>`; });
+  flush(); return h;
+}
+async function live(id){
+  const box = $('#live'), card = html => { box.innerHTML = `<div class="card" style="border-left:4px solid var(--main)">${html}</div>`; };
+  const t0 = Date.now();
+  const tick = setInterval(() => card(`<h2>방금 제출한 건 <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(id)}</span></h2><div>워크플로우가 증빙으로 다시 계산하고 있습니다. 보통 1분쯤 걸립니다. (${Math.round((Date.now()-t0)/1000)}초)</div>`), 1000);
+  let r;
+  for (let n = 0; n < 4; n++) {   // 한 번에 못 끝나면 같은 실행을 이어서 기다린다(새로 돌리지 않음)
+    try { r = await (await fetch(LIVE_API, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action:'verify', id})})).json(); }
+    catch(e) { r = {ok:false, error:'연결하지 못했습니다. 새로 고침해 주세요.'}; }
+    if (!r.pending) break;
+  }
+  clearInterval(tick);
+  if (!r.ok) return card(`<h2>방금 제출한 건 <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(id)}</span></h2><div class="bad">${esc(r.error||'결과를 가져오지 못했습니다.')}</div>`);
+  const i = DATA.cases.findIndex(c => c.verdict.entity_name === r.entity);
+  card(`<h2>방금 제출한 건 · ${esc(r.entity)} <span class="tag ${DEC[r.decision]||'rev'}">${esc(r.decision)}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(r.id)} · ${esc(r.at)} 검증</span></h2>
+    <details open><summary>워크플로우가 낸 ${esc(r.node)}</summary><div style="margin-top:8px">${md(r.text)}</div></details>
+    ${i>=0 ? `<div class="btns"><button class="btn" data-i="${i}">증빙 추적과 조치 보기</button></div>` : ''}`);
+  if (i>=0) { cur = i; render(); }
+}
 function download(name, text, type){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:type||'text/plain;charset=utf-8'})); a.download=name; a.click(); URL.revokeObjectURL(a.href);
 }
@@ -1410,6 +1447,7 @@ document.addEventListener('click', e => {
   }
 });
 render();
+{ const id = new URLSearchParams(location.search).get('id'); if (/^KBS-\d{8}-\d{6}$/.test(id||'')) live(id); }
 </script>
 </body>
 </html>
