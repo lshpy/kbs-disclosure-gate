@@ -1295,7 +1295,7 @@ function summary(c){
   }
   return `<div class="card" style="margin-bottom:12px;border-left:4px solid var(--main)"><h2>검증이 요약 <span style="font-weight:400;color:var(--sub);font-size:13px">판정 결과에서 규칙으로 만든 문장</span></h2>
     <div>${what}</div><div style="margin-top:6px"><b>다음 할 일</b> ${next}</div>
-    ${ASK_URL?`<div class="btns"><button class="btn ghost" data-a="ask">검증이에게 더 묻기 ↗</button></div><div style="color:var(--sub);font-size:13px;margin-top:6px">질문을 복사한 뒤 Upstage Studio의 AI 동료 대화 창을 엽니다. 붙여넣으면 됩니다.</div>`:''}</div>`;
+    ${ASK_URL?`<div class="btns"><button class="btn ghost" data-a="ask">검증이에게 더 묻기 ↗</button></div><div style="color:var(--sub);font-size:13px;margin-top:6px">질문을 복사하고 오른쪽에 검증이 대화 창을 띄웁니다. 붙여넣으면 됩니다.</div>`:''}</div>`;
 }
 function impact(c){
   const out=impactList(c);
@@ -1381,7 +1381,7 @@ document.addEventListener('click', e => {
   if (b.dataset.f!==undefined){ filter=b.dataset.f||null; const vis=DATA.cases.findIndex(x=>!filter||x.verdict.decision===filter); if(vis>=0) cur=vis; return render(); }
   if (b.dataset.i!==undefined){ cur=+b.dataset.i; return render(); }
   switch(b.dataset.a){
-    case 'ask': navigator.clipboard.writeText(askText(c)).catch(()=>{}); return window.open(ASK_URL,'_blank','noopener');
+    case 'ask': navigator.clipboard.writeText(askText(c)).catch(()=>{}); return window.open(ASK_URL,'geomjeungi',`popup,width=440,height=${Math.min(760,screen.availHeight)},left=${screen.availWidth-460},top=40`);  // 화면 오른쪽에 작은 창으로. Studio가 iframe을 막아(frame-ancestors none) 페이지 안에 넣을 수는 없음
     case 'pkg': return download(`${name}_공시패키지.md`, packageMd(c));
     case 'json': return download(`${name}_판정.json`, JSON.stringify(c.verdict,null,1), 'application/json');
     case 'xbrl': return download(`${name}_태그예시.xml`, xbrl(c), 'application/xml');
