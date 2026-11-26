@@ -72,7 +72,1161 @@ details{margin-top:10px}summary{cursor:pointer;color:var(--sub);font-size:13.5px
 </main>
 <div class="foot wrap">모든 법인과 수치는 가상입니다. 배출계수는 과제용 가정값(전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL)입니다. 화면의 값은 Upstage Studio 워크플로우 실행 결과를 그대로 불러온 것입니다.</div>
 <script>
-const DATA = {"config": 17, "fetchedAt": "2026-11-26T02:19:08.582Z", "cases": [{"file": "KBS_최종제출_set01.pdf", "set": "set01", "runAt": "2026-11-25T16:32:01.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "electricity"}, {"page": 4, "label": "fuel"}, {"page": 5, "label": "contract"}, {"page": 6, "label": "legacy"}, {"page": 7, "label": "non_target"}], "electricity": [{"site_name": "울산공장", "entity_name": "한빛에너지(가상)", "doc_no": "07-3302-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 30000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "여수공장", "entity_name": "한빛에너지(가상)", "doc_no": "06-1740-0000, NR-2028-0111-08841", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 18200, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 3}], "fuel": [{"site_name": "울산공장", "doc_no": "G-0000-3318", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 800, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 2}, {"site_name": "여수공장", "doc_no": "Y-0000-2207", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 450, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 4}], "contract": [{"site_name": "울산공장", "contract_no": "HB-PJ-2027-012", "equipment_name": "폐열회수 설비", "contract_date": "2027-02-10", "execution_date": "2027-06-30", "supply_amount": 3500000000, "total_amount": 3850000000, "is_copy": "no", "readability": "clear", "page": 5}], "legacy": {"entity_name": "한빛에너지(가상)", "reporting_year": "2027", "legacy_date": "2028-02-21", "legacy_factor_year": "2027", "legacy_sites": "울산공장, 여수공장", "legacy_electricity_mwh": 48200, "legacy_scope1": 2750, "legacy_scope2": 21690, "legacy_capex": 3500000000, "legacy_total_sites": "", "page": 6}, "signal": "green", "failedChecks": [], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n한빛에너지(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n48200, 2750, 21690, 3500000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n48200, 2750, 21690, 3500000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 합계: 울산공장 30000 MWh + 여수공장 18200 MWh = 48200 MWh\n- Scope 2 계산: 48200 × 0.45 = 21690, 마지막 반올림 후 21690\n- Scope 1 계산: 울산공장 도시가스 800 천Nm³ × 2.2 = 1760, 여수공장 도시가스 450 천Nm³ × 2.2 = 990, 합계 2750\n- 경유 추출 문서는 제공되지 않아 경유 합계는 0으로 보아 계산됨\n- 전력 문서 2건의 사업장명은 울산공장, 여수공장이며 둘 다 사용기간 2027-01-01~2027-12-31, readability는 clear임\n- 연료 문서 2건의 사업장명은 울산공장, 여수공장이며 둘 다 사용기간 2027-01-01~2027-12-31, readability는 clear임\n- 중복 doc_no 전력/연료 문서는 확인되지 않음: 전력 doc_no는 07-3302-0000, 06-1740-0000, NR-2028-0111-08841(추출값 포함)이고 연료 doc_no는 G-0000-3318, Y-0000-2207임\n- capex 포함 계약: 계약번호 HB-PJ-2027-012, 설비명 폐열회수 설비, execution_date 2027-06-30, supply_amount 3500000000원\n- capex 계산 시 부가세 포함 total_amount 3850000000원은 사용하지 않음\n- legacy 값은 비교용 전사 산정표에서만 옮겨 적었고 계산에는 사용하지 않음\n\ncalc_sites: 울산공장, 여수공장\n\nlegacy_sites: 울산공장, 여수공장", "verdict": {"entity_name": "한빛에너지", "reporting_year": "2027", "electricity_mwh": 48200, "scope1_tco2e": 2750, "scope2_tco2e": 21690, "capex_krw": 3500000000, "decision": "공시 가능", "mismatch_items": [], "missing_items": [], "status_electricity": "일치", "status_scope1": "일치", "status_scope2": "일치", "status_capex": "일치", "reason": "전 항목 일치"}, "draft": "# 한빛에너지 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 공시 가능 - 전 항목 일치\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량(MWh) | 48200 | MWh | 48200 | 일치 |\n| Scope 1 직접 배출 | 2750 | tCO2e | 2750 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 21690 | tCO2e | 21690 | 일치 |\n| Scope 1+2 합계 | 24440 | tCO2e | 24440 | - |\n| 기후 관련 자본적 지출 | 3500000000 | 원 | 3500000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 한빛에너지 산하 사업장 목록은 울산공장, 여수공장\n- capex 인정 기준: 2027년 집행, 대상 설비, 공급가액 기준으로 반영\n  - 집행 시점: 2027-06-30\n  - 대상 설비: 울산공장 폐열회수 설비\n  - 공급가액: 3500000000 원\n\n## 검토 의견\n\n- **공시 가능**\n- 다음 단계: 본 초안을 기준으로 KSSB 2호 기후 관련 지표 공시안에 반영하고, 사업장별 원증빙과 함께 내부 검토를 진행한다."}, {"file": "KBS_최종제출_set02.pdf", "set": "set02", "runAt": "2026-11-25T16:31:57.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "electricity"}, {"page": 4, "label": "fuel"}, {"page": 5, "label": "fuel"}, {"page": 6, "label": "contract"}, {"page": 7, "label": "legacy"}], "electricity": [{"site_name": "당진공장", "entity_name": "대양화학(가상)", "doc_no": "NB-2027-DJ-771205, 04-1580-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 25000000, "electricity_unit": "kWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "서산공장", "entity_name": "대양화학(가상)", "doc_no": "04-1665-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 15000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 3}], "fuel": [{"site_name": "당진공장", "doc_no": "S-0000-6650", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 600, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 2}, {"site_name": "서산공장", "doc_no": "20270315-41000012-53817204", "fuel_type": "경유", "period_start": "2027-03-15", "period_end": "2027-03-15", "fuel_value": 40, "fuel_unit": "kL", "is_copy": "no", "readability": "clear", "page": 4}, {"site_name": "서산공장", "doc_no": "20270920-41000012-60294471", "fuel_type": "경유", "period_start": "2027-09-20", "period_end": "2027-09-20", "fuel_value": 60, "fuel_unit": "kL", "is_copy": "no", "readability": "clear", "page": 5}], "contract": [{"site_name": "당진공장", "contract_no": "DY-CAP-2026-118", "equipment_name": "고효율 히트펌프", "contract_date": "2026-11-20", "execution_date": "2027-03-15", "supply_amount": 1200000000, "total_amount": 1320000000, "is_copy": "no", "readability": "clear", "page": 6}], "legacy": {"entity_name": "대양화학(가상)", "reporting_year": "2027", "legacy_date": "2028-02-19", "legacy_factor_year": "2027", "legacy_sites": "당진공장, 서산공장", "legacy_electricity_mwh": 40000, "legacy_scope1": 1580, "legacy_scope2": 18000, "legacy_capex": 1200000000, "legacy_total_sites": "", "page": 7}, "signal": "green", "failedChecks": [], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n대양화학(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 1580, 18000, 1200000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n40000, 1580, 18000, 1200000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 중간값: 당진공장 25,000,000 kWh → 25,000 MWh, 서산공장 15,000 MWh, 합계 40,000 MWh\n- Scope 2 계산: 40,000 MWh × 0.45 = 18,000 tCO2e\n- 연료 중간값: 당진공장 도시가스 600 천Nm³ → 1,320 tCO2e\n- 연료 중간값: 서산공장 경유 40 kL + 60 kL = 100 kL → 260 tCO2e\n- Scope 1 계산: 1,320 + 260 = 1,580 tCO2e\n- capex 포함: 당진공장 고효율 히트펌프, execution_date 2027-03-15, supply_amount 1,200,000,000원\n- capex 제외 계약 없음. 중복 전력·연료·계약 문서 확인되지 않음\n- 전력 기간 확인: 당진공장 2027-01-01~2027-12-31, 서산공장 2027-01-01~2027-12-31\n- 연료 기간 확인: 당진공장 도시가스 2027-01-01~2027-12-31, 서산공장 경유 2027-03-15 및 2027-09-20으로 모두 2027년 문서\n\ncalc_sites: 당진공장, 서산공장\n\nlegacy_sites: 당진공장, 서산공장", "verdict": {"entity_name": "대양화학", "reporting_year": "2027", "electricity_mwh": 40000, "scope1_tco2e": 1580, "scope2_tco2e": 18000, "capex_krw": 1200000000, "decision": "공시 가능", "mismatch_items": [], "missing_items": [], "status_electricity": "일치", "status_scope1": "일치", "status_scope2": "일치", "status_capex": "일치", "reason": "전 항목 일치"}, "draft": "# 대양화학 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 공시 가능 — 전 항목 일치\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 40000 | 일치 |\n| Scope 1 직접 배출 | 1580 | tCO2e | 1580 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 18000 | 일치 |\n| Scope 1+2 합계 | 19580 | tCO2e | 19580 | 일치 |\n| 기후 관련 자본적 지출 | 1200000000 | 원 | 1200000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 대양화학 법인 산하 사업장은 당진공장, 서산공장\n- capex 인정 기준:\n  - 2027년 집행 기준: 납품·대금 지급일 2027-03-15\n  - 대상 설비: 당진공장 고효율 히트펌프\n  - 인정 금액 기준: 공급가액 1,200,000,000원\n\n## 검토 의견\n\n- **공시 가능**\n- 다음 단계: 본 초안을 기준으로 KSSB 2호 기후 관련 공시 지표표에 반영하고, 사업장별 원증빙과 본사 산정표를 함께 보관하면 됩니다."}, {"file": "KBS_최종제출_set03.pdf", "set": "set03", "runAt": "2026-11-25T16:32:14.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "electricity"}, {"page": 4, "label": "fuel"}, {"page": 5, "label": "contract"}, {"page": 6, "label": "contract"}, {"page": 7, "label": "legacy"}], "electricity": [{"site_name": "여수공장", "entity_name": "남해화학(가상)", "doc_no": "06-1932-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 30000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "광양공장", "entity_name": "남해화학(가상)", "doc_no": "NR-2028-0116-09187, 06-1958-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 10000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 3}], "fuel": [{"site_name": "여수공장", "doc_no": "", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 700, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 2}, {"site_name": "광양공장", "doc_no": "", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 300, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 4}], "contract": [{"site_name": "여수공장", "contract_no": "NH-PC-2027-005", "equipment_name": "폐열회수 설비", "contract_date": "2027-01-25", "execution_date": "2027-08-31", "supply_amount": 3000000000, "total_amount": 3300000000, "is_copy": "no", "readability": "clear", "page": 5}, {"site_name": "여수공장", "contract_no": "NH-PC-2027-014", "equipment_name": "사무용 전산장비", "contract_date": "2027-02-08", "execution_date": "2027-03-10", "supply_amount": 100000000, "total_amount": 110000000, "is_copy": "no", "readability": "clear", "page": 6}], "legacy": {"entity_name": "남해화학(가상)", "reporting_year": "2027", "legacy_date": "2028-02-21", "legacy_factor_year": "2027", "legacy_sites": "여수공장, 광양공장", "legacy_electricity_mwh": 40000, "legacy_scope1": 2200, "legacy_scope2": 18000, "legacy_capex": 3000000000, "legacy_total_sites": "", "page": 7}, "signal": "yellow", "failedChecks": [{"name": "규칙_7", "severity": "warning", "reason": "all-branches(계약 추출.equipment_name)=['폐열회수 설비', '사무용 전산장비'] matches '.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*'='.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*' → fail"}], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n남해화학(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 2200, 18000, 3000000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n40000, 2200, 18000, 3000000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 합계: 여수공장 30000 MWh + 광양공장 10000 MWh = 40000 MWh\n- Scope 2 계산: 40000 × 0.45 = 18000 tCO2e\n- Scope 1 계산: 여수공장 도시가스 700 천Nm³ × 2.2 = 1540 tCO2e, 광양공장 도시가스 300 천Nm³ × 2.2 = 660 tCO2e, 합계 2200 tCO2e\n- capex 포함: 여수공장 폐열회수 설비 계약, execution_date 2027-08-31, supply_amount 3000000000원\n- capex 제외: 여수공장 사무용 전산장비 계약은 대상 설비가 아니므로 제외\n- 전력·연료 문서는 모두 readability가 clear이고 사용기간이 2027-01-01~2027-12-31로 확인됨\n- 중복 증빙 판단: 전력 doc_no는 여수공장 06-1932-0000, 광양공장 NR-2028-0116-09187, 06-1958-0000로 서로 다름\n- 연료 문서는 추출상 두 건 모두 doc_no가 공란이며, 사업장도 각각 여수공장·광양공장으로 달라 중복으로 볼 근거가 없음\n- 산정표는 1건만 확인되어 legacy 값은 비교용으로 그대로 기재함\n\ncalc_sites: [여수공장, 광양공장]\n\nlegacy_sites: 여수공장, 광양공장", "verdict": {"entity_name": "남해화학", "reporting_year": "2027", "electricity_mwh": 40000, "scope1_tco2e": 2200, "scope2_tco2e": 18000, "capex_krw": 3000000000, "decision": "공시 가능", "mismatch_items": [], "missing_items": [], "status_electricity": "일치", "status_scope1": "일치", "status_scope2": "일치", "status_capex": "일치", "reason": "전 항목 일치"}, "draft": "# 남해화학 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 공시 가능 — 전 항목 일치\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 40000 | 일치 |\n| Scope 1 직접 배출 | 2200 | tCO2e | 2200 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 18000 | 일치 |\n| Scope 1+2 합계 | 20200 | tCO2e | 20200 | - |\n| 기후 관련 자본적 지출 | 3000000000 | 원 | 3000000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 남해화학 산하 사업장 여수공장, 광양공장\n- capex 인정 기준: 2027년 집행, 대상 설비, 공급가액 기준\n\n## 검토 의견\n\n**공시 가능**\n\n다음 단계: 본 초안을 KSSB 2호 기후 관련 지표 공시안에 반영하고, 수치 일치 여부를 최종 공시본에서 한 번 더 대조한다."}, {"file": "KBS_최종제출_set04.pdf", "set": "set04", "runAt": "2026-11-25T16:31:55.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "electricity"}, {"page": 4, "label": "fuel"}, {"page": 5, "label": "contract"}, {"page": 6, "label": "legacy"}, {"page": 7, "label": "non_target"}], "electricity": [{"site_name": "울산공장", "entity_name": "새솔정유(가상)", "doc_no": "07-3310-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 35000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "온산공장", "entity_name": "새솔정유(가상)", "doc_no": "07-3318-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 20000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 3}], "fuel": [{"site_name": "울산공장", "doc_no": "G-0000-4471", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 1000, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 2}, {"site_name": "온산공장", "doc_no": "G-0000-4529", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 500, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 4}], "contract": [{"site_name": "울산공장", "contract_no": "SS-CT-2027-0041", "equipment_name": "LED 조명", "contract_date": "2027-04-01", "execution_date": "2027-05-31", "supply_amount": 2000000000, "total_amount": 2200000000, "is_copy": "no", "readability": "clear", "page": 5}], "legacy": {"entity_name": "새솔정유(가상)", "reporting_year": "2027", "legacy_date": "2028-02-20", "legacy_factor_year": "2026", "legacy_sites": "울산공장, 온산공장", "legacy_electricity_mwh": 55000, "legacy_scope1": 3300, "legacy_scope2": 25300, "legacy_capex": 2000000000, "legacy_total_sites": "", "page": 6}, "signal": "green", "failedChecks": [], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n새솔정유(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n55,000, 3,300, 24,750, 2,000,000,000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n55,000, 3,300, 25,300, 2,000,000,000, 2026, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 합계: 울산공장 35,000 MWh + 온산공장 20,000 MWh = 55,000 MWh\n- Scope 2 계산: 55,000 × 0.45 = 24,750 tCO2e\n- 도시가스 합계: 울산공장 1,000 천Nm³ + 온산공장 500 천Nm³ = 1,500 천Nm³\n- Scope 1 계산: 1,500 × 2.2 = 3,300 tCO2e. 경유 증빙은 제출되지 않아 합산 대상 값은 0 kL로 보았습니다.\n- capex 포함 계약: 울산공장 LED 조명, execution_date 2027-05-31, supply_amount 2,000,000,000원. 부가세 포함 총액 2,200,000,000원은 사용하지 않았습니다.\n- 제외한 문서·계약: 없음\n\ncalc_sites: 울산공장, 온산공장\n\nlegacy_sites: 울산공장, 온산공장", "verdict": {"entity_name": "새솔정유", "reporting_year": "2027", "electricity_mwh": 55000, "scope1_tco2e": 3300, "scope2_tco2e": 24750, "capex_krw": 2000000000, "decision": "수정 필요", "mismatch_items": ["scope2_tco2e"], "missing_items": [], "status_electricity": "일치", "status_scope1": "일치", "status_scope2": "불일치", "status_capex": "일치", "reason": "[scope2_tco2e] 산정값 24750, 산정표 25300, 원인 2026년 전력계수 적용"}, "draft": "# 새솔정유 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 수정 필요 — [scope2_tco2e] 산정값 24750, 산정표 25300, 원인 2026년 전력계수 적용\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량(MWh) | 55000 | MWh | 55000 | 일치 |\n| Scope 1 직접 배출 | 3300 | tCO2e | 3300 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 24750 | tCO2e | 25300 | 불일치 |\n| Scope 1+2 합계 | 28050 | tCO2e | 28600 | 수정 필요 |\n| 기후 관련 자본적 지출 | 2000000000 | 원 | 2000000000 | 일치 |\n\n## 산정 기준\n\n- **적용 배출계수:** 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- **조직 경계:** 새솔정유 산하 사업장 목록은 울산공장, 온산공장\n- **capex 인정 기준:** 2027년 집행, 대상 설비는 울산공장 LED 조명 교체, 인정 금액은 공급가액 2,000,000,000원\n\n## 검토 의견\n\n- **결론:** 수정 필요\n- **본사 산정표에서 고칠 항목:** Scope 2 간접 배출(위치 기반)\n- **올바른 값:** 24750 tCO2e\n- **정정 방향:** 본사 산정표의 Scope 2 값을 25300에서 24750으로 수정하고, 이에 따라 Scope 1+2 합계를 28600에서 28050으로 정정\n"}, {"file": "KBS_최종제출_set05.pdf", "set": "set05", "runAt": "2026-11-25T16:32:05.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "electricity"}, {"page": 4, "label": "fuel"}, {"page": 5, "label": "contract"}, {"page": 6, "label": "legacy"}], "electricity": [{"site_name": "구미공장", "entity_name": "미래소재(가상)", "doc_no": "05-4470-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 22000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "오창공장", "entity_name": "미래소재(가상)", "doc_no": "NR-2028-0116-06144, 04-3120-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 18000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 3}], "fuel": [{"site_name": "구미공장", "doc_no": "K-0000-1186", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 400, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 2}, {"site_name": "오창공장", "doc_no": "M-0000-0372", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 350, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 4}], "contract": [{"site_name": "구미공장", "contract_no": "MR-INV-2027-007", "equipment_name": "고효율 전동기", "contract_date": "2027-03-02", "execution_date": "2027-07-15", "supply_amount": 800000000, "total_amount": 880000000, "is_copy": "no", "readability": "clear", "page": 5}], "legacy": {"entity_name": "미래소재(가상)", "reporting_year": "2027", "legacy_date": "2028-02-18", "legacy_factor_year": "2027", "legacy_sites": "구미공장, 오창공장", "legacy_electricity_mwh": 22000, "legacy_scope1": 880, "legacy_scope2": 9900, "legacy_capex": 800000000, "legacy_total_sites": "", "page": 6}, "signal": "green", "failedChecks": [], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n미래소재(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 1650, 18000, 800000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n22000, 880, 9900, 800000000, 2027, \"\"\n\ncalc_unavailable: \n없음\n\ncalc_notes:\n- 전력 중간값: 구미공장 22000 MWh + 오창공장 18000 MWh = 40000 MWh\n- Scope 2 계산: 40000 × 0.45 = 18000, 마지막 반올림 후 18000\n- 연료 중간값: 구미공장 도시가스 400 천Nm³ → 880 tCO2e, 오창공장 도시가스 350 천Nm³ → 770 tCO2e, 합계 1650 tCO2e\n- 경유 추출 문서는 제공되지 않아 합산값은 0 kL로 반영됨\n- capex 포함 계약: 구미공장, 설비명 고효율 전동기, execution_date 2027-07-15, supply_amount 800000000원\n- 제외한 문서·계약: 없음. 전력 2건의 site_name은 구미공장·오창공장이고 사용기간은 모두 2027-01-01~2027-12-31이며 readability는 clear임\n- 연료 2건의 site_name은 구미공장·오창공장이고 사용기간은 모두 2027-01-01~2027-12-31이며 readability는 clear임\n- 중복 산정 없음: 전력 doc_no는 05-4470-0000 및 NR-2028-0116-06144, 04-3120-0000으로 상이하고 연료 doc_no는 K-0000-1186 및 M-0000-0372로 상이하며 계약도 1건만 확인됨\n\ncalc_sites:\n[구미공장, 오창공장]\n\nlegacy_sites:\n구미공장, 오창공장", "verdict": {"entity_name": "미래소재", "reporting_year": "2027", "electricity_mwh": 40000, "scope1_tco2e": 1650, "scope2_tco2e": 18000, "capex_krw": 800000000, "decision": "수정 필요", "mismatch_items": ["electricity_mwh", "scope1_tco2e", "scope2_tco2e"], "missing_items": [], "status_electricity": "불일치", "status_scope1": "불일치", "status_scope2": "불일치", "status_capex": "일치", "reason": "[electricity_mwh] 산정값 40000, 산정표 22000, 원인 법인 합계에서 오창공장 누락 / [scope1_tco2e] 산정값 1650, 산정표 880, 원인 법인 합계에서 오창공장 누락 / [scope2_tco2e] 산정값 18000, 산정표 9900, 원인 법인 합계에서 오창공장 누락"}, "draft": "# 미래소재 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 수정 필요. [electricity_mwh] 산정값 40000, 산정표 22000, 원인 법인 합계에서 오창공장 누락 / [scope1_tco2e] 산정값 1650, 산정표 880, 원인 법인 합계에서 오창공장 누락 / [scope2_tco2e] 산정값 18000, 산정표 9900, 원인 법인 합계에서 오창공장 누락\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 22000 | 불일치 |\n| Scope 1 직접 배출 | 1650 | tCO2e | 880 | 불일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 9900 | 불일치 |\n| Scope 1+2 합계 | 19650 | tCO2e | 10780 | - |\n| 기후 관련 자본적 지출 | 800000000 | 원 | 800000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 미래소재의 법인 산하 사업장은 구미공장, 오창공장이다.\n- capex 인정 기준: 2027년 집행, 대상 설비는 구미공장 고효율 전동기, 공급가액 기준 800000000원이다.\n\n## 검토 의견\n\n**수정 필요**\n\n본사 산정표에서 아래 항목을 고쳐야 한다.\n\n- 전력 사용량: 22000 → 40000\n- Scope 1 직접 배출: 880 → 1650\n- Scope 2 간접 배출(위치 기반): 9900 → 18000\n- Scope 1+2 합계: 10780 → 19650\n- 기후 관련 자본적 지출: 800000000 유지\n\n수정 사유는 법인 합계에서 오창공장이 누락되었기 때문이다."}, {"file": "KBS_최종제출_set06.pdf", "set": "set06", "runAt": "2026-11-25T16:32:05.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "electricity"}, {"page": 4, "label": "fuel"}, {"page": 5, "label": "contract"}, {"page": 6, "label": "contract"}, {"page": 7, "label": "legacy"}, {"page": 8, "label": "non_target"}], "electricity": [{"site_name": "여수공장", "entity_name": "청운석유화학(가상)", "doc_no": "06-1752-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 30000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "광양공장", "entity_name": "청운석유화학(가상)", "doc_no": "06-1797-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 10000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 3}], "fuel": [{"site_name": "여수공장", "doc_no": "Y-0000-2391", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 700, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 2}, {"site_name": "광양공장", "doc_no": "B-0000-0915", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 300, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 4}], "contract": [{"site_name": "여수공장", "contract_no": "CW-PC-2027-003", "equipment_name": "폐열회수 설비", "contract_date": "2027-01-20", "execution_date": "2027-08-31", "supply_amount": 3000000000, "total_amount": 3300000000, "is_copy": "no", "readability": "clear", "page": 5}, {"site_name": "여수공장", "contract_no": "CW-PC-2027-011", "equipment_name": "사무용 전산장비", "contract_date": "2027-02-05", "execution_date": "2027-03-10", "supply_amount": 100000000, "total_amount": 110000000, "is_copy": "no", "readability": "clear", "page": 6}], "legacy": {"entity_name": "청운석유화학(가상)", "reporting_year": "2027", "legacy_date": "2028-02-22", "legacy_factor_year": "2027", "legacy_sites": "여수공장, 광양공장", "legacy_electricity_mwh": 40000, "legacy_scope1": 2200, "legacy_scope2": 18000, "legacy_capex": 3410000000, "legacy_total_sites": "", "page": 7}, "signal": "yellow", "failedChecks": [{"name": "규칙_7", "severity": "warning", "reason": "all-branches(계약 추출.equipment_name)=['폐열회수 설비', '사무용 전산장비'] matches '.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*'='.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*' → fail"}], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n청운석유화학(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 2200, 18000, 3000000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n40000, 2200, 18000, 3410000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes: \n- 전력 중간값: 여수공장 30000 MWh + 광양공장 10000 MWh = 법인 합계 40000 MWh\n- Scope 2 중간값: 여수공장 30000×0.45=13500 tCO2e, 광양공장 10000×0.45=4500 tCO2e, 합계 18000 tCO2e\n- Scope 1 중간값: 여수공장 도시가스 700×2.2=1540 tCO2e, 광양공장 도시가스 300×2.2=660 tCO2e, 합계 2200 tCO2e\n- 전력 증빙 2건 모두 readability가 clear이고 사용기간이 2027-01-01~2027-12-31로 확인됨\n- 연료 증빙 2건 모두 fuel_type이 도시가스이며 readability가 clear이고 사용기간이 2027-01-01~2027-12-31로 확인됨\n- 사업장 누락 점검: legacy_sites는 여수공장, 광양공장이며, 전력·연료 추출 결과의 site_name 목록에 모두 존재함\n- capex 포함: 계약번호 CW-PC-2027-003은 execution_date가 2027-08-31이고 equipment_name이 폐열회수 설비이며 supply_amount 3000000000원이므로 합산 대상임\n- capex 제외: 계약번호 CW-PC-2027-011은 execution_date가 2027-03-10이지만 equipment_name이 사무용 전산장비이므로 대상 설비가 아니어서 제외함\n- 중복 제외 사항 없음: 전력 doc_no 06-1752-0000, 06-1797-0000은 서로 다르고, 연료 doc_no Y-0000-2391, B-0000-0915도 서로 다르며, 계약 contract_no CW-PC-2027-003, CW-PC-2027-011도 서로 다름\n\ncalc_sites: 여수공장, 광양공장\n\nlegacy_sites: 여수공장, 광양공장", "verdict": {"entity_name": "청운석유화학", "reporting_year": "2027", "electricity_mwh": 40000, "scope1_tco2e": 2200, "scope2_tco2e": 18000, "capex_krw": 3000000000, "decision": "수정 필요", "mismatch_items": ["capex_krw"], "missing_items": [], "status_electricity": "일치", "status_scope1": "일치", "status_scope2": "일치", "status_capex": "불일치", "reason": "[capex_krw] 산정값 3000000000, 산정표 3410000000, 원인 사무용 전산장비 계약 포함"}, "draft": "# 청운석유화학 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 수정 필요 — capex_krw 항목이 불일치이며, 산정값 3000000000, 산정표 3410000000, 원인은 사무용 전산장비 계약 포함.\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 40000 | 일치 |\n| Scope 1 직접 배출 | 2200 | tCO2e | 2200 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 18000 | 일치 |\n| Scope 1+2 합계 | 20200 | tCO2e | 20200 | - |\n| 기후 관련 자본적 지출 | 3000000000 | 원 | 3410000000 | 불일치 |\n\n## 산정 기준\n\n- 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 청운석유화학 법인 산하 사업장 여수공장, 광양공장\n- capex 인정 기준: 2027년 집행, 대상 설비, 공급가액 기준\n\n## 검토 의견\n\n**수정 필요**\n\n- 본사 산정표에서 고칠 항목: 기후 관련 자본적 지출\n- 올바른 값: 3000000000 원\n- 정정 방향: 사무용 전산장비 계약을 제외하고, 기후 관련 대상 설비에 해당하는 공급가액만 반영\n- 다음 단계: 본사 산정표의 capex 값을 3000000000으로 수정한 뒤 공시 수치와 증빙 간 일치 여부를 재확인"}, {"file": "KBS_최종제출_set07.pdf", "set": "set07", "runAt": "2026-11-25T16:32:04.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "fuel"}, {"page": 4, "label": "electricity"}, {"page": 5, "label": "fuel"}, {"page": 6, "label": "contract"}, {"page": 7, "label": "legacy"}], "electricity": [{"site_name": "포항공장", "entity_name": "동해케미칼(가상)", "doc_no": "05-4211-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 20000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "울산공장", "entity_name": "동해케미칼(가상)", "doc_no": "07-3325-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 0, "electricity_unit": "MWh", "is_copy": "no", "readability": "unreadable", "page": 4}], "fuel": [{"site_name": "포항공장", "doc_no": "20270512-41000012-71530628", "fuel_type": "경유", "period_start": "2027-05-12", "period_end": "2027-05-12", "fuel_value": 50, "fuel_unit": "kL", "is_copy": "no", "readability": "clear", "page": 2}, {"site_name": "포항공장", "doc_no": "20270512-41000012-71530628", "fuel_type": "경유", "period_start": "2027-05-12", "period_end": "2027-05-12", "fuel_value": 50, "fuel_unit": "kL", "is_copy": "yes", "readability": "clear", "page": 3}, {"site_name": "울산공장", "doc_no": "G-0000-4602", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 300, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 5}], "contract": [{"site_name": "포항공장", "contract_no": "DH-EQ-2027-019", "equipment_name": "인버터", "contract_date": "2027-02-14", "execution_date": "2027-04-30", "supply_amount": 600000000, "total_amount": 660000000, "is_copy": "no", "readability": "clear", "page": 6}], "legacy": {"entity_name": "동해케미칼(가상)", "reporting_year": "2027", "legacy_date": "2028-02-17", "legacy_factor_year": "2027", "legacy_sites": "포항공장, 울산공장", "legacy_electricity_mwh": 35000, "legacy_scope1": 790, "legacy_scope2": 15750, "legacy_capex": 600000000, "legacy_total_sites": "", "page": 7}, "signal": "red", "failedChecks": [{"name": "규칙_1", "severity": "error", "reason": "all-branches(전력 추출.readability)=['clear', 'unreadable'] eq 'clear'='clear' → fail"}], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n동해케미칼(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\nnull, null, null, 600000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n35000, 790, 15750, 600000000, 2027, \"\"\n\ncalc_unavailable: 산정 불가 항목과 원인 목록\n- 울산 전력사용확인서(판독 불가)\n- 포항 경유 세금계산서(중복)\n\ncalc_notes: 사업장별 중간값과 제외한 문서·계약의 사유\n- 전력 사업장 목록은 포항공장, 울산공장입니다.\n- 포항공장 전력은 20,000 MWh이며 사용기간은 2027-01-01~2027-12-31입니다.\n- 울산공장 전력 문서는 readability가 unreadable이고 electricity_value가 0으로 추출되어 있어 울산공장 전력은 산정 불가입니다.\n- 연료 사업장 목록은 포항공장, 울산공장입니다.\n- 포항공장 경유 문서는 같은 doc_no 20270512-41000012-71530628로 2건 제출되었고, 한 건은 사본(is_copy=yes)이므로 중복으로 보아 포항공장 연료는 산정 불가입니다.\n- 울산공장 도시가스는 300 천Nm³이고 사용기간은 2027-01-01~2027-12-31입니다.\n- 계약서는 포항공장 인버터 설치 1건이며, execution_date는 2027-04-30이고 대상 설비인 인버터에 해당하므로 supply_amount 600,000,000원만 capex에 합산했습니다. 총액 660,000,000원은 부가세 포함 금액이므로 사용하지 않았습니다.\n- 산정 불가 규칙에 따라 전력 또는 연료 항목이 산정 불가이면 법인 합계 electricity·scope1·scope2는 모두 null로 처리했습니다.\n\ncalc_sites: 증빙에서 확인된 사업장명 목록\n포항공장, 울산공장\n\nlegacy_sites: 산정표에 나열된 사업장명 목록\n포항공장, 울산공장", "verdict": {"entity_name": "동해케미칼", "reporting_year": "2027", "electricity_mwh": null, "scope1_tco2e": null, "scope2_tco2e": null, "capex_krw": 600000000, "decision": "검토 필요", "mismatch_items": [], "missing_items": ["울산 전력사용확인서(판독 불가)", "포항 경유 세금계산서(중복)"], "status_electricity": "산정 불가", "status_scope1": "산정 불가", "status_scope2": "산정 불가", "status_capex": "일치", "reason": "[electricity_mwh] 산정값 null, 산정표 35000, 원인 울산 전력사용확인서 판독 불가 / [scope1_tco2e] 산정값 null, 산정표 790, 원인 포항 경유 세금계산서 중복 / [scope2_tco2e] 산정값 null, 산정표 15750, 원인 울산 전력사용확인서 판독 불가"}, "draft": "# 동해케미칼 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 검토 필요. 전력 사용량은 산정값이 null이고 산정표 값은 35000이며 원인은 울산 전력사용확인서 판독 불가이고, Scope 1은 산정값이 null이며 산정표 값은 790이고 원인은 포항 경유 세금계산서 중복이며, Scope 2는 산정값이 null이고 산정표 값은 15750이며 원인은 울산 전력사용확인서 판독 불가입니다.\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량(MWh) | 산정 불가 | MWh | 35000 | 산정 불가 |\n| Scope 1 직접 배출(tCO2e) | 산정 불가 | tCO2e | 790 | 산정 불가 |\n| Scope 2 간접 배출(tCO2e, 위치 기반) | 산정 불가 | tCO2e | 15750 | 산정 불가 |\n| Scope 1+2 합계(tCO2e) | 산정 불가 | tCO2e | 16540 | 산정 불가 |\n| 기후 관련 자본적 지출(원) | 600000000 | 원 | 600000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 동해케미칼의 법인 산하 사업장은 포항공장, 울산공장입니다.\n- capex 인정 기준: 2027년 집행, 대상 설비는 포항공장 인버터이며, 공급가액은 600000000원입니다.\n\n## 검토 의견\n\n**검토 필요**\n\n담당자가 다시 받아야 할 증빙 목록은 다음과 같습니다.\n- 울산 전력사용확인서(판독 불가)\n- 포항 경유 세금계산서(중복)"}, {"file": "KBS_최종제출_set08.pdf", "set": "set08", "runAt": "2026-11-25T16:31:59.000Z", "pages": [{"page": 1, "label": "electricity"}, {"page": 2, "label": "fuel"}, {"page": 3, "label": "electricity"}, {"page": 4, "label": "contract"}, {"page": 5, "label": "legacy"}, {"page": 6, "label": "non_target"}], "electricity": [{"site_name": "울산공장", "entity_name": "서해에너지(가상)", "doc_no": "07-3460-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 30000, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 1}, {"site_name": "여수공장", "entity_name": "서해에너지(가상)", "doc_no": "06-1880-0000", "period_start": "2027-01-01", "period_end": "2027-12-31", "electricity_value": 18200, "electricity_unit": "MWh", "is_copy": "no", "readability": "clear", "page": 3}], "fuel": [{"site_name": "울산공장", "doc_no": "G-0000-5512", "fuel_type": "도시가스", "period_start": "2027-01-01", "period_end": "2027-12-31", "fuel_value": 800, "fuel_unit": "천Nm³", "is_copy": "no", "readability": "clear", "page": 2}], "contract": [{"site_name": "울산공장", "contract_no": "SH-WH-2027-012", "equipment_name": "폐열회수 설비", "contract_date": "2027-02-10", "execution_date": "2027-06-30", "supply_amount": 3500000000, "total_amount": 3850000000, "is_copy": "no", "readability": "clear", "page": 4}], "legacy": {"entity_name": "서해에너지(가상)", "reporting_year": "2027", "legacy_date": "2028-02-18", "legacy_factor_year": "2027", "legacy_sites": "울산공장, 여수공장", "legacy_electricity_mwh": 48200, "legacy_scope1": 2750, "legacy_scope2": 21690, "legacy_capex": 3500000000, "legacy_total_sites": "", "page": 5}, "signal": "red", "failedChecks": [{"name": "규칙_4", "severity": "error", "reason": "전력 추출.site_name=['울산공장', '여수공장'] in_list 연료 추출.site_name=['울산공장'] → fail"}], "validateSummary": null, "calcNotes": "entity_name, reporting_year\n서해에너지(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\nnull, null, null, 3500000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n48200, 2750, 21690, 3500000000, 2027, \"\"\n\ncalc_unavailable: 산정 불가 항목과 원인 목록\n- 여수 도시가스 고지서(누락)\n\ncalc_notes: 사업장별 중간값과 제외한 문서·계약의 사유\n- 전력 증빙 사업장 목록은 울산공장, 여수공장이며 각 전력 사용량은 각각 30000 MWh, 18200 MWh이다.\n- 연료 증빙 사업장 목록은 울산공장만 확인되며, 도시가스 사용량은 800 천Nm³이다.\n- legacy_sites에는 울산공장, 여수공장이 기재되어 있으나, 연료 증빙 site_name 목록에는 여수공장이 없어 사업장 누락 규칙에 따라 electricity·scope1·scope2는 모두 null 처리하였다.\n- capex는 execution_date가 2027-06-30이고 equipment_name이 폐열회수 설비인 계약 1건의 supply_amount 3500000000원만 합산하였다. 부가세 포함 합계 3850000000원은 사용하지 않았다.\n- 전력 문서의 사용기간은 울산공장 2027-01-01~2027-12-31, 여수공장 2027-01-01~2027-12-31로 확인된다.\n- 연료 문서의 사용기간은 2027-01-01~2027-12-31로 확인된다.\n- 중복 증빙으로 제외한 전력·연료·계약·산정표 문서는 확인되지 않는다.\n\ncalc_sites: 증빙에서 확인된 사업장명 목록\n- 울산공장\n- 여수공장\n\nlegacy_sites: 산정표에 나열된 사업장명 목록\n- 울산공장\n- 여수공장", "verdict": {"entity_name": "서해에너지", "reporting_year": "2027", "electricity_mwh": null, "scope1_tco2e": null, "scope2_tco2e": null, "capex_krw": 3500000000, "decision": "검토 필요", "mismatch_items": [], "missing_items": ["여수 도시가스 고지서(누락)"], "status_electricity": "산정 불가", "status_scope1": "산정 불가", "status_scope2": "산정 불가", "status_capex": "일치", "reason": "[electricity_mwh] 산정값 null, 산정표 48200, 원인 여수 도시가스 고지서 누락 / [scope1_tco2e] 산정값 null, 산정표 2750, 원인 여수 도시가스 고지서 누락 / [scope2_tco2e] 산정값 null, 산정표 21690, 원인 여수 도시가스 고지서 누락"}, "draft": "# 서해에너지 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 검토 필요. [electricity_mwh] 산정값 null, 산정표 48200, 원인 여수 도시가스 고지서 누락 / [scope1_tco2e] 산정값 null, 산정표 2750, 원인 여수 도시가스 고지서 누락 / [scope2_tco2e] 산정값 null, 산정표 21690, 원인 여수 도시가스 고지서 누락\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 산정 불가 | MWh | 48200 | 산정 불가 |\n| Scope 1 직접 배출 | 산정 불가 | tCO2e | 2750 | 산정 불가 |\n| Scope 2 간접 배출(위치 기반) | 산정 불가 | tCO2e | 21690 | 산정 불가 |\n| Scope 1+2 합계 | 산정 불가 | tCO2e | 24440 | 산정 불가 |\n| 기후 관련 자본적 지출 | 3500000000 | 원 | 3500000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 울산공장, 여수공장\n- capex 인정 기준: 2027년 집행, 대상 설비는 폐열회수 설비, 공급가액 3500000000원\n\n## 검토 의견\n\n- **검토 필요**\n- 담당자가 다시 받아야 할 증빙 목록: 여수 도시가스 고지서(누락)\n- capex는 일치 항목으로 확인됨"}]};
+const DATA = {
+ "config": 17,
+ "fetchedAt": "2026-11-26T02:19:08.582Z",
+ "cases": [
+  {
+   "file": "KBS_최종제출_set01.pdf",
+   "set": "set01",
+   "runAt": "2026-11-25T16:32:01.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "electricity"
+    },
+    {
+     "page": 4,
+     "label": "fuel"
+    },
+    {
+     "page": 5,
+     "label": "contract"
+    },
+    {
+     "page": 6,
+     "label": "legacy"
+    },
+    {
+     "page": 7,
+     "label": "non_target"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "울산공장",
+     "entity_name": "한빛에너지(가상)",
+     "doc_no": "07-3302-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 30000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "여수공장",
+     "entity_name": "한빛에너지(가상)",
+     "doc_no": "06-1740-0000, NR-2028-0111-08841",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 18200,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 3
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "울산공장",
+     "doc_no": "G-0000-3318",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 800,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    },
+    {
+     "site_name": "여수공장",
+     "doc_no": "Y-0000-2207",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 450,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 4
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "울산공장",
+     "contract_no": "HB-PJ-2027-012",
+     "equipment_name": "폐열회수 설비",
+     "contract_date": "2027-02-10",
+     "execution_date": "2027-06-30",
+     "supply_amount": 3500000000,
+     "total_amount": 3850000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 5
+    }
+   ],
+   "legacy": {
+    "entity_name": "한빛에너지(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-21",
+    "legacy_factor_year": "2027",
+    "legacy_sites": "울산공장, 여수공장",
+    "legacy_electricity_mwh": 48200,
+    "legacy_scope1": 2750,
+    "legacy_scope2": 21690,
+    "legacy_capex": 3500000000,
+    "legacy_total_sites": "",
+    "page": 6
+   },
+   "signal": "green",
+   "failedChecks": [],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n한빛에너지(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n48200, 2750, 21690, 3500000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n48200, 2750, 21690, 3500000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 합계: 울산공장 30000 MWh + 여수공장 18200 MWh = 48200 MWh\n- Scope 2 계산: 48200 × 0.45 = 21690, 마지막 반올림 후 21690\n- Scope 1 계산: 울산공장 도시가스 800 천Nm³ × 2.2 = 1760, 여수공장 도시가스 450 천Nm³ × 2.2 = 990, 합계 2750\n- 경유 추출 문서는 제공되지 않아 경유 합계는 0으로 보아 계산됨\n- 전력 문서 2건의 사업장명은 울산공장, 여수공장이며 둘 다 사용기간 2027-01-01~2027-12-31, readability는 clear임\n- 연료 문서 2건의 사업장명은 울산공장, 여수공장이며 둘 다 사용기간 2027-01-01~2027-12-31, readability는 clear임\n- 중복 doc_no 전력/연료 문서는 확인되지 않음: 전력 doc_no는 07-3302-0000, 06-1740-0000, NR-2028-0111-08841(추출값 포함)이고 연료 doc_no는 G-0000-3318, Y-0000-2207임\n- capex 포함 계약: 계약번호 HB-PJ-2027-012, 설비명 폐열회수 설비, execution_date 2027-06-30, supply_amount 3500000000원\n- capex 계산 시 부가세 포함 total_amount 3850000000원은 사용하지 않음\n- legacy 값은 비교용 전사 산정표에서만 옮겨 적었고 계산에는 사용하지 않음\n\ncalc_sites: 울산공장, 여수공장\n\nlegacy_sites: 울산공장, 여수공장",
+   "verdict": {
+    "entity_name": "한빛에너지",
+    "reporting_year": "2027",
+    "electricity_mwh": 48200,
+    "scope1_tco2e": 2750,
+    "scope2_tco2e": 21690,
+    "capex_krw": 3500000000,
+    "decision": "공시 가능",
+    "mismatch_items": [],
+    "missing_items": [],
+    "status_electricity": "일치",
+    "status_scope1": "일치",
+    "status_scope2": "일치",
+    "status_capex": "일치",
+    "reason": "전 항목 일치"
+   },
+   "draft": "# 한빛에너지 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 공시 가능 - 전 항목 일치\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량(MWh) | 48200 | MWh | 48200 | 일치 |\n| Scope 1 직접 배출 | 2750 | tCO2e | 2750 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 21690 | tCO2e | 21690 | 일치 |\n| Scope 1+2 합계 | 24440 | tCO2e | 24440 | - |\n| 기후 관련 자본적 지출 | 3500000000 | 원 | 3500000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 한빛에너지 산하 사업장 목록은 울산공장, 여수공장\n- capex 인정 기준: 2027년 집행, 대상 설비, 공급가액 기준으로 반영\n  - 집행 시점: 2027-06-30\n  - 대상 설비: 울산공장 폐열회수 설비\n  - 공급가액: 3500000000 원\n\n## 검토 의견\n\n- **공시 가능**\n- 다음 단계: 본 초안을 기준으로 KSSB 2호 기후 관련 지표 공시안에 반영하고, 사업장별 원증빙과 함께 내부 검토를 진행한다."
+  },
+  {
+   "file": "KBS_최종제출_set02.pdf",
+   "set": "set02",
+   "runAt": "2026-11-25T16:31:57.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "electricity"
+    },
+    {
+     "page": 4,
+     "label": "fuel"
+    },
+    {
+     "page": 5,
+     "label": "fuel"
+    },
+    {
+     "page": 6,
+     "label": "contract"
+    },
+    {
+     "page": 7,
+     "label": "legacy"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "당진공장",
+     "entity_name": "대양화학(가상)",
+     "doc_no": "NB-2027-DJ-771205, 04-1580-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 25000000,
+     "electricity_unit": "kWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "서산공장",
+     "entity_name": "대양화학(가상)",
+     "doc_no": "04-1665-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 15000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 3
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "당진공장",
+     "doc_no": "S-0000-6650",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 600,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    },
+    {
+     "site_name": "서산공장",
+     "doc_no": "20270315-41000012-53817204",
+     "fuel_type": "경유",
+     "period_start": "2027-03-15",
+     "period_end": "2027-03-15",
+     "fuel_value": 40,
+     "fuel_unit": "kL",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 4
+    },
+    {
+     "site_name": "서산공장",
+     "doc_no": "20270920-41000012-60294471",
+     "fuel_type": "경유",
+     "period_start": "2027-09-20",
+     "period_end": "2027-09-20",
+     "fuel_value": 60,
+     "fuel_unit": "kL",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 5
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "당진공장",
+     "contract_no": "DY-CAP-2026-118",
+     "equipment_name": "고효율 히트펌프",
+     "contract_date": "2026-11-20",
+     "execution_date": "2027-03-15",
+     "supply_amount": 1200000000,
+     "total_amount": 1320000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 6
+    }
+   ],
+   "legacy": {
+    "entity_name": "대양화학(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-19",
+    "legacy_factor_year": "2027",
+    "legacy_sites": "당진공장, 서산공장",
+    "legacy_electricity_mwh": 40000,
+    "legacy_scope1": 1580,
+    "legacy_scope2": 18000,
+    "legacy_capex": 1200000000,
+    "legacy_total_sites": "",
+    "page": 7
+   },
+   "signal": "green",
+   "failedChecks": [],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n대양화학(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 1580, 18000, 1200000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n40000, 1580, 18000, 1200000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 중간값: 당진공장 25,000,000 kWh → 25,000 MWh, 서산공장 15,000 MWh, 합계 40,000 MWh\n- Scope 2 계산: 40,000 MWh × 0.45 = 18,000 tCO2e\n- 연료 중간값: 당진공장 도시가스 600 천Nm³ → 1,320 tCO2e\n- 연료 중간값: 서산공장 경유 40 kL + 60 kL = 100 kL → 260 tCO2e\n- Scope 1 계산: 1,320 + 260 = 1,580 tCO2e\n- capex 포함: 당진공장 고효율 히트펌프, execution_date 2027-03-15, supply_amount 1,200,000,000원\n- capex 제외 계약 없음. 중복 전력·연료·계약 문서 확인되지 않음\n- 전력 기간 확인: 당진공장 2027-01-01~2027-12-31, 서산공장 2027-01-01~2027-12-31\n- 연료 기간 확인: 당진공장 도시가스 2027-01-01~2027-12-31, 서산공장 경유 2027-03-15 및 2027-09-20으로 모두 2027년 문서\n\ncalc_sites: 당진공장, 서산공장\n\nlegacy_sites: 당진공장, 서산공장",
+   "verdict": {
+    "entity_name": "대양화학",
+    "reporting_year": "2027",
+    "electricity_mwh": 40000,
+    "scope1_tco2e": 1580,
+    "scope2_tco2e": 18000,
+    "capex_krw": 1200000000,
+    "decision": "공시 가능",
+    "mismatch_items": [],
+    "missing_items": [],
+    "status_electricity": "일치",
+    "status_scope1": "일치",
+    "status_scope2": "일치",
+    "status_capex": "일치",
+    "reason": "전 항목 일치"
+   },
+   "draft": "# 대양화학 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 공시 가능 — 전 항목 일치\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 40000 | 일치 |\n| Scope 1 직접 배출 | 1580 | tCO2e | 1580 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 18000 | 일치 |\n| Scope 1+2 합계 | 19580 | tCO2e | 19580 | 일치 |\n| 기후 관련 자본적 지출 | 1200000000 | 원 | 1200000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 대양화학 법인 산하 사업장은 당진공장, 서산공장\n- capex 인정 기준:\n  - 2027년 집행 기준: 납품·대금 지급일 2027-03-15\n  - 대상 설비: 당진공장 고효율 히트펌프\n  - 인정 금액 기준: 공급가액 1,200,000,000원\n\n## 검토 의견\n\n- **공시 가능**\n- 다음 단계: 본 초안을 기준으로 KSSB 2호 기후 관련 공시 지표표에 반영하고, 사업장별 원증빙과 본사 산정표를 함께 보관하면 됩니다."
+  },
+  {
+   "file": "KBS_최종제출_set03.pdf",
+   "set": "set03",
+   "runAt": "2026-11-25T16:32:14.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "electricity"
+    },
+    {
+     "page": 4,
+     "label": "fuel"
+    },
+    {
+     "page": 5,
+     "label": "contract"
+    },
+    {
+     "page": 6,
+     "label": "contract"
+    },
+    {
+     "page": 7,
+     "label": "legacy"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "여수공장",
+     "entity_name": "남해화학(가상)",
+     "doc_no": "06-1932-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 30000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "광양공장",
+     "entity_name": "남해화학(가상)",
+     "doc_no": "NR-2028-0116-09187, 06-1958-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 10000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 3
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "여수공장",
+     "doc_no": "",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 700,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    },
+    {
+     "site_name": "광양공장",
+     "doc_no": "",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 300,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 4
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "여수공장",
+     "contract_no": "NH-PC-2027-005",
+     "equipment_name": "폐열회수 설비",
+     "contract_date": "2027-01-25",
+     "execution_date": "2027-08-31",
+     "supply_amount": 3000000000,
+     "total_amount": 3300000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 5
+    },
+    {
+     "site_name": "여수공장",
+     "contract_no": "NH-PC-2027-014",
+     "equipment_name": "사무용 전산장비",
+     "contract_date": "2027-02-08",
+     "execution_date": "2027-03-10",
+     "supply_amount": 100000000,
+     "total_amount": 110000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 6
+    }
+   ],
+   "legacy": {
+    "entity_name": "남해화학(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-21",
+    "legacy_factor_year": "2027",
+    "legacy_sites": "여수공장, 광양공장",
+    "legacy_electricity_mwh": 40000,
+    "legacy_scope1": 2200,
+    "legacy_scope2": 18000,
+    "legacy_capex": 3000000000,
+    "legacy_total_sites": "",
+    "page": 7
+   },
+   "signal": "yellow",
+   "failedChecks": [
+    {
+     "name": "규칙_7",
+     "severity": "warning",
+     "reason": "all-branches(계약 추출.equipment_name)=['폐열회수 설비', '사무용 전산장비'] matches '.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*'='.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*' → fail"
+    }
+   ],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n남해화학(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 2200, 18000, 3000000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n40000, 2200, 18000, 3000000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 합계: 여수공장 30000 MWh + 광양공장 10000 MWh = 40000 MWh\n- Scope 2 계산: 40000 × 0.45 = 18000 tCO2e\n- Scope 1 계산: 여수공장 도시가스 700 천Nm³ × 2.2 = 1540 tCO2e, 광양공장 도시가스 300 천Nm³ × 2.2 = 660 tCO2e, 합계 2200 tCO2e\n- capex 포함: 여수공장 폐열회수 설비 계약, execution_date 2027-08-31, supply_amount 3000000000원\n- capex 제외: 여수공장 사무용 전산장비 계약은 대상 설비가 아니므로 제외\n- 전력·연료 문서는 모두 readability가 clear이고 사용기간이 2027-01-01~2027-12-31로 확인됨\n- 중복 증빙 판단: 전력 doc_no는 여수공장 06-1932-0000, 광양공장 NR-2028-0116-09187, 06-1958-0000로 서로 다름\n- 연료 문서는 추출상 두 건 모두 doc_no가 공란이며, 사업장도 각각 여수공장·광양공장으로 달라 중복으로 볼 근거가 없음\n- 산정표는 1건만 확인되어 legacy 값은 비교용으로 그대로 기재함\n\ncalc_sites: [여수공장, 광양공장]\n\nlegacy_sites: 여수공장, 광양공장",
+   "verdict": {
+    "entity_name": "남해화학",
+    "reporting_year": "2027",
+    "electricity_mwh": 40000,
+    "scope1_tco2e": 2200,
+    "scope2_tco2e": 18000,
+    "capex_krw": 3000000000,
+    "decision": "공시 가능",
+    "mismatch_items": [],
+    "missing_items": [],
+    "status_electricity": "일치",
+    "status_scope1": "일치",
+    "status_scope2": "일치",
+    "status_capex": "일치",
+    "reason": "전 항목 일치"
+   },
+   "draft": "# 남해화학 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 공시 가능 — 전 항목 일치\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 40000 | 일치 |\n| Scope 1 직접 배출 | 2200 | tCO2e | 2200 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 18000 | 일치 |\n| Scope 1+2 합계 | 20200 | tCO2e | 20200 | - |\n| 기후 관련 자본적 지출 | 3000000000 | 원 | 3000000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 남해화학 산하 사업장 여수공장, 광양공장\n- capex 인정 기준: 2027년 집행, 대상 설비, 공급가액 기준\n\n## 검토 의견\n\n**공시 가능**\n\n다음 단계: 본 초안을 KSSB 2호 기후 관련 지표 공시안에 반영하고, 수치 일치 여부를 최종 공시본에서 한 번 더 대조한다."
+  },
+  {
+   "file": "KBS_최종제출_set04.pdf",
+   "set": "set04",
+   "runAt": "2026-11-25T16:31:55.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "electricity"
+    },
+    {
+     "page": 4,
+     "label": "fuel"
+    },
+    {
+     "page": 5,
+     "label": "contract"
+    },
+    {
+     "page": 6,
+     "label": "legacy"
+    },
+    {
+     "page": 7,
+     "label": "non_target"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "울산공장",
+     "entity_name": "새솔정유(가상)",
+     "doc_no": "07-3310-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 35000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "온산공장",
+     "entity_name": "새솔정유(가상)",
+     "doc_no": "07-3318-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 20000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 3
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "울산공장",
+     "doc_no": "G-0000-4471",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 1000,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    },
+    {
+     "site_name": "온산공장",
+     "doc_no": "G-0000-4529",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 500,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 4
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "울산공장",
+     "contract_no": "SS-CT-2027-0041",
+     "equipment_name": "LED 조명",
+     "contract_date": "2027-04-01",
+     "execution_date": "2027-05-31",
+     "supply_amount": 2000000000,
+     "total_amount": 2200000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 5
+    }
+   ],
+   "legacy": {
+    "entity_name": "새솔정유(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-20",
+    "legacy_factor_year": "2026",
+    "legacy_sites": "울산공장, 온산공장",
+    "legacy_electricity_mwh": 55000,
+    "legacy_scope1": 3300,
+    "legacy_scope2": 25300,
+    "legacy_capex": 2000000000,
+    "legacy_total_sites": "",
+    "page": 6
+   },
+   "signal": "green",
+   "failedChecks": [],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n새솔정유(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n55,000, 3,300, 24,750, 2,000,000,000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n55,000, 3,300, 25,300, 2,000,000,000, 2026, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes:\n- 전력 합계: 울산공장 35,000 MWh + 온산공장 20,000 MWh = 55,000 MWh\n- Scope 2 계산: 55,000 × 0.45 = 24,750 tCO2e\n- 도시가스 합계: 울산공장 1,000 천Nm³ + 온산공장 500 천Nm³ = 1,500 천Nm³\n- Scope 1 계산: 1,500 × 2.2 = 3,300 tCO2e. 경유 증빙은 제출되지 않아 합산 대상 값은 0 kL로 보았습니다.\n- capex 포함 계약: 울산공장 LED 조명, execution_date 2027-05-31, supply_amount 2,000,000,000원. 부가세 포함 총액 2,200,000,000원은 사용하지 않았습니다.\n- 제외한 문서·계약: 없음\n\ncalc_sites: 울산공장, 온산공장\n\nlegacy_sites: 울산공장, 온산공장",
+   "verdict": {
+    "entity_name": "새솔정유",
+    "reporting_year": "2027",
+    "electricity_mwh": 55000,
+    "scope1_tco2e": 3300,
+    "scope2_tco2e": 24750,
+    "capex_krw": 2000000000,
+    "decision": "수정 필요",
+    "mismatch_items": [
+     "scope2_tco2e"
+    ],
+    "missing_items": [],
+    "status_electricity": "일치",
+    "status_scope1": "일치",
+    "status_scope2": "불일치",
+    "status_capex": "일치",
+    "reason": "[scope2_tco2e] 산정값 24750, 산정표 25300, 원인 2026년 전력계수 적용"
+   },
+   "draft": "# 새솔정유 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 수정 필요 — [scope2_tco2e] 산정값 24750, 산정표 25300, 원인 2026년 전력계수 적용\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량(MWh) | 55000 | MWh | 55000 | 일치 |\n| Scope 1 직접 배출 | 3300 | tCO2e | 3300 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 24750 | tCO2e | 25300 | 불일치 |\n| Scope 1+2 합계 | 28050 | tCO2e | 28600 | 수정 필요 |\n| 기후 관련 자본적 지출 | 2000000000 | 원 | 2000000000 | 일치 |\n\n## 산정 기준\n\n- **적용 배출계수:** 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- **조직 경계:** 새솔정유 산하 사업장 목록은 울산공장, 온산공장\n- **capex 인정 기준:** 2027년 집행, 대상 설비는 울산공장 LED 조명 교체, 인정 금액은 공급가액 2,000,000,000원\n\n## 검토 의견\n\n- **결론:** 수정 필요\n- **본사 산정표에서 고칠 항목:** Scope 2 간접 배출(위치 기반)\n- **올바른 값:** 24750 tCO2e\n- **정정 방향:** 본사 산정표의 Scope 2 값을 25300에서 24750으로 수정하고, 이에 따라 Scope 1+2 합계를 28600에서 28050으로 정정\n"
+  },
+  {
+   "file": "KBS_최종제출_set05.pdf",
+   "set": "set05",
+   "runAt": "2026-11-25T16:32:05.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "electricity"
+    },
+    {
+     "page": 4,
+     "label": "fuel"
+    },
+    {
+     "page": 5,
+     "label": "contract"
+    },
+    {
+     "page": 6,
+     "label": "legacy"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "구미공장",
+     "entity_name": "미래소재(가상)",
+     "doc_no": "05-4470-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 22000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "오창공장",
+     "entity_name": "미래소재(가상)",
+     "doc_no": "NR-2028-0116-06144, 04-3120-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 18000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 3
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "구미공장",
+     "doc_no": "K-0000-1186",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 400,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    },
+    {
+     "site_name": "오창공장",
+     "doc_no": "M-0000-0372",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 350,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 4
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "구미공장",
+     "contract_no": "MR-INV-2027-007",
+     "equipment_name": "고효율 전동기",
+     "contract_date": "2027-03-02",
+     "execution_date": "2027-07-15",
+     "supply_amount": 800000000,
+     "total_amount": 880000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 5
+    }
+   ],
+   "legacy": {
+    "entity_name": "미래소재(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-18",
+    "legacy_factor_year": "2027",
+    "legacy_sites": "구미공장, 오창공장",
+    "legacy_electricity_mwh": 22000,
+    "legacy_scope1": 880,
+    "legacy_scope2": 9900,
+    "legacy_capex": 800000000,
+    "legacy_total_sites": "",
+    "page": 6
+   },
+   "signal": "green",
+   "failedChecks": [],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n미래소재(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 1650, 18000, 800000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n22000, 880, 9900, 800000000, 2027, \"\"\n\ncalc_unavailable: \n없음\n\ncalc_notes:\n- 전력 중간값: 구미공장 22000 MWh + 오창공장 18000 MWh = 40000 MWh\n- Scope 2 계산: 40000 × 0.45 = 18000, 마지막 반올림 후 18000\n- 연료 중간값: 구미공장 도시가스 400 천Nm³ → 880 tCO2e, 오창공장 도시가스 350 천Nm³ → 770 tCO2e, 합계 1650 tCO2e\n- 경유 추출 문서는 제공되지 않아 합산값은 0 kL로 반영됨\n- capex 포함 계약: 구미공장, 설비명 고효율 전동기, execution_date 2027-07-15, supply_amount 800000000원\n- 제외한 문서·계약: 없음. 전력 2건의 site_name은 구미공장·오창공장이고 사용기간은 모두 2027-01-01~2027-12-31이며 readability는 clear임\n- 연료 2건의 site_name은 구미공장·오창공장이고 사용기간은 모두 2027-01-01~2027-12-31이며 readability는 clear임\n- 중복 산정 없음: 전력 doc_no는 05-4470-0000 및 NR-2028-0116-06144, 04-3120-0000으로 상이하고 연료 doc_no는 K-0000-1186 및 M-0000-0372로 상이하며 계약도 1건만 확인됨\n\ncalc_sites:\n[구미공장, 오창공장]\n\nlegacy_sites:\n구미공장, 오창공장",
+   "verdict": {
+    "entity_name": "미래소재",
+    "reporting_year": "2027",
+    "electricity_mwh": 40000,
+    "scope1_tco2e": 1650,
+    "scope2_tco2e": 18000,
+    "capex_krw": 800000000,
+    "decision": "수정 필요",
+    "mismatch_items": [
+     "electricity_mwh",
+     "scope1_tco2e",
+     "scope2_tco2e"
+    ],
+    "missing_items": [],
+    "status_electricity": "불일치",
+    "status_scope1": "불일치",
+    "status_scope2": "불일치",
+    "status_capex": "일치",
+    "reason": "[electricity_mwh] 산정값 40000, 산정표 22000, 원인 법인 합계에서 오창공장 누락 / [scope1_tco2e] 산정값 1650, 산정표 880, 원인 법인 합계에서 오창공장 누락 / [scope2_tco2e] 산정값 18000, 산정표 9900, 원인 법인 합계에서 오창공장 누락"
+   },
+   "draft": "# 미래소재 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 수정 필요. [electricity_mwh] 산정값 40000, 산정표 22000, 원인 법인 합계에서 오창공장 누락 / [scope1_tco2e] 산정값 1650, 산정표 880, 원인 법인 합계에서 오창공장 누락 / [scope2_tco2e] 산정값 18000, 산정표 9900, 원인 법인 합계에서 오창공장 누락\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 22000 | 불일치 |\n| Scope 1 직접 배출 | 1650 | tCO2e | 880 | 불일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 9900 | 불일치 |\n| Scope 1+2 합계 | 19650 | tCO2e | 10780 | - |\n| 기후 관련 자본적 지출 | 800000000 | 원 | 800000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 미래소재의 법인 산하 사업장은 구미공장, 오창공장이다.\n- capex 인정 기준: 2027년 집행, 대상 설비는 구미공장 고효율 전동기, 공급가액 기준 800000000원이다.\n\n## 검토 의견\n\n**수정 필요**\n\n본사 산정표에서 아래 항목을 고쳐야 한다.\n\n- 전력 사용량: 22000 → 40000\n- Scope 1 직접 배출: 880 → 1650\n- Scope 2 간접 배출(위치 기반): 9900 → 18000\n- Scope 1+2 합계: 10780 → 19650\n- 기후 관련 자본적 지출: 800000000 유지\n\n수정 사유는 법인 합계에서 오창공장이 누락되었기 때문이다."
+  },
+  {
+   "file": "KBS_최종제출_set06.pdf",
+   "set": "set06",
+   "runAt": "2026-11-25T16:32:05.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "electricity"
+    },
+    {
+     "page": 4,
+     "label": "fuel"
+    },
+    {
+     "page": 5,
+     "label": "contract"
+    },
+    {
+     "page": 6,
+     "label": "contract"
+    },
+    {
+     "page": 7,
+     "label": "legacy"
+    },
+    {
+     "page": 8,
+     "label": "non_target"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "여수공장",
+     "entity_name": "청운석유화학(가상)",
+     "doc_no": "06-1752-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 30000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "광양공장",
+     "entity_name": "청운석유화학(가상)",
+     "doc_no": "06-1797-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 10000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 3
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "여수공장",
+     "doc_no": "Y-0000-2391",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 700,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    },
+    {
+     "site_name": "광양공장",
+     "doc_no": "B-0000-0915",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 300,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 4
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "여수공장",
+     "contract_no": "CW-PC-2027-003",
+     "equipment_name": "폐열회수 설비",
+     "contract_date": "2027-01-20",
+     "execution_date": "2027-08-31",
+     "supply_amount": 3000000000,
+     "total_amount": 3300000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 5
+    },
+    {
+     "site_name": "여수공장",
+     "contract_no": "CW-PC-2027-011",
+     "equipment_name": "사무용 전산장비",
+     "contract_date": "2027-02-05",
+     "execution_date": "2027-03-10",
+     "supply_amount": 100000000,
+     "total_amount": 110000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 6
+    }
+   ],
+   "legacy": {
+    "entity_name": "청운석유화학(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-22",
+    "legacy_factor_year": "2027",
+    "legacy_sites": "여수공장, 광양공장",
+    "legacy_electricity_mwh": 40000,
+    "legacy_scope1": 2200,
+    "legacy_scope2": 18000,
+    "legacy_capex": 3410000000,
+    "legacy_total_sites": "",
+    "page": 7
+   },
+   "signal": "yellow",
+   "failedChecks": [
+    {
+     "name": "규칙_7",
+     "severity": "warning",
+     "reason": "all-branches(계약 추출.equipment_name)=['폐열회수 설비', '사무용 전산장비'] matches '.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*'='.*(폐열회수|고효율 전동기|인버터|히트펌프|태양광|LED).*' → fail"
+    }
+   ],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n청운석유화학(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\n40000, 2200, 18000, 3000000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n40000, 2200, 18000, 3410000000, 2027, \"\"\n\ncalc_unavailable: 없음\n\ncalc_notes: \n- 전력 중간값: 여수공장 30000 MWh + 광양공장 10000 MWh = 법인 합계 40000 MWh\n- Scope 2 중간값: 여수공장 30000×0.45=13500 tCO2e, 광양공장 10000×0.45=4500 tCO2e, 합계 18000 tCO2e\n- Scope 1 중간값: 여수공장 도시가스 700×2.2=1540 tCO2e, 광양공장 도시가스 300×2.2=660 tCO2e, 합계 2200 tCO2e\n- 전력 증빙 2건 모두 readability가 clear이고 사용기간이 2027-01-01~2027-12-31로 확인됨\n- 연료 증빙 2건 모두 fuel_type이 도시가스이며 readability가 clear이고 사용기간이 2027-01-01~2027-12-31로 확인됨\n- 사업장 누락 점검: legacy_sites는 여수공장, 광양공장이며, 전력·연료 추출 결과의 site_name 목록에 모두 존재함\n- capex 포함: 계약번호 CW-PC-2027-003은 execution_date가 2027-08-31이고 equipment_name이 폐열회수 설비이며 supply_amount 3000000000원이므로 합산 대상임\n- capex 제외: 계약번호 CW-PC-2027-011은 execution_date가 2027-03-10이지만 equipment_name이 사무용 전산장비이므로 대상 설비가 아니어서 제외함\n- 중복 제외 사항 없음: 전력 doc_no 06-1752-0000, 06-1797-0000은 서로 다르고, 연료 doc_no Y-0000-2391, B-0000-0915도 서로 다르며, 계약 contract_no CW-PC-2027-003, CW-PC-2027-011도 서로 다름\n\ncalc_sites: 여수공장, 광양공장\n\nlegacy_sites: 여수공장, 광양공장",
+   "verdict": {
+    "entity_name": "청운석유화학",
+    "reporting_year": "2027",
+    "electricity_mwh": 40000,
+    "scope1_tco2e": 2200,
+    "scope2_tco2e": 18000,
+    "capex_krw": 3000000000,
+    "decision": "수정 필요",
+    "mismatch_items": [
+     "capex_krw"
+    ],
+    "missing_items": [],
+    "status_electricity": "일치",
+    "status_scope1": "일치",
+    "status_scope2": "일치",
+    "status_capex": "불일치",
+    "reason": "[capex_krw] 산정값 3000000000, 산정표 3410000000, 원인 사무용 전산장비 계약 포함"
+   },
+   "draft": "# 청운석유화학 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 수정 필요 — capex_krw 항목이 불일치이며, 산정값 3000000000, 산정표 3410000000, 원인은 사무용 전산장비 계약 포함.\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 40000 | MWh | 40000 | 일치 |\n| Scope 1 직접 배출 | 2200 | tCO2e | 2200 | 일치 |\n| Scope 2 간접 배출(위치 기반) | 18000 | tCO2e | 18000 | 일치 |\n| Scope 1+2 합계 | 20200 | tCO2e | 20200 | - |\n| 기후 관련 자본적 지출 | 3000000000 | 원 | 3410000000 | 불일치 |\n\n## 산정 기준\n\n- 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 청운석유화학 법인 산하 사업장 여수공장, 광양공장\n- capex 인정 기준: 2027년 집행, 대상 설비, 공급가액 기준\n\n## 검토 의견\n\n**수정 필요**\n\n- 본사 산정표에서 고칠 항목: 기후 관련 자본적 지출\n- 올바른 값: 3000000000 원\n- 정정 방향: 사무용 전산장비 계약을 제외하고, 기후 관련 대상 설비에 해당하는 공급가액만 반영\n- 다음 단계: 본사 산정표의 capex 값을 3000000000으로 수정한 뒤 공시 수치와 증빙 간 일치 여부를 재확인"
+  },
+  {
+   "file": "KBS_최종제출_set07.pdf",
+   "set": "set07",
+   "runAt": "2026-11-25T16:32:04.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "fuel"
+    },
+    {
+     "page": 4,
+     "label": "electricity"
+    },
+    {
+     "page": 5,
+     "label": "fuel"
+    },
+    {
+     "page": 6,
+     "label": "contract"
+    },
+    {
+     "page": 7,
+     "label": "legacy"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "포항공장",
+     "entity_name": "동해케미칼(가상)",
+     "doc_no": "05-4211-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 20000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "울산공장",
+     "entity_name": "동해케미칼(가상)",
+     "doc_no": "07-3325-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 0,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "unreadable",
+     "page": 4
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "포항공장",
+     "doc_no": "20270512-41000012-71530628",
+     "fuel_type": "경유",
+     "period_start": "2027-05-12",
+     "period_end": "2027-05-12",
+     "fuel_value": 50,
+     "fuel_unit": "kL",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    },
+    {
+     "site_name": "포항공장",
+     "doc_no": "20270512-41000012-71530628",
+     "fuel_type": "경유",
+     "period_start": "2027-05-12",
+     "period_end": "2027-05-12",
+     "fuel_value": 50,
+     "fuel_unit": "kL",
+     "is_copy": "yes",
+     "readability": "clear",
+     "page": 3
+    },
+    {
+     "site_name": "울산공장",
+     "doc_no": "G-0000-4602",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 300,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 5
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "포항공장",
+     "contract_no": "DH-EQ-2027-019",
+     "equipment_name": "인버터",
+     "contract_date": "2027-02-14",
+     "execution_date": "2027-04-30",
+     "supply_amount": 600000000,
+     "total_amount": 660000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 6
+    }
+   ],
+   "legacy": {
+    "entity_name": "동해케미칼(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-17",
+    "legacy_factor_year": "2027",
+    "legacy_sites": "포항공장, 울산공장",
+    "legacy_electricity_mwh": 35000,
+    "legacy_scope1": 790,
+    "legacy_scope2": 15750,
+    "legacy_capex": 600000000,
+    "legacy_total_sites": "",
+    "page": 7
+   },
+   "signal": "red",
+   "failedChecks": [
+    {
+     "name": "규칙_1",
+     "severity": "error",
+     "reason": "all-branches(전력 추출.readability)=['clear', 'unreadable'] eq 'clear'='clear' → fail"
+    }
+   ],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n동해케미칼(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\nnull, null, null, 600000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n35000, 790, 15750, 600000000, 2027, \"\"\n\ncalc_unavailable: 산정 불가 항목과 원인 목록\n- 울산 전력사용확인서(판독 불가)\n- 포항 경유 세금계산서(중복)\n\ncalc_notes: 사업장별 중간값과 제외한 문서·계약의 사유\n- 전력 사업장 목록은 포항공장, 울산공장입니다.\n- 포항공장 전력은 20,000 MWh이며 사용기간은 2027-01-01~2027-12-31입니다.\n- 울산공장 전력 문서는 readability가 unreadable이고 electricity_value가 0으로 추출되어 있어 울산공장 전력은 산정 불가입니다.\n- 연료 사업장 목록은 포항공장, 울산공장입니다.\n- 포항공장 경유 문서는 같은 doc_no 20270512-41000012-71530628로 2건 제출되었고, 한 건은 사본(is_copy=yes)이므로 중복으로 보아 포항공장 연료는 산정 불가입니다.\n- 울산공장 도시가스는 300 천Nm³이고 사용기간은 2027-01-01~2027-12-31입니다.\n- 계약서는 포항공장 인버터 설치 1건이며, execution_date는 2027-04-30이고 대상 설비인 인버터에 해당하므로 supply_amount 600,000,000원만 capex에 합산했습니다. 총액 660,000,000원은 부가세 포함 금액이므로 사용하지 않았습니다.\n- 산정 불가 규칙에 따라 전력 또는 연료 항목이 산정 불가이면 법인 합계 electricity·scope1·scope2는 모두 null로 처리했습니다.\n\ncalc_sites: 증빙에서 확인된 사업장명 목록\n포항공장, 울산공장\n\nlegacy_sites: 산정표에 나열된 사업장명 목록\n포항공장, 울산공장",
+   "verdict": {
+    "entity_name": "동해케미칼",
+    "reporting_year": "2027",
+    "electricity_mwh": null,
+    "scope1_tco2e": null,
+    "scope2_tco2e": null,
+    "capex_krw": 600000000,
+    "decision": "검토 필요",
+    "mismatch_items": [],
+    "missing_items": [
+     "울산 전력사용확인서(판독 불가)",
+     "포항 경유 세금계산서(중복)"
+    ],
+    "status_electricity": "산정 불가",
+    "status_scope1": "산정 불가",
+    "status_scope2": "산정 불가",
+    "status_capex": "일치",
+    "reason": "[electricity_mwh] 산정값 null, 산정표 35000, 원인 울산 전력사용확인서 판독 불가 / [scope1_tco2e] 산정값 null, 산정표 790, 원인 포항 경유 세금계산서 중복 / [scope2_tco2e] 산정값 null, 산정표 15750, 원인 울산 전력사용확인서 판독 불가"
+   },
+   "draft": "# 동해케미칼 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 검토 필요. 전력 사용량은 산정값이 null이고 산정표 값은 35000이며 원인은 울산 전력사용확인서 판독 불가이고, Scope 1은 산정값이 null이며 산정표 값은 790이고 원인은 포항 경유 세금계산서 중복이며, Scope 2는 산정값이 null이고 산정표 값은 15750이며 원인은 울산 전력사용확인서 판독 불가입니다.\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량(MWh) | 산정 불가 | MWh | 35000 | 산정 불가 |\n| Scope 1 직접 배출(tCO2e) | 산정 불가 | tCO2e | 790 | 산정 불가 |\n| Scope 2 간접 배출(tCO2e, 위치 기반) | 산정 불가 | tCO2e | 15750 | 산정 불가 |\n| Scope 1+2 합계(tCO2e) | 산정 불가 | tCO2e | 16540 | 산정 불가 |\n| 기후 관련 자본적 지출(원) | 600000000 | 원 | 600000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 동해케미칼의 법인 산하 사업장은 포항공장, 울산공장입니다.\n- capex 인정 기준: 2027년 집행, 대상 설비는 포항공장 인버터이며, 공급가액은 600000000원입니다.\n\n## 검토 의견\n\n**검토 필요**\n\n담당자가 다시 받아야 할 증빙 목록은 다음과 같습니다.\n- 울산 전력사용확인서(판독 불가)\n- 포항 경유 세금계산서(중복)"
+  },
+  {
+   "file": "KBS_최종제출_set08.pdf",
+   "set": "set08",
+   "runAt": "2026-11-25T16:31:59.000Z",
+   "pages": [
+    {
+     "page": 1,
+     "label": "electricity"
+    },
+    {
+     "page": 2,
+     "label": "fuel"
+    },
+    {
+     "page": 3,
+     "label": "electricity"
+    },
+    {
+     "page": 4,
+     "label": "contract"
+    },
+    {
+     "page": 5,
+     "label": "legacy"
+    },
+    {
+     "page": 6,
+     "label": "non_target"
+    }
+   ],
+   "electricity": [
+    {
+     "site_name": "울산공장",
+     "entity_name": "서해에너지(가상)",
+     "doc_no": "07-3460-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 30000,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 1
+    },
+    {
+     "site_name": "여수공장",
+     "entity_name": "서해에너지(가상)",
+     "doc_no": "06-1880-0000",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "electricity_value": 18200,
+     "electricity_unit": "MWh",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 3
+    }
+   ],
+   "fuel": [
+    {
+     "site_name": "울산공장",
+     "doc_no": "G-0000-5512",
+     "fuel_type": "도시가스",
+     "period_start": "2027-01-01",
+     "period_end": "2027-12-31",
+     "fuel_value": 800,
+     "fuel_unit": "천Nm³",
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 2
+    }
+   ],
+   "contract": [
+    {
+     "site_name": "울산공장",
+     "contract_no": "SH-WH-2027-012",
+     "equipment_name": "폐열회수 설비",
+     "contract_date": "2027-02-10",
+     "execution_date": "2027-06-30",
+     "supply_amount": 3500000000,
+     "total_amount": 3850000000,
+     "is_copy": "no",
+     "readability": "clear",
+     "page": 4
+    }
+   ],
+   "legacy": {
+    "entity_name": "서해에너지(가상)",
+    "reporting_year": "2027",
+    "legacy_date": "2028-02-18",
+    "legacy_factor_year": "2027",
+    "legacy_sites": "울산공장, 여수공장",
+    "legacy_electricity_mwh": 48200,
+    "legacy_scope1": 2750,
+    "legacy_scope2": 21690,
+    "legacy_capex": 3500000000,
+    "legacy_total_sites": "",
+    "page": 5
+   },
+   "signal": "red",
+   "failedChecks": [
+    {
+     "name": "규칙_4",
+     "severity": "error",
+     "reason": "전력 추출.site_name=['울산공장', '여수공장'] in_list 연료 추출.site_name=['울산공장'] → fail"
+    }
+   ],
+   "validateSummary": null,
+   "calcNotes": "entity_name, reporting_year\n서해에너지(가상), 2027\n\ncalc_electricity_mwh, calc_scope1, calc_scope2, calc_capex\nnull, null, null, 3500000000\n\nlegacy_electricity_mwh, legacy_scope1, legacy_scope2, legacy_capex, legacy_factor_year, legacy_total_sites\n48200, 2750, 21690, 3500000000, 2027, \"\"\n\ncalc_unavailable: 산정 불가 항목과 원인 목록\n- 여수 도시가스 고지서(누락)\n\ncalc_notes: 사업장별 중간값과 제외한 문서·계약의 사유\n- 전력 증빙 사업장 목록은 울산공장, 여수공장이며 각 전력 사용량은 각각 30000 MWh, 18200 MWh이다.\n- 연료 증빙 사업장 목록은 울산공장만 확인되며, 도시가스 사용량은 800 천Nm³이다.\n- legacy_sites에는 울산공장, 여수공장이 기재되어 있으나, 연료 증빙 site_name 목록에는 여수공장이 없어 사업장 누락 규칙에 따라 electricity·scope1·scope2는 모두 null 처리하였다.\n- capex는 execution_date가 2027-06-30이고 equipment_name이 폐열회수 설비인 계약 1건의 supply_amount 3500000000원만 합산하였다. 부가세 포함 합계 3850000000원은 사용하지 않았다.\n- 전력 문서의 사용기간은 울산공장 2027-01-01~2027-12-31, 여수공장 2027-01-01~2027-12-31로 확인된다.\n- 연료 문서의 사용기간은 2027-01-01~2027-12-31로 확인된다.\n- 중복 증빙으로 제외한 전력·연료·계약·산정표 문서는 확인되지 않는다.\n\ncalc_sites: 증빙에서 확인된 사업장명 목록\n- 울산공장\n- 여수공장\n\nlegacy_sites: 산정표에 나열된 사업장명 목록\n- 울산공장\n- 여수공장",
+   "verdict": {
+    "entity_name": "서해에너지",
+    "reporting_year": "2027",
+    "electricity_mwh": null,
+    "scope1_tco2e": null,
+    "scope2_tco2e": null,
+    "capex_krw": 3500000000,
+    "decision": "검토 필요",
+    "mismatch_items": [],
+    "missing_items": [
+     "여수 도시가스 고지서(누락)"
+    ],
+    "status_electricity": "산정 불가",
+    "status_scope1": "산정 불가",
+    "status_scope2": "산정 불가",
+    "status_capex": "일치",
+    "reason": "[electricity_mwh] 산정값 null, 산정표 48200, 원인 여수 도시가스 고지서 누락 / [scope1_tco2e] 산정값 null, 산정표 2750, 원인 여수 도시가스 고지서 누락 / [scope2_tco2e] 산정값 null, 산정표 21690, 원인 여수 도시가스 고지서 누락"
+   },
+   "draft": "# 서해에너지 2027 기후 관련 공시 지표표(초안)\n\n**판정 요약:** 검토 필요. [electricity_mwh] 산정값 null, 산정표 48200, 원인 여수 도시가스 고지서 누락 / [scope1_tco2e] 산정값 null, 산정표 2750, 원인 여수 도시가스 고지서 누락 / [scope2_tco2e] 산정값 null, 산정표 21690, 원인 여수 도시가스 고지서 누락\n\n## 지표표\n\n| 지표 | 값 | 단위 | 산정표 값 | 상태 |\n|---|---:|---|---:|---|\n| 전력 사용량 | 산정 불가 | MWh | 48200 | 산정 불가 |\n| Scope 1 직접 배출 | 산정 불가 | tCO2e | 2750 | 산정 불가 |\n| Scope 2 간접 배출(위치 기반) | 산정 불가 | tCO2e | 21690 | 산정 불가 |\n| Scope 1+2 합계 | 산정 불가 | tCO2e | 24440 | 산정 불가 |\n| 기후 관련 자본적 지출 | 3500000000 | 원 | 3500000000 | 일치 |\n\n## 산정 기준\n\n- 적용 배출계수: 본 과제 가정 배출계수(2027년): 전력 0.45 tCO2e/MWh, 도시가스 2.2 tCO2e/천Nm³, 경유 2.6 tCO2e/kL\n- 조직 경계: 울산공장, 여수공장\n- capex 인정 기준: 2027년 집행, 대상 설비는 폐열회수 설비, 공급가액 3500000000원\n\n## 검토 의견\n\n- **검토 필요**\n- 담당자가 다시 받아야 할 증빙 목록: 여수 도시가스 고지서(누락)\n- capex는 일치 항목으로 확인됨"
+  }
+ ]
+};
 const F = {elec:0.45, gas:2.2, diesel:2.6};
 const TARGET = ['폐열회수','고효율 전동기','인버터','히트펌프','태양광','LED'];
 const ITEMS = [
@@ -118,9 +1272,33 @@ function trace(c){
     <h3>본사 산정표</h3><ul class="trace"><li>${pg(c.legacy.page)} 작성일 ${esc(c.legacy.legacy_date)}, 적용 배출계수 연도 ${esc(c.legacy.legacy_factor_year)}, 사업장 ${esc(c.legacy.legacy_sites)}</li></ul>`;
 }
 
-function impact(c){
+function impactList(c){
   const v=c.verdict, L=c.legacy, out=[];
-  ITEMS.forEach(it => { if (v[it.st]==='불일치'){ const d=L[it.lg]-v[it.key]; out.push(`${it.name} ${n(Math.abs(d))} ${it.unit} ${d>0?'과대':'과소'}`); }});
+  ITEMS.forEach(it => { if (v[it.st]==='불일치' && v[it.key]!=null){ const d=L[it.lg]-v[it.key]; out.push(`${it.name} ${n(Math.abs(d))} ${it.unit} ${d>0?'과대':'과소'}`); }});
+  return out;
+}
+// 검증이 요약: 판정 JSON에서 규칙으로 만든 문장(LLM 호출 없음). 원인은 reason의 '원인 …' 구절을 그대로 가져옴
+const ASK_URL = 'https://studio.upstage.ai/coworkers/cw_jbr4Yjmhg3eYMs6f4MnhxT/chat';  // Studio AI 동료 "검증이" 대화 주소. 비어 있으면 묻기 버튼을 숨김
+const causes = v => [...new Set(v.reason.split(' / ').map(r => (r.match(/원인 (.+)$/)||[])[1]).filter(Boolean))];
+const askText = c => `${c.verdict.entity_name} 판정 결과를 설명해 주고, 담당자가 다음에 할 일을 알려 줘.`;
+function summary(c){
+  const v=c.verdict, off=ITEMS.filter(it=>v[it.st]!=='일치').map(it=>it.name);
+  let what, next;
+  if (v.decision==='공시 가능'){ what='네 항목이 모두 본사 산정표와 일치합니다.'; next='공시 패키지를 내려받아 보고서 작성과 제3자 검증으로 넘깁니다.'; }
+  else if (v.decision==='수정 필요'){
+    what=`본사 산정표가 증빙으로 다시 산정한 값과 다른 항목: <b>${off.join(', ')}</b>. 원인: <b>${causes(v).map(esc).join(', ')}</b>.`;
+    const im=impactList(c); if (im.length) what+=` 산정표대로 나가면 ${im.join(', ')} 공시됩니다.`;
+    next='아래 수정안대로 산정표를 고친 뒤 다시 실행합니다.';
+  } else {
+    what=`증빙 ${v.missing_items.length}건을 확인할 수 없습니다: <b>${v.missing_items.map(esc).join(', ')}</b>. 그래서 산정하지 않은 항목: ${off.join(', ')}.`;
+    next='아래 메일 초안으로 공장 담당자에게 재제출을 요청하고 기한을 캘린더에 등록합니다.';
+  }
+  return `<div class="card" style="margin-bottom:12px;border-left:4px solid var(--main)"><h2>검증이 요약 <span style="font-weight:400;color:var(--sub);font-size:13px">판정 결과에서 규칙으로 만든 문장</span></h2>
+    <div>${what}</div><div style="margin-top:6px"><b>다음 할 일</b> ${next}</div>
+    ${ASK_URL?`<div class="btns"><button class="btn ghost" data-a="ask">검증이에게 더 묻기 ↗</button></div><div style="color:var(--sub);font-size:13px;margin-top:6px">질문을 복사한 뒤 Upstage Studio의 AI 동료 대화 창을 엽니다. 붙여넣으면 됩니다.</div>`:''}</div>`;
+}
+function impact(c){
+  const out=impactList(c);
   return out.length ? `<div class="impact">산정표대로 공시했다면: <b>${out.join(' / ')}</b> 공시</div>` : '';
 }
 
@@ -181,7 +1359,7 @@ function render(){
   $('#notice').innerHTML = `<b>${cs.length}개 법인 검증 완료</b><br>공시 가능 ${ok} · 수정 필요 ${cnt('수정 필요')} · 검토 필요 ${cnt('검토 필요')}<br><span style="color:var(--sub);font-size:13.5px">조치가 필요한 ${cs.length-ok}건만 확인하면 됩니다.</span>`;
   $('#list').innerHTML = cs.map((c,i)=>({c,i})).filter(x=>!filter||x.c.verdict.decision===filter).map(({c,i})=>`<button class="${i===cur?'on':''}" data-i="${i}"><span class="dot ${c.signal}" title="증빙 검증 ${SIG[c.signal]}"></span><span class="nm">${esc(c.verdict.entity_name)}<small>${c.set} · 문서 ${c.pages.length}쪽</small></span><span class="tag ${DEC[c.verdict.decision]}">${c.verdict.decision}</span></button>`).join('');
   const c = cs[cur], v = c.verdict;
-  $('#detail').innerHTML = `<div class="card" style="margin-bottom:12px">
+  $('#detail').innerHTML = `${summary(c)}<div class="card" style="margin-bottom:12px">
     <h2>${esc(v.entity_name)} <span class="tag ${DEC[v.decision]}">${v.decision}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">증빙 검증 <span class="dot ${c.signal}" style="display:inline-block"></span> ${SIG[c.signal]}</span></h2>
     <div class="scroll"><table><tr><th>지표</th><th>증빙으로 다시 산정한 값</th><th>본사 산정표</th><th>단위</th><th>상태</th></tr>
     ${ITEMS.map(it=>`<tr><td>${it.name}</td><td>${n(v[it.key])}</td><td>${n(c.legacy[it.lg])}</td><td>${it.unit}</td><td class="${v[it.st]==='일치'?'':'bad'}">${v[it.st]}</td></tr>`).join('')}</table></div>
@@ -203,6 +1381,7 @@ document.addEventListener('click', e => {
   if (b.dataset.f!==undefined){ filter=b.dataset.f||null; const vis=DATA.cases.findIndex(x=>!filter||x.verdict.decision===filter); if(vis>=0) cur=vis; return render(); }
   if (b.dataset.i!==undefined){ cur=+b.dataset.i; return render(); }
   switch(b.dataset.a){
+    case 'ask': navigator.clipboard.writeText(askText(c)).catch(()=>{}); return window.open(ASK_URL,'_blank','noopener');
     case 'pkg': return download(`${name}_공시패키지.md`, packageMd(c));
     case 'json': return download(`${name}_판정.json`, JSON.stringify(c.verdict,null,1), 'application/json');
     case 'xbrl': return download(`${name}_태그예시.xml`, xbrl(c), 'application/xml');
