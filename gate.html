@@ -1353,7 +1353,7 @@ function action(c){
     <div>확인이 필요한 증빙: <b>${v.missing_items.map(esc).join(', ')}</b></div>
     <div style="margin:10px 0;display:flex;gap:14px;flex-wrap:wrap">
       <label>재제출 기한 <input type="date" id="due"></label>
-      <label>받는 사람 <input type="email" id="to" placeholder="공장 담당자 메일(선택)"></label></div>
+      <label>받는 사람 <input type="email" id="to" placeholder="공장 담당자 메일(선택)" value="jjes1290@naver.com"></label></div>
     <textarea id="mail"></textarea>
     <div class="btns"><button class="btn" data-a="gmail">Gmail로 보내기</button><button class="btn" data-a="gcal">Google 캘린더에 기한 등록</button><button class="btn ghost" data-a="outlook">Outlook으로 보내기</button><button class="btn ghost" data-a="mailto">기본 메일 앱</button><button class="btn ghost" data-a="ics">캘린더 파일 (.ics)</button><button class="btn ghost" data-a="copy">본문 복사</button></div></div>`;
 }
