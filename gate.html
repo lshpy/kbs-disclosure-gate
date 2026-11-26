@@ -81,7 +81,7 @@ body.live #chips,body.live .bar,body.live #barlabel,body.live #pickrow{display:n
 <script src="chat.js"></script>
 <script>
 const DATA = {
- "config": "10 (여한호 최종)",
+ "config": "1 (최종 · 노드 13개)",
  "fetchedAt": "2026-11-26T07:37:23.541Z",
  "cases": [
   {
@@ -1357,6 +1357,7 @@ function errorLog(c){
 }
 async function live(id){
   document.body.classList.add('live');
+  $('#detail').style.display = 'none';   // 결과가 오기 전에는 예시 법인 카드를 보이지 않는다
   const box = $('#live'), card = html => { box.innerHTML = `<div class="card" style="border-left:4px solid var(--main)">${html}</div>`; };
   const t0 = Date.now();
   const tick = setInterval(() => card(`<h2>방금 제출한 건 <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(id)}</span></h2><div>워크플로우가 증빙으로 다시 계산하고 있습니다. 보통 1분쯤 걸립니다. (${Math.round((Date.now()-t0)/1000)}초)</div>`), 1000);
@@ -1372,8 +1373,30 @@ async function live(id){
   card(`<h2>방금 제출한 건 · ${esc(r.entity)} <span class="tag ${DEC[r.decision]||'rev'}">${esc(r.decision)}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(r.id)} · ${esc(r.at)} 검증</span></h2>
     ${r.mailed ? `<div style="margin:6px 0;color:var(--main)">담당자(${esc(r.mailed)})에게 결과 메일을 자동으로 보냈습니다.</div>` : ''}${r.cal ? `<div style="margin:6px 0;color:var(--main)">기한 ${esc(r.cal)}을 캘린더에 자동으로 등록했습니다.</div>` : ''}
     <details open><summary>워크플로우가 낸 ${esc(r.node)}</summary><div style="margin-top:8px">${md(r.text)}</div></details>
+    <div class="btns"><button class="btn" id="lv-x">엑셀로 내려받기</button><button class="btn" id="lv-p">PDF로 저장</button></div>
     `);
-  if (i>=0) { cur = i; render(); } else $('#detail').style.display = 'none';   // 제출한 건의 정보만 보여 준다
+  // 직접 올린 법인(예시 8곳에 없는 이름)도 내려받을 수 있게, 워크플로우가 낸 문서 자체를 엑셀·PDF로 만든다
+  const fname = `${r.entity}_${r.id}`;
+  $('#lv-x').onclick = () => liveXlsx(r.text, fname + '.xlsx');
+  $('#lv-p').onclick = () => { const w = window.open('', '_blank'); if (!w) return;
+    w.document.write(`<!doctype html><meta charset="utf-8"><title>${esc(fname)}</title><style>body{font:14px/1.6 Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;margin:32px;color:#16201c}h2{font-size:20px}h3{font-size:15px;margin:20px 0 6px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #cfd8d3;padding:6px 8px;text-align:left;font-size:13px}th{background:#e7f3ee}p{color:#5d6b65;font-size:12px}</style><p>${esc(r.entity)} · ${esc(r.decision)} · ${esc(r.id)} · ${esc(r.at)}</p>${md(r.text)}`);
+    w.document.close(); w.focus(); setTimeout(() => w.print(), 300); };
+  if (i>=0) { cur = i; render(); $('#detail').style.display = ''; }
+}
+const loadXlsx = () => window.XLSX ? Promise.resolve() : new Promise((ok, no) => { const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'; s.onload=ok; s.onerror=no; document.head.append(s); });
+// 워크플로우 문서(마크다운) → 엑셀 한 장: 표의 줄은 칸으로 나누고 숫자는 숫자 칸으로, 나머지 줄은 한 칸에 적는다
+function mdRows(text){
+  const cell = x => { x = x.replace(/\*\*/g,'').replace(/[a-z0-9]+_[a-z0-9_]+/g, k => KEYNAME[k] || k).trim(); return /^[+-]?\d[\d,]*(\.\d+)?$/.test(x) ? Number(x.replaceAll(',','')) : x; };
+  return text.split('\n').map(l => l.trim()).filter(l => !/^\|[\s:|-]+\|$/.test(l))
+    .map(l => l.startsWith('|') ? l.replace(/^\||\|$/g,'').split('|').map(cell) : [cell(l.replace(/^#+ |^[-*] /,''))]);
+}
+async function liveXlsx(text, file){
+  const rows = mdRows(text);
+  try { await loadXlsx(); } catch(e) { return download(file.replace(/xlsx$/,'csv'), '\ufeff' + rows.map(r => r.map(x => `"${String(x).replaceAll('"','""')}"`).join(',')).join('\r\n'), 'text/csv;charset=utf-8'); }
+  const X = window.XLSX, ws = X.utils.aoa_to_sheet(rows), wb = X.utils.book_new();
+  ws['!cols'] = [34,20,20,16,12,40].map(w => ({wch:w}));
+  Object.keys(ws).forEach(k => { if (ws[k] && ws[k].t==='n') ws[k].z='#,##0'; });
+  X.utils.book_append_sheet(wb, ws, 'KBS'); X.writeFile(wb, file);
 }
 function download(name, text, type){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:type||'text/plain;charset=utf-8'})); a.download=name; a.click(); URL.revokeObjectURL(a.href);
@@ -1440,7 +1463,7 @@ function packageCsv(c){
 }
 // 진짜 엑셀 파일(.xlsx): 시트 3장, 숫자는 숫자 칸으로, 열 너비 지정. 라이브러리는 누를 때만 불러온다. 못 불러오면 CSV로 대신 내려받는다
 async function packageXlsx(c, file){
-  if (!window.XLSX) await new Promise((ok, no) => { const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'; s.onload=ok; s.onerror=no; document.head.append(s); });
+  await loadXlsx();
   const {m,tr,r,head}=pkgData(c,true), X=window.XLSX, wb=X.utils.book_new();
   const sheet = (rows, widths) => { const ws=X.utils.aoa_to_sheet(rows); ws['!cols']=widths.map(w=>({wch:w})); Object.keys(ws).forEach(k => { if (ws[k] && ws[k].t==='n') ws[k].z='#,##0'; }); return ws; };
   X.utils.book_append_sheet(wb, sheet([[head],[],PK.th1,...m,[],[PK.basis],[PK.note]], [30,18,10,18,14]), PK.s1.slice(0,31));

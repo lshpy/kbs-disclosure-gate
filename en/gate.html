@@ -81,7 +81,7 @@ body.live #chips,body.live .bar,body.live #barlabel,body.live #pickrow{display:n
 <script src="chat.js"></script>
 <script>
 const DATA = {
- "config": "10 (final)",
+ "config": "1 (final · 13 nodes)",
  "fetchedAt": "2026-11-26T07:37:23.541Z",
  "cases": [
   {
@@ -1353,6 +1353,7 @@ function errorLog(c){
 }
 async function live(id){
   document.body.classList.add('live');
+  $('#detail').style.display = 'none';
   const box = $('#live'), card = html => { box.innerHTML = `<div class="card" style="border-left:4px solid var(--main)">${html}</div>`; };
   const t0 = Date.now();
   const tick = setInterval(() => card(`<h2>Just submitted <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(id)}</span></h2><div>The workflow is recomputing from the evidence. This usually takes about a minute, plus a few seconds to translate. (${Math.round((Date.now()-t0)/1000)}s)</div>`), 1000);
@@ -1368,8 +1369,30 @@ async function live(id){
   card(`<h2>Just submitted · ${esc(r.entity)} <span class="tag ${DEC[r.decision]||'rev'}">${esc(r.decision)}</span> <span style="font-weight:400;color:var(--sub);font-size:13px">${esc(r.id)} · verified ${esc(r.at)}</span></h2>
     ${r.mailed ? `<div style="margin:6px 0;color:var(--main)">Result e-mail sent automatically to the contact (${esc(r.mailed)}).</div>` : ''}${r.cal ? `<div style="margin:6px 0;color:var(--main)">Deadline ${esc(r.cal)} added to the calendar automatically.</div>` : ''}
     <details open><summary>Workflow output: ${esc(r.node)}</summary><div style="margin-top:8px">${md(r.text)}</div></details>
+    <div class="btns"><button class="btn" id="lv-x">Download as Excel</button><button class="btn" id="lv-p">Save as PDF</button></div>
     `);
-  if (i>=0) { cur = i; render(); } else $('#detail').style.display = 'none';
+
+  const fname = `${r.entity}_${r.id}`;
+  $('#lv-x').onclick = () => liveXlsx(r.text, fname + '.xlsx');
+  $('#lv-p').onclick = () => { const w = window.open('', '_blank'); if (!w) return;
+    w.document.write(`<!doctype html><meta charset="utf-8"><title>${esc(fname)}</title><style>body{font:14px/1.6 Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;margin:32px;color:#16201c}h2{font-size:20px}h3{font-size:15px;margin:20px 0 6px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #cfd8d3;padding:6px 8px;text-align:left;font-size:13px}th{background:#e7f3ee}p{color:#5d6b65;font-size:12px}</style><p>${esc(r.entity)} · ${esc(r.decision)} · ${esc(r.id)} · ${esc(r.at)}</p>${md(r.text)}`);
+    w.document.close(); w.focus(); setTimeout(() => w.print(), 300); };
+  if (i>=0) { cur = i; render(); $('#detail').style.display = ''; }
+}
+const loadXlsx = () => window.XLSX ? Promise.resolve() : new Promise((ok, no) => { const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'; s.onload=ok; s.onerror=no; document.head.append(s); });
+
+function mdRows(text){
+  const cell = x => { x = x.replace(/\*\*/g,'').replace(/[a-z0-9]+_[a-z0-9_]+/g, k => KEYNAME[k] || k).trim(); return /^[+-]?\d[\d,]*(\.\d+)?$/.test(x) ? Number(x.replaceAll(',','')) : x; };
+  return text.split('\n').map(l => l.trim()).filter(l => !/^\|[\s:|-]+\|$/.test(l))
+    .map(l => l.startsWith('|') ? l.replace(/^\||\|$/g,'').split('|').map(cell) : [cell(l.replace(/^#+ |^[-*] /,''))]);
+}
+async function liveXlsx(text, file){
+  const rows = mdRows(text);
+  try { await loadXlsx(); } catch(e) { return download(file.replace(/xlsx$/,'csv'), '\ufeff' + rows.map(r => r.map(x => `"${String(x).replaceAll('"','""')}"`).join(',')).join('\r\n'), 'text/csv;charset=utf-8'); }
+  const X = window.XLSX, ws = X.utils.aoa_to_sheet(rows), wb = X.utils.book_new();
+  ws['!cols'] = [34,20,20,16,12,40].map(w => ({wch:w}));
+  Object.keys(ws).forEach(k => { if (ws[k] && ws[k].t==='n') ws[k].z='#,##0'; });
+  X.utils.book_append_sheet(wb, ws, 'KBS'); X.writeFile(wb, file);
 }
 function download(name, text, type){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:type||'text/plain;charset=utf-8'})); a.download=name; a.click(); URL.revokeObjectURL(a.href);
@@ -1436,7 +1459,7 @@ function packageCsv(c){
 }
 
 async function packageXlsx(c, file){
-  if (!window.XLSX) await new Promise((ok, no) => { const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'; s.onload=ok; s.onerror=no; document.head.append(s); });
+  await loadXlsx();
   const {m,tr,r,head}=pkgData(c,true), X=window.XLSX, wb=X.utils.book_new();
   const sheet = (rows, widths) => { const ws=X.utils.aoa_to_sheet(rows); ws['!cols']=widths.map(w=>({wch:w})); Object.keys(ws).forEach(k => { if (ws[k] && ws[k].t==='n') ws[k].z='#,##0'; }); return ws; };
   X.utils.book_append_sheet(wb, sheet([[head],[],PK.th1,...m,[],[PK.basis],[PK.note]], [30,18,10,18,14]), PK.s1.slice(0,31));
