@@ -1417,18 +1417,36 @@ function xbrl(c){
   return `<?xml version="1.0" encoding="UTF-8"?>\n<!-- Illustrative tags only. The taxonomy and element names for KSSB filings are not final, so placeholder names are used. -->\n<disclosure entity="${esc(v.entity_name)}" period="${v.reporting_year}-01-01/${v.reporting_year}-12-31" standard="KSSB 2">\n` +
     ` <fact concept="ElectricityConsumption" unit="MWh">${v.electricity_mwh}</fact>\n <fact concept="Scope1GHGEmissions" unit="tCO2e">${v.scope1_tco2e}</fact>\n <fact concept="Scope2GHGEmissionsLocationBased" unit="tCO2e">${v.scope2_tco2e}</fact>\n <fact concept="ClimateRelatedCapitalDeployment" unit="KRW">${v.capex_krw}</fact>\n</disclosure>\n`;
 }
-function packageMd(c){
-  const v=c.verdict;
-  const rows=[...c.electricity.map(e=>`| ${e.page} | ${e.site_name} electricity evidence | ${e.doc_no} | ${e.electricity_value} ${e.electricity_unit} |`),...c.fuel.map(f=>`| ${f.page} | ${f.site_name} ${f.fuel_type} evidence | ${f.doc_no} | ${f.fuel_value} ${f.fuel_unit} |`),...c.contract.map(k=>`| ${k.page} | ${k.equipment_name} contract | ${k.contract_no} | supply amount KRW ${k.supply_amount} |`)].join('\n');
-  return `(Workflow draft below is the original Korean output.)\n\n${c.draft}\n\n## Evidence trace\n\nFile: ${c.file}\n\n| Page | Document | Document no. | Value |\n|---|---|---|---|\n${rows}\n\n## Verification record\n\n- Workflow config: #${DATA.config}\n- Run time: ${c.runAt}\n- Evidence check signal: ${SIG[c.signal]}\n- Verdict: ${v.decision}\n- Checked against: HQ calculation sheet (p.${c.legacy.page}, prepared ${c.legacy.legacy_date})\n- Criteria: match within 0.5%; capex must match exactly\n`;
+
+const PK = {total:'Scope 1+2 total', th1:['Metric','Value','Unit','HQ sheet value','Status'], th2:['Page','Document','Document no.','Value'], s1:'KSSB No. 2 metrics table', s2:'Evidence trace', s3:'Verification record', elec:'electricity evidence', ev:'evidence', con:'contract', supply:'supply amount', won:'KRW', title:'climate disclosure package', rec:['Workflow config','Run time','Evidence check signal','Verdict','Checked against','HQ calculation sheet','p., prepared'], basis:'Basis: electricity 0.45 tCO2e/MWh, city gas 2.2 tCO2e/thousand Nm³, diesel 2.6 tCO2e/kL (assumed values for this exercise). Match means within 0.5%; capex must match exactly.', note:'All entities and figures are fictional.'};
+function pkgData(c){
+  const v=c.verdict, L=c.legacy, num=x=>x==null?'':Number(x).toLocaleString('en-US');
+  const m=ITEMS.map(it=>[it.name, num(v[it.key]), it.unit, num(L[it.lg]), v[it.st]]);
+  m.splice(3,0,[PK.total, num(v.scope1_tco2e+v.scope2_tco2e), 'tCO2e', num(L.legacy_scope1+L.legacy_scope2), v.status_scope1]);
+  const tr=[...c.electricity.map(e=>[e.page, `${e.site_name} ${PK.elec}`, e.doc_no, `${num(e.electricity_value)} ${e.electricity_unit}`]),
+    ...c.fuel.map(f=>[f.page, `${f.site_name} ${f.fuel_type} ${PK.ev}`, f.doc_no, `${num(f.fuel_value)} ${f.fuel_unit}`]),
+    ...c.contract.map(k=>[k.page, `${k.equipment_name} ${PK.con}`, k.contract_no, `${PK.supply} ${num(k.supply_amount)} ${PK.won}`])];
+  const r=[[PK.rec[0], '#'+DATA.config],[PK.rec[1], c.runAt],[PK.rec[2], SIG[c.signal]],[PK.rec[3], v.decision],[PK.rec[4], `${PK.rec[5]} (${L.page} ${PK.rec[6]} ${L.legacy_date})`]];
+  return {m, tr, r, head:`${v.entity_name} ${v.reporting_year} ${PK.title}`};
+}
+const tbl = (h, rows) => `<table>${h?`<tr>${h.map(x=>`<th>${esc(x)}</th>`).join('')}</tr>`:''}${rows.map(x=>`<tr>${x.map(y=>`<td>${esc(y)}</td>`).join('')}</tr>`).join('')}</table>`;
+function packageCsv(c){
+  const {m,tr,r,head}=pkgData(c), line=a=>a.map(x=>`"${String(x??'').replaceAll('"','""')}"`).join(',');
+  return '﻿'+[[head],[],[PK.s1],PK.th1,...m,[],[`${PK.s2} (${c.file})`],PK.th2,...tr,[],[PK.s3],...r,[],[PK.basis],[PK.note]].map(line).join('\r\n');
+}
+function packagePrint(c){
+  const {m,tr,r,head}=pkgData(c), w=window.open('','_blank'); if(!w) return;
+  w.document.write(`<!doctype html><meta charset="utf-8"><title>${esc(head)}</title><style>body{font:14px/1.5 Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;margin:32px;color:#16201c}h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:22px 0 8px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #cfd8d3;padding:6px 8px;text-align:left;font-size:13px}th{background:#e7f3ee}p{color:#5d6b65;font-size:12px}</style><h1>${esc(head)}</h1><h2>${PK.s1}</h2>${tbl(PK.th1,m)}<h2>${PK.s2} · ${esc(c.file)}</h2>${tbl(PK.th2,tr)}<h2>${PK.s3}</h2>${tbl(null,r)}<p>${PK.basis}<br>${PK.note}</p>`);
+  w.document.close(); w.focus(); setTimeout(()=>w.print(), 300);
 }
 
 function action(c){
   const v=c.verdict;
   if (v.decision==='Ready to Disclose') return `<div class="card"><h2>Disclosure package</h2>
     <div>All four items match the HQ calculation sheet. Download the KSSB No. 2 metrics table, evidence trace and verification record as one package for report drafting and third-party assurance.</div>
-    <div class="btns"><button class="btn" data-a="pkg">Download disclosure package (.md)</button><button class="btn ghost" data-a="json">Verdict JSON</button><button class="btn ghost" data-a="xbrl">Machine-readable tag sample (.xml)</button></div>
-    <details><summary>Show KSSB No. 2 metrics draft (workflow output, Korean)</summary><pre>${esc(c.draft)}</pre></details>${followUp(c)}</div>`;
+    <div class="btns"><button class="btn" data-a="pkg">Download disclosure package (Excel)</button><button class="btn" data-a="pdf">Save as PDF</button></div>
+    <details><summary>Preview the package</summary><div class="scroll" style="margin-top:8px">${tbl(PK.th1, pkgData(c).m)}</div></details>
+    <details><summary>Other formats</summary><div class="btns"><button class="btn ghost" data-a="json">Verdict JSON</button><button class="btn ghost" data-a="xbrl">Machine-readable tag sample (.xml)</button></div></details>${followUp(c)}</div>`;
   if (v.decision==='Needs Correction') return `<div class="card"><h2>Sheet correction</h2>
     <div class="scroll"><table><tr><th>Item</th><th>Sheet value</th><th>Correct value</th><th>Unit</th></tr>${ITEMS.filter(it=>v[it.st]==='Mismatch').map(it=>`<tr><td>${it.name}</td><td class="bad">${n(c.legacy[it.lg])}</td><td><b>${n(v[it.key])}</b></td><td>${it.unit}</td></tr>`).join('')}</table></div>
     ${impact(c)}
@@ -1473,7 +1491,8 @@ document.addEventListener('click', e => {
   if (b.dataset.i!==undefined){ cur=+b.dataset.i; return render(); }
   switch(b.dataset.a){
     case 'ask': return GJ.open(askText(c));
-    case 'pkg': return download(`${name}_disclosure_package.md`, packageMd(c));
+    case 'pkg': return download(`${name}_disclosure_package.csv`, packageCsv(c), 'text/csv;charset=utf-8');
+    case 'pdf': return packagePrint(c);
     case 'json': return download(`${name}_verdict.json`, JSON.stringify(c.verdict,null,1), 'application/json');
     case 'xbrl': return download(`${name}_tag_sample.xml`, xbrl(c), 'application/xml');
     case 'csv': return download(`${name}_sheet_correction.csv`, fixCsv(c), 'text/csv;charset=utf-8');
