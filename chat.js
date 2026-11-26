@@ -14,6 +14,9 @@
 #gjlog div{max-width:88%;padding:8px 11px;border-radius:10px;white-space:pre-wrap;word-break:break-word}
 #gjlog .u{align-self:flex-end;background:#0b6e4f;color:#fff}
 #gjlog .a{align-self:flex-start;background:#f6f8f7}
+#gjchips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px 0}
+#gjchips button,#gjlog .act button{background:#e7f3ee;color:#0b6e4f;border:1px solid #0b6e4f;border-radius:999px;padding:4px 10px;font:inherit;font-size:12.5px;cursor:pointer}
+#gjlog .act{align-self:flex-start;background:none;padding:0;display:flex;gap:6px;flex-wrap:wrap}
 #gj form{display:flex;gap:6px;padding:10px;border-top:1px solid #dfe5e2;margin:0}
 #gj input{flex:1;min-width:0;font:inherit;padding:8px 10px;border:1px solid #dfe5e2;border-radius:7px;background:#fff;color:inherit}
 #gj form button{background:#0b6e4f;color:#fff;border:0;border-radius:7px;padding:8px 14px;font:inherit;cursor:pointer}`;
@@ -23,19 +26,32 @@
 <div id="gj" role="dialog" aria-label="검증이 대화">
   <div class="gjh"><b>검증이</b><button type="button" id="gjstudio" title="Upstage Studio에서 열기">Studio ↗</button><button type="button" id="gjclose">닫기</button></div>
   <div id="gjlog" aria-live="polite"></div>
+  <div id="gjchips"></div>
   <form><input maxlength="300" placeholder="판정 결과나 제출 방법을 물어보세요" aria-label="질문"><button>보내기</button></form>
 </div>`);
   const $ = s => document.querySelector(s), log = $('#gjlog'), input = $('#gj input');
   let hist = [];
   const studio = () => window.open(STUDIO, 'geomjeungi', `popup,width=440,height=${Math.min(760, screen.availHeight)},left=${screen.availWidth - 460},top=40`);
   const say = (cls, text) => { const d = document.createElement('div'); d.className = cls; d.textContent = text; log.append(d); log.scrollTop = log.scrollHeight; return d; };
+  // 추천 질문: 누르면 바로 보낸다(부스에서 타자 없이 쓰도록)
+  const CHIPS = () => window.GJ_SET
+    ? ['왜 이 판정인가요?', '누가 무엇을 해야 하나요?', '오늘 조치할 건만 정리해 줘']
+    : ['증빙은 어떻게 제출하나요?', '무엇을 검증하나요?', '오늘 조치할 건만 정리해 줘'];
+  const chips = () => { $('#gjchips').replaceChildren(...CHIPS().map(t => Object.assign(document.createElement('button'), { type: 'button', textContent: t, onclick: () => send(t) }))); };
+  // 답 아래 조치 버튼: 페이지가 window.GJ_ACTIONS(질문) → [{label, run}]을 주면 붙인다(게이트의 메일·캘린더·수정안 버튼)
+  function actions(list) {
+    if (!list || !list.length) return;
+    const row = say('act', '');
+    list.forEach(a => row.append(Object.assign(document.createElement('button'), { type: 'button', textContent: a.label, onclick: a.run })));
+    log.scrollTop = log.scrollHeight;
+  }
   async function send(q) {
     say('u', q); const wait = say('a', '…');
     try {
       const r = await (await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ action: 'ask', set: window.GJ_SET ? window.GJ_SET() : null, q, history: hist }) })).json();
       wait.textContent = r.ok ? r.answer : r.error;
-      if (r.ok) hist.push({ role: 'user', content: q }, { role: 'assistant', content: r.answer });
+      if (r.ok) { hist.push({ role: 'user', content: q }, { role: 'assistant', content: r.answer }); actions(window.GJ_ACTIONS ? window.GJ_ACTIONS(q) : []); }
     } catch (e) { wait.textContent = '연결하지 못했습니다. 위의 Studio ↗ 로 열어 주세요.'; }
     log.scrollTop = log.scrollHeight;
   }
@@ -43,12 +59,15 @@
     if (!API) { if (q) navigator.clipboard.writeText(q).catch(() => {}); return studio(); }
     $('#gj').classList.add('on'); $('#gjfab').style.display = 'none';
     if (!log.children.length) say('a', '안녕하세요, 검증이입니다. 8개 법인의 판정 결과와 증빙 제출 방법을 안내해 드립니다.');
+    chips();
     if (q) send(q);
     input.focus();
   }
+  // 페이지가 직접 한마디 띄울 때(제출 직후 안내 등). LLM을 거치지 않는다
+  function tell(text, list) { if (!API) return; open(); say('a', text); actions(list); }
   $('#gjfab').onclick = () => open();
   $('#gjclose').onclick = () => { $('#gj').classList.remove('on'); $('#gjfab').style.display = ''; };
   $('#gjstudio').onclick = studio;
   $('#gj form').onsubmit = e => { e.preventDefault(); const q = input.value.trim(); if (!q) return; input.value = ''; send(q); };
-  window.GJ = { open };
+  window.GJ = { open, tell };
 })();

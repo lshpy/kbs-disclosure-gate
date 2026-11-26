@@ -1244,7 +1244,14 @@ const esc = s => String(s??'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;',
 const pg = (p, bad) => `<span class="pg${bad?' x':''}">${p}쪽</span>`;
 const mwh = e => e.electricity_unit==='kWh' ? e.electricity_value/1000 : e.electricity_value;
 let filter = null, cur = 0;
-window.GJ_SET = () => DATA.cases[cur].set;  // 검증이 대화창(chat.js)이 지금 보고 있는 법인을 읽음
+window.GJ_SET = () => DATA.cases[cur].set;
+window.GJ_ACTIONS = q => {
+  const d = DATA.cases[cur].verdict.decision, press = a => () => { const b = document.querySelector(`#detail [data-a=${a}]`); if (b) { b.scrollIntoView({block:'center'}); b.click(); } };
+  const all = d==='검토 필요' ? [['gmail','재제출 요청 메일 열기',/메일|재제출|요청|누가|해야/], ['gcal','기한을 캘린더에 등록',/캘린더|일정|기한|누가|해야/]]
+            : d==='수정 필요' ? [['csv','산정표 수정안 내려받기',/수정|고칠|엑셀|누가|해야|왜/]]
+            : [['pkg','공시 패키지 내려받기',/패키지|다음|누가|해야|공시/]];
+  return all.filter(x => x[2].test(q)).map(x => ({label:x[1], run:press(x[0])}));
+};  // 검증이 대화창(chat.js)이 지금 보고 있는 법인을 읽음
 
 function trace(c){
   const dup = {}; c.fuel.forEach(f => { if (f.doc_no) dup[f.doc_no] = (dup[f.doc_no]||0)+1; });  // 문서번호가 비면 중복으로 세지 않음
